@@ -23,24 +23,9 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     route::resource('rt', RtController::class)->except(['show']);
-});
-
-// user
-Route::middleware(['auth', 'role:user'])->group(function () {
-
-    Route::get('/user/dashboard', function () {
-        return view('user.dashboard');
-    })->name('user.dashboard');
-});
 
 
-
-
-// akses user
-Route::middleware('auth')->group(function () {
-
-
-    Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
+      Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
 
 
     Route::middleware('role:admin')->group(function () {
@@ -56,6 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/warga/{id}', [WargaController::class, 'show'])->name('warga.show');
     Route::get('/map/warga', [WargaController::class, 'map'])->name('warga.map');
 });
+
+
+
+
 
 
 

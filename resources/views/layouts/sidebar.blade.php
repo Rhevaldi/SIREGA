@@ -24,10 +24,9 @@
                 data-accordion="false">
 
        
-                @if (auth()->user()->role === 'admin')
                     <li class="nav-item">
-                        <a href="{{ url('/admin/dashboard') }}"
-                            class="nav-link {{ request()->is('admin/dashboard*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard') }}"
+                            class="nav-link {{ request()->is('dashboard*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-home"></i>
                             <p>Dashboard</p>
                         </a>
@@ -41,45 +40,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-header">MASTER DATA</li>
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-cog"></i>
-                            <p>
-                                Pengaturan
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>RT</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-    
-                @else
-                    <li class="nav-item">
-                        <a href="{{ url('/user/dashboard') }}"
-                            class="nav-link {{ request()->is('user/dashboard*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('warga.index') }}"
-                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-user"></i>
-                            <p>Data Saya</p>
-                        </a>
-                    </li>
-                @endif
 
 
                 <li class="nav-item mt-3">
