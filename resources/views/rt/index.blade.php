@@ -4,6 +4,7 @@
 @section('page-title','Data RT')
 
 @section('content')
+
 <div class="card">
     <div class="card-header">
         <a href="{{ route('rt.create') }}" class="btn btn-primary btn-sm">
@@ -16,8 +17,9 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Desa</th>
                     <th>Nama RT</th>
-                    <th>Jumlah Warga</th>
+                    <th>Ketua RT</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -26,8 +28,10 @@
                 @foreach($rt as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->nama_rt }}</td>
-                    <td>{{ $item->warga_count }}</td>
+                    <td>{{ $item->desa->nama_desa }}</td>
+                    <td>{{ $item->rt }}</td>
+                    <td>{{ $item->ketua_warga->nama ?? 'Tidak ada ketua RT' }}</td>
+                    
                     <td>
                         <a href="{{ route('rt.edit', $item->id) }}"
                            class="btn btn-warning btn-sm">

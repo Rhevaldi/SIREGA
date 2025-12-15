@@ -10,25 +10,34 @@
             @csrf
             @method('PUT')
 
+            <div>
+                <label>Desa</label>
+                <select name="desa_id" class="form-control" required>
+                    <option value="">Pilih Desa</option>
+                    @foreach($desas as $desa)
+                        <option value="{{ $desa->id }}"
+                            {{ $rt->desa_id == $desa->id ? 'selected' : '' }}>
+                            {{ $desa->nama_desa }}
+                        </option>
+                    @endforeach
+                </select>       
+            </div>
+
             <div class="form-group">
                 <label>Nama RT</label>
                 <input type="text" name="nama_rt"
                     class="form-control"
-                    value="{{ $rt->nama_rt }}" required>
+                    value="{{ $rt->rt }}" required>
             </div>
 
             <div class="form-group">
-                <label>Wilayah</label>
-                <input type="text" name="wilayah"
+                <label>Ketua RT (ID Warga)</label>
+                <input type="number" name="ketua_warga_id"
                     class="form-control"
-                    value="{{ $rt->wilayah }}">
+                    value="{{ $rt->ketua_warga_id }}">
             </div>
 
-            <div class="form-group">
-                <label>Keterangan</label>
-                <textarea name="keterangan"
-                    class="form-control" rows="3">{{ $rt->keterangan }}</textarea>
-            </div>
+        
 
             <div class="text-right">
                 <a href="{{ route('rt.index') }}" class="btn btn-secondary">

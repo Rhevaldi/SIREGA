@@ -40,6 +40,22 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{ route('desa.index') }}"
+                            class="nav-link {{ request()->is('desa*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-map-marker-alt"></i>
+                            <p>Data Desa</p>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a href="{{ route('rt.index') }}"
+                            class="nav-link {{ request()->is('rt*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-building"></i>
+                            <p>Data RT</p>
+                        </a>
+                    </li>
 
 
                 <li class="nav-item mt-3">

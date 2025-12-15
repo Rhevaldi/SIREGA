@@ -11,7 +11,7 @@ class Rt extends Model
     use HasFactory;
 
     protected $table = 'rts';
-    protected $fillable = ['nama_rt'];
+    protected $fillable = ['rt', 'desa_id', 'ketua_warga_id'];
 
     public function warga()
     {

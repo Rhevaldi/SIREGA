@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rt;
+use App\Models\Desa;
 use Illuminate\Http\Request;
 
 class RtController extends Controller
@@ -16,15 +17,17 @@ class RtController extends Controller
 
     public function create()
     {
-        return view('rt.create');
+        $desas = Desa::all();
+        $wargas = \App\Models\Warga::all();
+        return view('rt.create', compact('desas', 'wargas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama_rt' => 'required|unique:rt,nama_rt',
-            'wilayah' => 'nullable|string|max:100',
-            'keterangan' => 'nullable|string',
+            'desa_id' => 'required|exists:desa,id',
+            'rt' => 'required|unique:rt,rt',
+            'ketua_warga_id' => 'nullable|exists:warga,id',
         ]);
 
         Rt::create($request->all());

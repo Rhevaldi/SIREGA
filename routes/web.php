@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RtController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DesaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/warga/{id}/edit', [WargaController::class, 'edit'])->name('warga.edit');
         Route::put('/warga/{id}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{id}', [WargaController::class, 'destroy'])->name('warga.destroy');
+
+        route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');
+        route::post('desa', [DesaController::class, 'store'])->name('desa.store');
+        route::get('desa', [DesaController::class, 'index'])->name('desa.index');
+        route::get('desa/{id}/edit', [DesaController::class, 'edit'])->name('desa.edit');
+        route::put('desa/{id}', [DesaController::class, 'update'])->name('desa.update');
+        route::delete('desa/{id}', [DesaController::class, 'destroy'])->name('desa.destroy');
+
+
     });
 
 

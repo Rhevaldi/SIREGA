@@ -4,48 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Rt;
 
 class Warga extends Model
 {
     use HasFactory;
 
+
     protected $table = 'warga';
+
 
     protected $fillable = [
         'nik',
         'nama',
-        'alamat',
-        'no_kk',
-        'no_hp',
-        'rt_id',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'agama',
+        'pendidikan',
+        'pekerjaan',
+        'status_perkawinan',
         'status_warga',
+        'alamat',
+        'rt_id',
         'latitude',
         'longitude',
-        'foto_rumah',
-        'foto_warga'
     ];
 
- 
+    // Relasi ke RT
     public function rt()
     {
         return $this->belongsTo(Rt::class);
-    }
-
-
-    public function kategori()
-    {
-        return $this->belongsToMany(
-            Kategori::class,
-            'warga_kategori',
-            'warga_id',
-            'kategori_id'
-        );
-    }
-
-
-    public function riwayatBansos()
-    {
-        return $this->hasMany(RiwayatBansos::class);
     }
 }

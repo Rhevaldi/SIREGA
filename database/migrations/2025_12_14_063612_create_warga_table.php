@@ -15,15 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('nik')->unique();
             $table->string('nama');
-            $table->text('alamat');
-            $table->string('no_kk');
-            $table->string('no_hp')->nullable();
-            $table->foreignId('rt_id')->constrained('rt')->onDelete('cascade');
+            $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->string('agama');
+            $table->string('pendidikan');
+            $table->string('pekerjaan');
+            $table->string('status_perkawinan');
             $table->enum('status_warga', ['aktif', 'pindah', 'meninggal']);
+            $table->text('alamat');
+            $table->foreignId('rt_id')->constrained('rt')->onDelete('cascade');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
-            $table->string('foto_rumah')->nullable();
-            $table->string('foto_warga')->nullable();
             $table->timestamps();
         });
     }
