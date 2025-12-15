@@ -1,66 +1,79 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'SIREGA')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
 
-    
-    <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
 
-    
+    <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
+    <link href="https://cdn.datatables.net/v/bs4/dt-2.3.5/r-3.0.7/datatables.min.css" rel="stylesheet"
+        integrity="sha384-7BuMUZVY1n5/MC0a4MwlfSWYITJAWwNfOI3Pn3G37vlXjjKMqKowKM15z2TY/7Nt" crossorigin="anonymous">
+
     @stack('css')
 </head>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+    <div class="wrapper">
 
-    
-    @auth
-        @include('layouts.navbar')
-    @endauth
 
-    
-    @auth
-        @include('layouts.sidebar')
-    @endauth
+        @auth
+            @include('layouts.navbar')
+        @endauth
 
-    
-    <div class="content-wrapper">
 
-    
-        <section class="content-header">
-            <div class="container-fluid">
-                <h1 class="mb-2">@yield('page-title')</h1>
-            </div>
-        </section>
+        @auth
+            @include('layouts.sidebar')
+        @endauth
 
-        
-        <section class="content">
-            <div class="container-fluid">
-                @yield('content')
-            </div>
-        </section>
+
+        <div class="content-wrapper">
+
+
+            <section class="content-header">
+                <div class="container-fluid">
+                    <h1 class="mb-2">@yield('page-title')</h1>
+                </div>
+            </section>
+
+
+            <section class="content">
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+            </section>
+
+        </div>
+
+
+        @auth
+            @include('layouts.footer')
+        @endauth
 
     </div>
 
-    
-    @auth
-        @include('layouts.footer')
-    @endauth
 
-</div>
+    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
 
+    <script src="https://cdn.datatables.net/v/bs4/dt-2.3.5/r-3.0.7/datatables.min.js"
+        integrity="sha384-xNl4KzWHw1EHKaRnrmS9oDxGXAqYaJgo7L5Pl8yXfLXP6eJD5IN1poOMFK4UcBeV" crossorigin="anonymous">
+    </script>
 
-<script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable();
+        });
+    </script>
 
-@stack('js')
+    @stack('js')
 </body>
+
 </html>

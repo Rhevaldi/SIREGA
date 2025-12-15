@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'SIREGA | Akun Saya')
-@section('page-title', 'Akun Saya')
+@section('title', 'SIREGA | Edit Pengguna')
+@section('page-title', 'Edit Pengguna')
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Akun Saya</h3>
+                    <h3 class="card-title mt-1">Form Edit Pengguna</h3>
+                    <a href="{{ route('users.index') }}" class="btn btn-sm btn-secondary float-right">
+                        <i class="fas fa-arrow-left"></i> Daftar Pengguna
+                    </a>
                 </div>
                 <!-- /.card-header -->
-                <form action="{{ route('profile.update', $user->id) }}" method="POST">
+                <form action="{{ route('users.update', $user->id) }}" method="POST">
                     @method('patch')
                     @csrf
                     <div class="card-body">
@@ -33,12 +36,29 @@
                         </div>
                         <div class="form-group">
                             <label for="role">Level Akses <code>*</code></label>
-                            <select id="role" name="role" class="form-control text-capitalize" disabled>
-                                <option selected value="">{{ $user->roles()->first()->name }}</option>
+                            <select id="role" name="role" class="form-control text-capitalize">
+                                <option selected value="">- Pilih Level Akses -</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}"
+                                        {{ $user->roles()->first()->name === $role->name ? 'selected' : false }}>
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
                             </select>
                             @error('role')
                                 <p class="text-sm text-danger">{{ $message }}</p>
                             @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="is_active">Status Pengguna</label>
+                            <select id="is_active" name="is_active" class="form-control text-capitalize">
+                                <option {{ $user->is_active === 1 ? 'selected' : '' }} value="1">
+                                    Aktif
+                                </option>
+                                <option {{ $user->is_active === 0 ? 'selected' : '' }} value="0">
+                                    Tidak Aktif
+                                </option>
+                            </select>
                         </div>
                         <hr>
                         <div class="form-group">
