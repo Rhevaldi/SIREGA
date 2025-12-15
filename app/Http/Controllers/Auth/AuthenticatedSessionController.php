@@ -26,27 +26,22 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => ['required', 'string'],
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
         if (!Auth::attempt([
-            'username' => $request->username,
+            'email' => $request->email,
             'password' => $request->password
         ])) {
             return back()->withErrors([
-                'username' => 'Username atau password salah.',
+                'email' => 'email atau password salah.',
             ]);
         }
 
         $request->session()->regenerate();
 
-        // Redirect berdasarkan role
-        if (auth()->user()->role === 'admin') {
-            return redirect()->intended('/admin/dashboard');
-        }
-
-        return redirect()->intended('/user/dashboard');
+        return redirect()->intended('/dashboard');
     }
 
 

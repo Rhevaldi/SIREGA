@@ -16,16 +16,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
+// Super Admin
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-    route::resource('rt', RtController::class)
-    ->only(['index','create','store','edit','update','destroy']);
-    
+    route::resource('rt', RtController::class)->except(['show']);
 });
 
 // user
