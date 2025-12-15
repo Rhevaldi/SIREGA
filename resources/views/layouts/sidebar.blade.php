@@ -32,30 +32,39 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('desa.index') }}" class="nav-link {{ request()->is('desa*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-map-marker-alt"></i>
-                        <p>Data Desa</p>
-                    </a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a href="{{ route('rt.index') }}" class="nav-link {{ request()->is('rt*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-building"></i>
-                        <p>Data RT</p>
-                    </a>
-                </li>
+                @role('admin')
+                    <div class="nav-header">MANAJEMEN DATA</div>
+                    <li class="nav-item">
+                        <a href="{{ route('desa.index') }}" class="nav-link {{ request()->is('desa*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-map-marker-alt"></i>
+                            <p>Data Desa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('rt.index') }}" class="nav-link {{ request()->is('rt*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-building"></i>
+                            <p>Data RT</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('warga.index') }}"
+                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Data Warga</p>
+                        </a>
+                    </li>
+                @endrole
 
                 <div class="nav-header">SISTEM</div>
-
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}"
-                        class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Data Pengguna</p>
-                    </a>
-                </li>
+                @role('superadmin')
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}"
+                            class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Data Pengguna</p>
+                        </a>
+                    </li>
+                @endrole
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}"
                         class="nav-link {{ request()->is('profile') ? 'active' : '' }}">
