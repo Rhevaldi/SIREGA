@@ -31,9 +31,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
         Route::get('/warga/create', [WargaController::class, 'create'])->name('warga.create');
         Route::post('/warga', [WargaController::class, 'store'])->name('warga.store');
-        Route::get('/warga/{id}/edit', [WargaController::class, 'edit'])->name('warga.edit');
-        Route::put('/warga/{id}', [WargaController::class, 'update'])->name('warga.update');
-        Route::delete('/warga/{id}', [WargaController::class, 'destroy'])->name('warga.destroy');
+        Route::get('/warga/{warga}/edit', [WargaController::class, 'edit'])->name('warga.edit');
+        Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
+        Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
 
         route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');
         route::post('desa', [DesaController::class, 'store'])->name('desa.store');

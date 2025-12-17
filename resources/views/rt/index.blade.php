@@ -1,64 +1,52 @@
 @extends('layouts.app')
 
-@section('title','Data RT')
-@section('page-title','Data RT')
+@section('title', 'Data RT')
+@section('page-title', 'Data RT')
 
 @section('content')
-
 <div class="card">
     <div class="card-header">
         <a href="{{ route('rt.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus"></i> Tambah RT
         </a>
     </div>
-
     <div class="card-body">
-        <table class="table table-bordered">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Desa</th>
                     <th>Nama RT</th>
+                    <th>Desa</th>
                     <th>Ketua RT</th>
+                    <th>Jumlah Warga</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
-
             <tbody>
-                @foreach($rt as $item)
+                @foreach($rts as $rt)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->desa->nama_desa }}</td>
-                    <td>{{ $item->rt }}</td>
-                    <td>{{ $item->ketua_warga->nama ?? 'Tidak ada ketua RT' }}</td>
-                    
+                    <td>{{ $rt->rt }}</td>
+                    <td>{{ $rt->desa->nama_desa }}</td>
+                    <td>{{ $rt->ketua?->nama ?? '-' }}</td>
+                    <td>{{ $rt->warga_count }}</td>
                     <td>
-                        <a href="{{ route('rt.edit', $item->id) }}"
-                           class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
-
-                        <form action="{{ route('rt.destroy', $item->id) }}"
-                              method="POST"
-                              class="d-inline"
-                              onsubmit="return confirm('Yakin hapus RT ini?')">
+                        <a href="{{ route('rt.edit', $rt->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('rt.destroy', $rt->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-danger btn-sm">
-                                Hapus
-                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus RT ini?')">Hapus</button>
                         </form>
                     </td>
                 </tr>
                 @endforeach
-
-                @if($rt->isEmpty())
-                <tr>
-                    <td colspan="4" class="text-center text-muted">
-                        Data RT belum tersedia
-                    </td>
-                </tr>
-                @endif
             </tbody>
         </table>
     </div>

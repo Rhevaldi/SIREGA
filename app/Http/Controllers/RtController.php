@@ -4,72 +4,65 @@ namespace App\Http\Controllers;
 
 use App\Models\Rt;
 use App\Models\Desa;
+use App\Models\Warga;
 use Illuminate\Http\Request;
 
 class RtController extends Controller
 {
     public function index()
     {
-
-        $rt = Rt::withCount('warga')->latest()->get();
-        return view('rt.index', compact('rt'));
+        $rts = Rt::with('desa')->withCount('warga')->latest()->get();
+        return view('rt.index', compact('rts'));
     }
 
     public function create()
     {
-        $desas = Desa::all();
-        $wargas = \App\Models\Warga::all();
+        $desas = Desa::orderBy('nama_desa')->get();
+        $wargas = Warga::orderBy('nama')->get();
         return view('rt.create', compact('desas', 'wargas'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'desa_id' => 'required|exists:desa,id',
-            'rt' => 'required|unique:rt,rt',
+            'rt' => 'required|string|max:255',
             'ketua_warga_id' => 'nullable|exists:warga,id',
         ]);
 
-        Rt::create($request->all());
+        Rt::create($validated);
 
-        return redirect()->route('rt.index')
-            ->with('success', 'RT berhasil ditambahkan');
+        return redirect()->route('rt.index')->with('success', 'RT berhasil ditambahkan');
     }
 
-    public function edit($id)
+    public function edit(Rt $rt)
     {
-        $rt = Rt::findOrFail($id);
-        return view('rt.edit', compact('rt'));
+        $desas = Desa::orderBy('nama_desa')->get();
+        $wargas = Warga::orderBy('nama')->get();
+        return view('rt.edit', compact('rt', 'desas', 'wargas'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Rt $rt)
     {
-        $request->validate([
-            'nama_rt' => 'required|unique:rt,nama_rt,' . $id,
-            'wilayah' => 'nullable|string|max:100',
-            'keterangan' => 'nullable|string',
+        $validated = $request->validate([
+            'desa_id' => 'required|exists:desa,id',
+            'rt' => 'required|string|max:255',
+            'ketua_warga_id' => 'nullable|exists:warga,id',
         ]);
 
-        $rt = Rt::findOrFail($id);
-        $rt->update($request->all());
+        $rt->update($validated);
 
-        return redirect()->route('rt.index')
-            ->with('success', 'RT berhasil diperbarui');
+        return redirect()->route('rt.index')->with('success', 'RT berhasil diperbarui');
     }
 
-    public function destroy($id)
+    public function destroy(Rt $rt)
     {
-        $rt = Rt::withCount('warga')->findOrFail($id);
-
-
-        if ($rt->warga_count > 0) {
+        if ($rt->warga()->count() > 0) {
             return redirect()->route('rt.index')
                 ->with('error', 'RT tidak bisa dihapus karena masih memiliki warga');
         }
 
         $rt->delete();
-
-        return redirect()->route('rt.index')
-            ->with('success', 'RT berhasil dihapus');
+        return redirect()->route('rt.index')->with('success', 'RT berhasil dihapus');
     }
 }

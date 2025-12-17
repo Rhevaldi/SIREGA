@@ -9,8 +9,13 @@ class Warga extends Model
 {
     use HasFactory;
 
-
     protected $table = 'warga';
+
+    protected $casts = [
+    'tanggal_lahir' => 'date',
+    'latitude' => 'decimal:8',
+    'longitude' => 'decimal:8',
+];
 
 
     protected $fillable = [
@@ -33,6 +38,6 @@ class Warga extends Model
     // Relasi ke RT
     public function rt()
     {
-        return $this->belongsTo(Rt::class);
+        return $this->belongsTo(Rt::class, 'rt_id');
     }
 }

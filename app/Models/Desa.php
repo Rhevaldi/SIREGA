@@ -12,5 +12,9 @@ class Desa extends Model
     protected $table = 'desa';
     protected $fillable = ['nama_desa', 'kecamatan', 'kabupaten', 'provinsi'];
 
-    
+    // Relasi ke RT
+    public function rts()
+    {
+        return $this->hasMany(Rt::class);
+    }
 }
