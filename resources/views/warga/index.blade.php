@@ -19,7 +19,7 @@
             @endif
 
 
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped defaultDataTable">
                 <thead>
                     <tr>
                         <th width="50">No</th>

@@ -69,6 +69,12 @@
 
     <script>
         $(document).ready(function() {
+            $('.defaultDataTable').DataTable({
+                columnDefs: [{
+                    targets: [0, -1],
+                    className: 'text-center'
+                }]
+            });
             $('#usersTable').DataTable();
         });
     </script>
