@@ -35,12 +35,12 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
 
-        route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');
-        route::post('desa', [DesaController::class, 'store'])->name('desa.store');
-        route::get('desa', [DesaController::class, 'index'])->name('desa.index');
-        route::get('desa/{id}/edit', [DesaController::class, 'edit'])->name('desa.edit');
-        route::put('desa/{id}', [DesaController::class, 'update'])->name('desa.update');
-        route::delete('desa/{id}', [DesaController::class, 'destroy'])->name('desa.destroy');
+        // route::get('desa', [DesaController::class, 'index'])->name('desa.index');
+        // route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');
+        // route::post('desa', [DesaController::class, 'store'])->name('desa.store');
+        // route::get('desa/{id}/edit', [DesaController::class, 'edit'])->name('desa.edit');
+        // route::put('desa/{id}', [DesaController::class, 'update'])->name('desa.update');
+        // route::delete('desa/{id}', [DesaController::class, 'destroy'])->name('desa.destroy');
     });
 
 

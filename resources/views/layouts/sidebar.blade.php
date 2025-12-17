@@ -34,12 +34,12 @@
 
                 @role('admin')
                     <div class="nav-header">MANAJEMEN DATA</div>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('desa.index') }}" class="nav-link {{ request()->is('desa*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-map-marker-alt"></i>
                             <p>Data Desa</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route('rt.index') }}" class="nav-link {{ request()->is('rt*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-building"></i>
@@ -47,8 +47,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('warga.index') }}"
-                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
+                        <a href="{{ route('warga.index') }}" class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>Data Warga</p>
                         </a>
