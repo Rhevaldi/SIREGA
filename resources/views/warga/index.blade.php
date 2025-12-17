@@ -36,29 +36,27 @@
                             <td>{{ $warga->nik }}</td>
                             <td>{{ $warga->nama }}</td>
                             <td>{{ $warga->rt->rt ?? '-' }}</td>
-                            <td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn btn-info btn-sm text-nowrap" data-toggle="modal"
                                         data-target="#detailModal{{ $warga->id }}">
                                         <i class="fas fa-eye"></i> Detail
                                     </button>
 
-                                    <a href="{{ route('warga.edit', $warga->id) }}" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('warga.edit', $warga->id) }}"
+                                        class="btn btn-warning btn-sm text-nowrap">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
 
                                     <form action="{{ route('warga.destroy', $warga->id) }}" method="POST"
-                                        onsubmit="return confirm('Hapus data warga ini?')">
+                                        onsubmit="return confirm('Hapus data warga ini?')" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
+                                        <button type="submit" class="btn btn-danger btn-sm text-nowrap">
                                             <i class="fas fa-trash"></i> Hapus
                                         </button>
                                     </form>
                                 </div>
-                            </td>
-                            </form>
                             </td>
                         </tr>
                     @endforeach
@@ -140,7 +138,8 @@
                         </table>
 
                         <strong>Lokasi Rumah</strong>
-                        <div id="map{{ $warga->id }}" style="height:300px;border:1px solid #ddd"></div>
+                        <div id="map" data-latitude="{{ $warga->latitude }}"
+                            data-longitude="{{ $warga->longitude }}" style="height:300px;border:1px solid #ddd"></div>
                     </div>
 
 
@@ -161,24 +160,30 @@
 
 @push('js')
     <script>
-        @foreach ($wargas as $warga)
-            $('#detailModal{{ $warga->id }}').on('shown.bs.modal', function() {
+        $(document).ready(function() {
+            @foreach ($wargas as $warga)
+                $('#detailModal{{ $warga->id }}').on('shown.bs.modal', function() {
+                    if (!window.map{{ $warga->id }}) {
 
-                if (!window.map{{ $warga->id }}) {
+                        let lat = {{ $warga->latitude ?? null }};
+                        let lng = {{ $warga->longitude ?? null }};
 
-                    let lat = {{ $warga->latitude ?? -0.4326 }};
-                    let lng = {{ $warga->longitude ?? 116.9853 }};
+                        if (lat && lng) {
+                            const mapElement = document.querySelector(
+                                '#detailModal{{ $warga->id }} #map');
 
-                    window.map{{ $warga->id }} = L.map('map{{ $warga->id }}')
-                        .setView([lat, lng], 15);
+                            window.map{{ $warga->id }} = L.map(mapElement)
+                                .setView([lat, lng], 15);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap'
-                    }).addTo(window.map{{ $warga->id }});
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '© OpenStreetMap'
+                            }).addTo(window.map{{ $warga->id }});
 
-                    L.marker([lat, lng]).addTo(window.map{{ $warga->id }});
-                }
-            });
-        @endforeach
+                            L.marker([lat, lng]).addTo(window.map{{ $warga->id }});
+                        }
+                    }
+                });
+            @endforeach
+        })
     </script>
 @endpush
