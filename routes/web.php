@@ -6,6 +6,7 @@ use App\Http\Controllers\DesaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MediaWargaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,11 +42,19 @@ Route::middleware(['auth'])->group(function () {
         // route::get('desa/{id}/edit', [DesaController::class, 'edit'])->name('desa.edit');
         // route::put('desa/{id}', [DesaController::class, 'update'])->name('desa.update');
         // route::delete('desa/{id}', [DesaController::class, 'destroy'])->name('desa.destroy');
+
+
+        Route::resource('media_warga', MediaWargaController::class)->except(['show', 'edit', 'update']);
+        Route::get('/media_warga', [MediaWargaController::class, 'index'])->name('media_warga.index');
+
+        
     });
 
 
     Route::get('/warga/{id}', [WargaController::class, 'show'])->name('warga.show');
     Route::get('/map/warga', [WargaController::class, 'map'])->name('warga.map');
+
+    
 
     Route::middleware('role:superadmin')->group(function () {
         Route::resource('users', UserController::class)->except('show');
