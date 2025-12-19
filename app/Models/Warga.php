@@ -35,9 +35,15 @@ class Warga extends Model
         'longitude',
     ];
 
-    // Relasi ke RT
+ 
     public function rt()
     {
         return $this->belongsTo(Rt::class, 'rt_id');
     }
+
+        public function media()
+    {
+        return $this->hasMany(MediaWarga::class);
+    }
+
 }

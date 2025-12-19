@@ -10,6 +10,8 @@ class MediaWarga extends Model
     use HasFactory;
 
     protected $table = 'media_warga';
+
+    
     protected $fillable = [
         'warga_id',
         'file_name',

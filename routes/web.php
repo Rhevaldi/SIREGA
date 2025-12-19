@@ -43,9 +43,8 @@ Route::middleware(['auth'])->group(function () {
         // route::put('desa/{id}', [DesaController::class, 'update'])->name('desa.update');
         // route::delete('desa/{id}', [DesaController::class, 'destroy'])->name('desa.destroy');
 
-
-        Route::resource('media_warga', MediaWargaController::class)->except(['show', 'edit', 'update']);
-        Route::get('/media_warga', [MediaWargaController::class, 'index'])->name('media_warga.index');
+        Route::resource('media_warga', MediaWargaController::class);
+        // Route::resource('media_warga', MediaWargaController::class)->except(['show', 'edit', 'update']);
 
         
     });
