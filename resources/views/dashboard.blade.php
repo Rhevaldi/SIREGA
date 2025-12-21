@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
 
-    {{-- TOTAL WARGA --}}
+  
     <div class="col-lg-3 col-6">
         <div class="small-box bg-info">
             <div class="inner">
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    {{-- WARGA AKTIF --}}
+   
     <div class="col-lg-3 col-6">
         <div class="small-box bg-success">
             <div class="inner">
@@ -34,7 +34,7 @@
 
 </div>
 
-{{-- GRAFIK STATISTIK --}}
+
 <div class="row mt-3">
     <div class="col-md-12">
         <div class="card card-primary">

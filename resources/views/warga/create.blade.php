@@ -82,7 +82,7 @@
                 </div>
 
                 <hr>
-                <label>Kategori Warga</label>
+                <label>Kategori Warga</label>x  
 
                 <div class="accordion" id="accordionKategori">
                     @foreach ($kategoris->groupBy('tipe') as $tipe => $items)
