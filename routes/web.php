@@ -6,6 +6,8 @@ use App\Http\Controllers\DesaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaWargaController;
 
 /*
@@ -21,9 +23,8 @@ Route::get('/', function () {
 
 // Super Admin
 Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');
 
 
     Route::middleware('role:admin')->group(function () {
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('media_warga', MediaWargaController::class);
         // Route::resource('media_warga', MediaWargaController::class)->except(['show', 'edit', 'update']);
 
-        
+        Route::resource('kategori', KategoriController::class)->except('show');
     });
 
 

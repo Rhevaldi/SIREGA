@@ -137,6 +137,37 @@
                             </tr>
                         </table>
 
+                        <hr>
+                        <h6><strong>Kategori Warga</strong></h6>
+
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="200">Kategori</th>
+                                    <th> Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($warga->kategori as $kat)
+                                    <tr>
+                                        <td>
+                                            {{ $kat->nama }}
+                                            <small class="text-muted">({{ ucfirst($kat->tipe) }})</small>
+                                        </td>
+                                        <td>{{ $kat->pivot->nilai ?? '-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="2" class="text-center text-muted">
+                                            Tidak ada data kategori
+                                        </td>
+                                    </tr>
+                                    
+                                @endforelse
+                            </tbody>
+                        </table>
+
+
                         <strong>Lokasi Rumah</strong>
                         <div id="map" data-latitude="{{ $warga->latitude }}"
                             data-longitude="{{ $warga->longitude }}" style="height:300px;border:1px solid #ddd"></div>

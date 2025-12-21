@@ -60,6 +60,16 @@
                             <p>Media Warga</p>
                         </a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a href="{{ route('kategori.index') }}"
+                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Kategori Warga</p>
+                        </a>
+                    </li>
+                    
                 @endrole
 
                 <div class="nav-header">SISTEM</div>

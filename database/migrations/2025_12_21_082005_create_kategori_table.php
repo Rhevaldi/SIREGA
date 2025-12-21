@@ -11,10 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warga_kategori', function (Blueprint $table) {
+        Schema::create('kategori', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('warga_id')->constrained('warga')->onDelete('cascade');
-            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
+            $table->string('kode')->unique();
+            $table->string('nama');
+            $table->enum('tipe', [
+                'sosial',
+                'ekonomi',
+                'hunian',
+                'kesehatan',
+                'administratif'
+            ]);
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warga_kategori');
+        //
     }
 };

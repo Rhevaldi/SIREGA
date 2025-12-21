@@ -12,10 +12,10 @@ class Warga extends Model
     protected $table = 'warga';
 
     protected $casts = [
-    'tanggal_lahir' => 'date',
-    'latitude' => 'decimal:8',
-    'longitude' => 'decimal:8',
-];
+        'tanggal_lahir' => 'date',
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
+    ];
 
 
     protected $fillable = [
@@ -35,15 +35,24 @@ class Warga extends Model
         'longitude',
     ];
 
- 
+
     public function rt()
     {
         return $this->belongsTo(Rt::class, 'rt_id');
     }
 
-        public function media()
+    public function media()
     {
         return $this->hasMany(MediaWarga::class);
     }
 
+
+    public function kategori()
+    {
+        return $this->belongsToMany(
+            \App\Models\Kategori::class,
+            'kategori_warga'
+        )->withPivot('nilai')
+            ->withTimestamps();
+    }
 }
