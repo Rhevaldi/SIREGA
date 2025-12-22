@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Bansos;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DesaSeeder::class,
             KategoriSeeder::class,
+            BansosSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
