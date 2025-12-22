@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('media_warga', function (Blueprint $table) {
             $table->id();
-                  $table->foreignId('warga_id')->constrained('warga')->onDelete('cascade'); // foreign key ke warga.id
+            $table->foreignId('warga_id')->constrained('warga')->onDelete('cascade'); // foreign key ke warga.id
             $table->string('file_name');
             $table->string('file_type');
             $table->string('file_path');

@@ -33,6 +33,13 @@ class KategoriSeeder extends Seeder
                 'deskripsi' => 'Warga memiliki usaha'
             ],
 
+            [
+                'kode' => 'HUN001',
+                'nama' => 'Kondisi Rumah',
+                'tipe' => 'hunian',
+                'deskripsi' => 'Kondisi rumah layak huni'
+            ],
+
        
 
             [

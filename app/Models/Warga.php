@@ -55,4 +55,27 @@ class Warga extends Model
         )->withPivot('nilai')
             ->withTimestamps();
     }
+
+
+ public function bansos()
+{
+    return $this->belongsToMany(
+        \App\Models\Bansos::class,
+        'bansos_penerima',
+        'warga_id',
+        'bansos_id'
+    )
+    ->withPivot([
+        'tanggal_penerimaan',
+        'status',
+        'keterangan'
+    ])
+    ->withTimestamps();
+}
+
+
+
+
+
+
 }

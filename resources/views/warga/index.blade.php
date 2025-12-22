@@ -12,6 +12,8 @@
             </a>
         </div>
 
+
+
         <div class="card-body">
 
             @if (session('success'))
@@ -84,6 +86,8 @@
 
                     <div class="modal-body">
 
+                        {{-- Biodata Warga --}}
+
                         <table class="table table-sm table-bordered">
                             <tr>
                                 <th width="200">NIK</th>
@@ -137,6 +141,8 @@
                             </tr>
                         </table>
 
+
+                        {{-- Kategori Warga --}}
                         <hr>
                         <h6><strong>Kategori Warga</strong></h6>
 
@@ -162,9 +168,50 @@
                                             Tidak ada data kategori
                                         </td>
                                     </tr>
-                                    
                                 @endforelse
                             </tbody>
+                        </table>
+
+
+                        {{-- ================= BANSOS ================= --}}
+                        <div class="d-flex justify-content-between mb-2">
+                            <h6><strong>Penerima Bansos</strong></h6>
+                            <button class="btn btn-success btn-sm" data-toggle="modal"
+                                data-target="#bansosModal{{ $warga->id }}">
+                                <i class="fas fa-plus"></i> Tambah Bansos
+                            </button>
+                        </div>
+
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Bansos</th>
+                                    <th>Tahun</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($warga->bansos as $b)
+                                    <tr>
+                                        <td>{{ $b->nama_program }}</td>
+                                        <td>{{ $b->tahun }}</td>
+                                        <td>
+                                            {{ $b->pivot->keterangan ?? '-' }}
+                                            <br>
+                                            <small class="text-muted">
+                                                {{ $b->pivot->status }} • {{ $b->pivot->tanggal_penerimaan }}
+                                            </small>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">
+                                            Belum menerima bansos
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+
                         </table>
 
 
@@ -181,6 +228,66 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+
+
+        {{-- ================= MODAL INPUT BANSOS ================= --}}
+        <div class="modal fade" id="bansosModal{{ $warga->id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <form action="{{ route('bansos-penerima.store') }}" method="POST">
+
+                    @csrf
+                    <input type="hidden" name="warga_id" value="{{ $warga->id }}">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tambah Penerima Bansos</h5>
+                            <button class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Program Bansos</label>
+                                <select name="bansos_id" class="form-control" required>
+                                    <option value="">-- Pilih Program --</option>
+                                    @foreach ($bansosList as $b)
+                                        <option value="{{ $b->id }}">
+                                            {{ $b->nama_program }} ({{ $b->tahun }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tanggal Penerimaan</label>
+                                <input type="date" name="tanggal_penerimaan" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="form-control" required>
+                                    <option value="diajukan">Diajukan</option>
+                                    <option value="diterima">Diterima</option>
+                                    <option value="ditolak">Ditolak</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <textarea name="keterangan" class="form-control"></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Simpan</button>
+                            <button class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     @endforeach

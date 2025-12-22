@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
 
-    <a href="{{ url('/') }}" class="brand-link">
+    <a href="{{ url('/dashboard') }}" class="brand-link">
         <span class="brand-text font-weight-light ml-3">SIREGA</span>
     </a>
 
@@ -69,11 +69,18 @@
                             <p>Kategori Warga</p>
                         </a>
                     </li>
-                    
-                @endrole
 
-                <div class="nav-header">SISTEM</div>
-                @role('superadmin')
+
+                    <li class="nav-item">
+                        <a href="{{ route('bansos.index') }}"
+                            class="nav-link {{ request()->is('bansos*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-hand-holding-heart"></i>
+                            <p>Program Bansos</p>
+                        </a>
+                    @endrole
+
+                    <div class="nav-header">SISTEM</div>
+                    @role('superadmin')
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}"
                             class="nav-link {{ request()->is('users*') ? 'active' : '' }}">

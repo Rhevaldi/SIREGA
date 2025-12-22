@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaWargaController;
+use App\Http\Controllers\BansosController;
+use App\Http\Controllers\BansosPenerimaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,8 +48,13 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('media_warga', MediaWargaController::class);
         // Route::resource('media_warga', MediaWargaController::class)->except(['show', 'edit', 'update']);
-
+        
         Route::resource('kategori', KategoriController::class)->except('show');
+
+
+        Route::resource('bansos', BansosController::class);
+        Route::post('/bansos-penerima', [BansosPenerimaController::class, 'store'])
+        ->name('bansos-penerima.store');
     });
 
 

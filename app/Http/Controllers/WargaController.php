@@ -6,18 +6,22 @@ use App\Models\Rt;
 use App\Models\Warga;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Models\Bansos;
 
 class WargaController extends Controller
 {
     public function index()
     {
-        $wargas = Warga::with('rt')->orderBy('nama')->get();
-        return view('warga.index', compact('wargas'));
+        $wargas = Warga::with(['rt', 'kategori', 'bansos'])->get();
+        $bansosList = Bansos::orderBy('nama_program')->get();
+
+         return view('warga.index', compact('wargas', 'bansosList'));
+
     }
 
     public function create()
     {
-        // Ambil semua RT dari tabel rt
+
         $rts = Rt::orderBy('rt')->get();
         $kategoris = Kategori::orderBy('tipe')->get();
         return view('warga.create', compact('rts', 'kategoris'));
@@ -39,7 +43,6 @@ class WargaController extends Controller
             'status_perkawinan' => 'required|in:belum menikah,menikah,cerai',
             'status_warga' => 'required|in:aktif,pindah,meninggal',
             'alamat' => 'required|string',
-            'status_hunian' => $request->status_hunian,
             'rt_id' => 'required|exists:rt,id',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',

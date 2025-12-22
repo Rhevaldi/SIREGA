@@ -22,10 +22,14 @@ class DashboardController extends Controller
             ->groupBy('kategori.nama')
             ->get();
 
+    
+        $wargas = Warga::select('nama', 'alamat', 'latitude', 'longitude')->get();
+
         return view('dashboard', compact(
             'totalWarga',
             'wargaAktif',
-            'statistik'
+            'statistik',
+            'wargas' 
         ));
     }
 }

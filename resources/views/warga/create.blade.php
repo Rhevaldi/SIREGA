@@ -6,6 +6,17 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('warga.store') }}" method="POST">
                 @csrf
 
@@ -23,62 +34,65 @@
                     <label>Jenis Kelamin</label>
                     <select name="jenis_kelamin" class="form-control">
                         <option value="">-- Pilih --</option>
-                        <option value="L">Laki-laki</option>
-                        <option value="P">Perempuan</option>
+                        <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
                     </select>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>Tempat Lahir</label>
-                        <input type="text" name="tempat_lahir" class="form-control">
+                        <input type="text" name="tempat_lahir" class="form-control" value="{{ old('tempat_lahir') }}">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" class="form-control">
+                        <input type="date" name="tanggal_lahir" class="form-control" value="{{ old('tanggal_lahir') }}">
                     </div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label>Agama</label>
-                    <input type="text" name="agama" class="form-control">
+                    <input type="text" name="agama" class="form-control" value="{{ old('agama') }}">
                 </div>
 
                 <div class="form-group mb-3">
                     <label>Pendidikan</label>
-                    <input type="text" name="pendidikan" class="form-control">
+                    <input type="text" name="pendidikan" class="form-control" value="{{ old('pendidikan') }}">
                 </div>
 
                 <div class="form-group mb-3">
                     <label>Pekerjaan</label>
-                    <input type="text" name="pekerjaan" class="form-control">
+                    <input type="text" name="pekerjaan" class="form-control" value="{{ old('pekerjaan') }}">
                 </div>
-
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>Status Perkawinan</label>
                         <select name="status_perkawinan" class="form-control">
                             <option value="">-- Pilih --</option>
-                            <option value="belum menikah">Belum Menikah</option>
-                            <option value="menikah">Menikah</option>
-                            <option value="cerai">Cerai</option>
+                            <option value="belum menikah"
+                                {{ old('status_perkawinan') == 'belum menikah' ? 'selected' : '' }}>Belum Menikah</option>
+                            <option value="menikah" {{ old('status_perkawinan') == 'menikah' ? 'selected' : '' }}>Menikah
+                            </option>
+                            <option value="cerai" {{ old('status_perkawinan') == 'cerai' ? 'selected' : '' }}>Cerai
+                            </option>
                         </select>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Status Warga</label>
                         <select name="status_warga" class="form-control">
                             <option value="">-- Pilih --</option>
-                            <option value="aktif">Aktif</option>
-                            <option value="pindah">Pindah</option>
-                            <option value="meninggal">Meninggal</option>
+                            <option value="aktif" {{ old('status_warga') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="pindah" {{ old('status_warga') == 'pindah' ? 'selected' : '' }}>Pindah</option>
+                            <option value="meninggal" {{ old('status_warga') == 'meninggal' ? 'selected' : '' }}>Meninggal
+                            </option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label>Alamat</label>
-                    <textarea name="alamat" class="form-control"></textarea>
+                    <textarea name="alamat" class="form-control">{{ old('alamat') }}</textarea>
                 </div>
 
                 <hr>
@@ -108,11 +122,19 @@
                                                     <option value="">-- Pilih --</option>
 
                                                     @if ($kategori->tipe === 'hunian')
-                                                        <option value="layak">Layak Huni</option>
-                                                        <option value="tidak_layak">Tidak Layak Huni</option>
+                                                        <option value="layak"
+                                                            {{ old("kategori.$kategori->id") == 'layak' ? 'selected' : '' }}>
+                                                            Layak Huni</option>
+                                                        <option value="tidak_layak"
+                                                            {{ old("kategori.$kategori->id") == 'tidak_layak' ? 'selected' : '' }}>
+                                                            Tidak Layak Huni</option>
                                                     @else
-                                                        <option value="ya">Ya</option>
-                                                        <option value="tidak">Tidak</option>
+                                                        <option value="ya"
+                                                            {{ old("kategori.$kategori->id") == 'ya' ? 'selected' : '' }}>
+                                                            Ya</option>
+                                                        <option value="tidak"
+                                                            {{ old("kategori.$kategori->id") == 'tidak' ? 'selected' : '' }}>
+                                                            Tidak</option>
                                                     @endif
 
                                                 </select>
@@ -125,16 +147,13 @@
                     @endforeach
                 </div>
 
-
-
-
-
                 <div class="form-group mb-3">
                     <label>RT</label>
                     <select name="rt_id" class="form-control">
                         <option value="">-- Pilih RT --</option>
                         @foreach ($rts as $rt)
-                            <option value="{{ $rt->id }}">{{ $rt->rt }}</option>
+                            <option value="{{ $rt->id }}" {{ old('rt_id') == $rt->id ? 'selected' : '' }}>
+                                {{ $rt->rt }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -142,11 +161,13 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label>Latitude</label>
-                        <input type="text" id="latitude" name="latitude" class="form-control" readonly>
+                        <input type="text" id="latitude" name="latitude" class="form-control" readonly
+                            value="{{ old('latitude', -0.4326) }}">
                     </div>
                     <div class="col-md-6">
                         <label>Longitude</label>
-                        <input type="text" id="longitude" name="longitude" class="form-control" readonly>
+                        <input type="text" id="longitude" name="longitude" class="form-control" readonly
+                            value="{{ old('longitude', 116.9853) }}">
                     </div>
                 </div>
 
@@ -169,8 +190,8 @@
 
     @push('js')
         <script>
-            let lat = -0.4326;
-            let lng = 116.9853;
+            let lat = parseFloat("{{ old('latitude', -0.4326) }}");
+            let lng = parseFloat("{{ old('longitude', 116.9853) }}");
 
             const map = L.map('map').setView([lat, lng], 14);
 

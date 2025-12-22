@@ -1,3 +1,5 @@
-<footer class="main-footer text-center">
-    <strong>© {{ date('Y') }} SIREGA WARGA</strong>
+<footer class="main-footer text-center py-2">
+    <div>
+        <strong>© {{ now()->year }} SIREGA WARGA</strong>
+    </div>
 </footer>
