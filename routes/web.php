@@ -26,11 +26,11 @@ Route::get('/', function () {
 // Super Admin
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
+        ->name('dashboard');
 
 
     Route::middleware('role:admin')->group(function () {
-        route::resource('rt', RtController::class)->except(['show']);
+        // route::resource('rt', RtController::class)->except(['show']);
 
         Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
         Route::get('/warga/create', [WargaController::class, 'create'])->name('warga.create');
@@ -48,20 +48,22 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('media_warga', MediaWargaController::class);
         // Route::resource('media_warga', MediaWargaController::class)->except(['show', 'edit', 'update']);
-        
+
         Route::resource('kategori', KategoriController::class)->except('show');
 
 
-        Route::resource('bansos', BansosController::class);
+        Route::resource('bansos', BansosController::class)->parameters([
+            'bansos' => 'bansos' // Mengatur agar parameter resource 'bansos' tetap bernama 'bansos' bukan 'banso'
+        ]);
         Route::post('/bansos-penerima', [BansosPenerimaController::class, 'store'])
-        ->name('bansos-penerima.store');
+            ->name('bansos-penerima.store');
     });
 
 
     Route::get('/warga/{id}', [WargaController::class, 'show'])->name('warga.show');
     Route::get('/map/warga', [WargaController::class, 'map'])->name('warga.map');
 
-    
+
 
     Route::middleware('role:superadmin')->group(function () {
         Route::resource('users', UserController::class)->except('show');

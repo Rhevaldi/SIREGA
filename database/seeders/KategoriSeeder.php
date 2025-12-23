@@ -40,28 +40,13 @@ class KategoriSeeder extends Seeder
                 'deskripsi' => 'Kondisi rumah layak huni'
             ],
 
-       
+
 
             [
                 'kode' => 'KES001',
                 'nama' => 'BPJS Aktif',
                 'tipe' => 'kesehatan',
                 'deskripsi' => 'Memiliki BPJS aktif'
-            ],
-
-
-            [
-                'kode' => 'ADM001',
-                'nama' => 'Memiliki KTP',
-                'tipe' => 'administratif',
-                'deskripsi' => 'Warga memiliki KTP'
-            ],
-
-            [
-                'kode' => 'ADM002',
-                'nama' => 'Memiliki KK',
-                'tipe' => 'administratif',
-                'deskripsi' => 'Warga memiliki KK'
             ],
         ];
 

@@ -40,12 +40,12 @@
                             <p>Data Desa</p>
                         </a>
                     </li> --}}
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('rt.index') }}" class="nav-link {{ request()->is('rt*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-building"></i>
                             <p>Data RT</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route('warga.index') }}" class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users"></i>
@@ -55,8 +55,8 @@
 
                     <li class="nav-item">
                         <a href="{{ route('media_warga.index') }}"
-                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
+                            class="nav-link {{ request()->is('media_warga*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-images"></i>
                             <p>Media Warga</p>
                         </a>
                     </li>
@@ -64,9 +64,9 @@
 
                     <li class="nav-item">
                         <a href="{{ route('kategori.index') }}"
-                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>Kategori Warga</p>
+                            class="nav-link {{ request()->is('kategori*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-balance-scale"></i>
+                            <p>Indikator Warga</p>
                         </a>
                     </li>
 

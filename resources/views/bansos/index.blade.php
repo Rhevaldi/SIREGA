@@ -35,19 +35,24 @@
                             <td>{{ ucfirst($item->jenis) }}</td>
                             <td>{{ $item->penyelenggara }}</td>
                             <td>{{ $item->tahun }}</td>
-                            <td class="text-center">
-                                <a href="{{ route('bansos.edit', $item->id) }}" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                            <td>
+                                <div class="btn-group" role="group">
 
-                                <form action="{{ route('bansos.destroy', $item->id) }}" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Hapus program bansos ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                    <a href="{{ route('bansos.edit', $item->id) }}"
+                                        class="btn btn-warning btn-sm text-nowrap">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+
+                                    <form action="{{ route('bansos.destroy', $item->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus program bansos ini?')"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm text-nowrap">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

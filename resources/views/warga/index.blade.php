@@ -26,8 +26,11 @@
                     <tr>
                         <th width="50">No</th>
                         <th>NIK</th>
-                        <th>Nama</th>
-                        <th width="80">RT</th>
+                        <th>Nama Lengkap</th>
+                        <th>Alamat</th>
+                        <th>Pendidikan</th>
+                        <th>Pekerjaan</th>
+                        <th>Status Warga</th>
                         <th width="180">Aksi</th>
                     </tr>
                 </thead>
@@ -37,7 +40,24 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $warga->nik }}</td>
                             <td>{{ $warga->nama }}</td>
-                            <td>{{ $warga->rt->rt ?? '-' }}</td>
+                            <td>{{ $warga->alamat }}</td>
+                            <td>{{ $warga->pendidikan }}</td>
+                            <td>{{ $warga->pekerjaan }}</td>
+                            <td class="text-capitalize">
+                                @if ($warga->status_warga === 'aktif')
+                                    <span class="badge badge-success">
+                                        {{ $warga->status_warga }}
+                                    </span>
+                                @elseif ($warga->status_warga === 'pindah')
+                                    <span class="badge badge-danger">
+                                        {{ $warga->status_warga }}
+                                    </span>
+                                @elseif ($warga->status_warga === 'meninggal')
+                                    <span class="badge badge-secondary">
+                                        {{ $warga->status_warga }}
+                                    </span>
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-info btn-sm text-nowrap" data-toggle="modal"
@@ -72,7 +92,7 @@
     @foreach ($wargas as $warga)
         <div class="modal fade" id="detailModal{{ $warga->id }}" tabindex="-1" role="dialog" aria-hidden="true">
 
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
 
 
@@ -86,138 +106,162 @@
 
                     <div class="modal-body">
 
-                        {{-- Biodata Warga --}}
-
-                        <table class="table table-sm table-bordered">
-                            <tr>
-                                <th width="200">NIK</th>
-                                <td>{{ $warga->nik }}</td>
-                            </tr>
-                            <tr>
-                                <th>Nama</th>
-                                <td>{{ $warga->nama }}</td>
-                            </tr>
-                            <tr>
-                                <th>Jenis Kelamin</th>
-                                <td>{{ $warga->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tempat Lahir</th>
-                                <td>{{ $warga->tempat_lahir }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tanggal Lahir</th>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($warga->tanggal_lahir)->translatedFormat('d F Y') }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Agama</th>
-                                <td>{{ $warga->agama }}</td>
-                            </tr>
-                            <tr>
-                                <th>Pendidikan</th>
-                                <td>{{ $warga->pendidikan }}</td>
-                            </tr>
-                            <tr>
-                                <th>Pekerjaan</th>
-                                <td>{{ $warga->pekerjaan }}</td>
-                            </tr>
-                            <tr>
-                                <th>Status Perkawinan</th>
-                                <td>{{ $warga->status_perkawinan }}</td>
-                            </tr>
-                            <tr>
-                                <th>Status Warga</th>
-                                <td>{{ $warga->status_warga }}</td>
-                            </tr>
-                            <tr>
-                                <th>Alamat</th>
-                                <td>{{ $warga->alamat }}</td>
-                            </tr>
-                            <tr>
-                                <th>RT</th>
-                                <td>{{ $warga->rt->rt ?? '-' }}</td>
-                            </tr>
-                        </table>
-
-
-                        {{-- Kategori Warga --}}
-                        <hr>
-                        <h6><strong>Kategori Warga</strong></h6>
-
-                        <table class="table table-sm table-bordered">
-                            <thead>
-                                <tr>
-                                    <th width="200">Kategori</th>
-                                    <th> Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($warga->kategori as $kat)
+                        <div class="row">
+                            {{-- Informasi Detail Warga --}}
+                            <div class="col-md-6">
+                                <h6>
+                                    <strong>Informasi Detail Warga</strong>
+                                </h6>
+                                <table class="table table-sm table-borderless table-striped">
                                     <tr>
+                                        <th width="200">NIK</th>
+                                        <td>: {{ $warga->nik }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <td>: {{ $warga->nama }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Jenis Kelamin</th>
+                                        <td>: {{ $warga->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tempat Lahir</th>
+                                        <td>: {{ $warga->tempat_lahir }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal Lahir</th>
                                         <td>
-                                            {{ $kat->nama }}
-                                            <small class="text-muted">({{ ucfirst($kat->tipe) }})</small>
+                                            : {{ \Carbon\Carbon::parse($warga->tanggal_lahir)->translatedFormat('d F Y') }}
                                         </td>
-                                        <td>{{ $kat->pivot->nilai ?? '-' }}</td>
                                     </tr>
-                                @empty
                                     <tr>
-                                        <td colspan="2" class="text-center text-muted">
-                                            Tidak ada data kategori
+                                        <th>Agama</th>
+                                        <td>: {{ $warga->agama }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pendidikan</th>
+                                        <td>: {{ $warga->pendidikan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pekerjaan</th>
+                                        <td>: {{ $warga->pekerjaan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status Perkawinan</th>
+                                        <td>: {{ $warga->status_perkawinan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status Warga</th>
+                                        <td class="text-uppercase">
+                                            :
+                                            @if ($warga->status_warga === 'aktif')
+                                                <span class="badge badge-success">
+                                                    {{ $warga->status_warga }}
+                                                </span>
+                                            @elseif ($warga->status_warga === 'pindah')
+                                                <span class="badge badge-danger">
+                                                    {{ $warga->status_warga }}
+                                                </span>
+                                            @elseif ($warga->status_warga === 'meninggal')
+                                                <span class="badge badge-secondary">
+                                                    {{ $warga->status_warga }}
+                                                </span>
+                                            @endif
                                         </td>
                                     </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <th>Alamat</th>
+                                        <td>: {{ $warga->alamat }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>RT</th>
+                                        <td>: {{ $warga->rt->rt ?? '-' }}</td>
+                                    </tr>
+                                </table>
+                            </div>
 
+                            {{-- Indikator Kesejahteraan Masyarakat --}}
+                            <div class="col-md-6">
+                                <h6>
+                                    <strong>Indikator Kesejahteraan Masyarakat</strong>
+                                </h6>
+                                <table class="table table-sm table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Kategori</th>
+                                            <th> Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($warga->kategori as $kat)
+                                            <tr>
+                                                <td>
+                                                    {{ $kat->nama }}
+                                                    <small class="text-muted">({{ ucfirst($kat->tipe) }})</small>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    {{ $kat->pivot->nilai ?? '-' }}
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="2" class="text-center text-muted">
+                                                    Tidak ada data kategori
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
 
-                        {{-- ================= BANSOS ================= --}}
-                        <div class="d-flex justify-content-between mb-2">
-                            <h6><strong>Penerima Bansos</strong></h6>
-                            <button class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#bansosModal{{ $warga->id }}">
-                                <i class="fas fa-plus"></i> Tambah Bansos
-                            </button>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h6><strong>Penerima Bansos</strong></h6>
+                                    <button class="btn btn-success btn-sm" data-toggle="modal"
+                                        data-target="#bansosModal{{ $warga->id }}">
+                                        <i class="fas fa-plus"></i> Tambah Bansos
+                                    </button>
+                                </div>
+                                <table class="table table-sm table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Jenis Bansos</th>
+                                            <th>Tahun</th>
+                                            <th>Keterangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($warga->bansos as $b)
+                                            <tr>
+                                                <td>{{ $b->nama_program }}</td>
+                                                <td>{{ $b->tahun }}</td>
+                                                <td>
+                                                    {{ $b->pivot->keterangan ?? '-' }}
+                                                    <br>
+                                                    <small class="text-muted">
+                                                        {{ $b->pivot->status }} • {{ $b->pivot->tanggal_penerimaan }}
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted">
+                                                    Belum menerima bansos
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6">
+                                <strong>Koordinat Lokasi Rumah</strong>
+                                <div id="map" data-latitude="{{ $warga->latitude }}"
+                                    data-longitude="{{ $warga->longitude }}" style="height:300px;border:1px solid #ddd">
+                                </div>
+                            </div>
                         </div>
-
-                        <table class="table table-sm table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Jenis Bansos</th>
-                                    <th>Tahun</th>
-                                    <th>Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($warga->bansos as $b)
-                                    <tr>
-                                        <td>{{ $b->nama_program }}</td>
-                                        <td>{{ $b->tahun }}</td>
-                                        <td>
-                                            {{ $b->pivot->keterangan ?? '-' }}
-                                            <br>
-                                            <small class="text-muted">
-                                                {{ $b->pivot->status }} • {{ $b->pivot->tanggal_penerimaan }}
-                                            </small>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="text-center text-muted">
-                                            Belum menerima bansos
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-
-                        </table>
-
-
-                        <strong>Lokasi Rumah</strong>
-                        <div id="map" data-latitude="{{ $warga->latitude }}"
-                            data-longitude="{{ $warga->longitude }}" style="height:300px;border:1px solid #ddd"></div>
                     </div>
 
 
