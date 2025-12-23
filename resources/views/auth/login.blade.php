@@ -11,12 +11,12 @@
                     <a href="../../index2.html" class="h1"><b>SIREGA</b></a>
                 </div>
                 <div class="card-body">
-                    <p class="login-box-msg">Sign in to start your session</p>
+                    <p class="login-box-msg">Masuk untuk memulai sesi anda</p>
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input type="email" name="email" class="form-control" placeholder="Email" required
                                 autofocus>
                             <div class="input-group-append">
@@ -25,8 +25,11 @@
                                 </div>
                             </div>
                         </div>
+                        @error('email')
+                            <p class="text-sm text-danger">{{ $message }}</p>
+                        @enderror
 
-                        <div class="input-group mb-3">
+                        <div class="input-group mt-3">
                             <input type="password" name="password" class="form-control" placeholder="Password" required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -34,11 +37,14 @@
                                 </div>
                             </div>
                         </div>
+                        @error('password')
+                            <p class="text-sm text-danger">{{ $message }}</p>
+                        @enderror
 
-                        <div class="row justify-content-center">
-                            <div class="col-12 col-md-4">
-                                <button type="submit" class="btn btn-primary w-100" aria-label="{{ __('Sign In') }}">
-                                    {{ __('Sign In') }}
+                        <div class="row justify-content-center mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fas fa-sign-in-alt mr-1"></i> Masuk
                                 </button>
                             </div>
                         </div>

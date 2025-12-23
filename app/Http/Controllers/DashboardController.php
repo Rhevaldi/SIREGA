@@ -11,7 +11,11 @@ class DashboardController extends Controller
     {
         $totalWarga = Warga::count();
 
-        $wargaAktif = Warga::where('status_warga', 'aktif')->count();
+        $statusWarga = [
+            'wargaAktif' => Warga::where('status_warga', 'aktif')->count(),
+            'wargaPindah' => Warga::where('status_warga', 'pindah')->count(),
+            'wargaMeninggal' => Warga::where('status_warga', 'meninggal')->count(),
+        ];
 
         $statistik = DB::table('kategori_warga')
             ->join('kategori', 'kategori.id', '=', 'kategori_warga.kategori_id')
@@ -22,14 +26,14 @@ class DashboardController extends Controller
             ->groupBy('kategori.nama')
             ->get();
 
-    
+
         $wargas = Warga::select('nama', 'alamat', 'latitude', 'longitude')->get();
 
         return view('dashboard', compact(
             'totalWarga',
-            'wargaAktif',
+            'statusWarga',
             'statistik',
-            'wargas' 
+            'wargas'
         ));
     }
 }
