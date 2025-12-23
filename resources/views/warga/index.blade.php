@@ -181,7 +181,7 @@
                                 </table>
                             </div>
 
-                            {{-- Indikator Kesejahteraan Masyarakat --}}
+
                             <div class="col-md-6">
                                 <h6>
                                     <strong>Indikator Kesejahteraan Masyarakat</strong>
@@ -194,24 +194,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($warga->kategori as $kat)
-                                            <tr>
-                                                <td>
-                                                    {{ $kat->nama }}
-                                                    <small class="text-muted">({{ ucfirst($kat->tipe) }})</small>
-                                                </td>
-                                                <td class="text-capitalize">
-                                                    {{ $kat->pivot->nilai ?? '-' }}
+                                        @php
+                                            $grouped = $warga->kategori->groupBy('tipe');
+                                        @endphp
+
+                                        @forelse ($grouped as $tipe => $items)
+                                            <tr class="bg-light">
+                                                <td colspan="2">
+                                                    <strong>{{ ucfirst($tipe) }}</strong>
                                                 </td>
                                             </tr>
+
+
+                                            @foreach ($items as $kat)
+                                                <tr>
+                                                    <td style="padding-left:20px">
+                                                        <b>*</b> {{ $kat->nama }}
+                                                    </td>
+                                                    <td class="text-capitalize">
+                                                        {{ $kat->pivot->nilai ?? '-' }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @empty
                                             <tr>
                                                 <td colspan="2" class="text-center text-muted">
-                                                    Tidak ada data kategori
+                                                    Tidak ada data indikator
                                                 </td>
                                             </tr>
                                         @endforelse
                                     </tbody>
+
                                 </table>
                             </div>
 
