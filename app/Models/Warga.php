@@ -60,20 +60,21 @@ class Warga extends Model
     public function bansos()
     {
         return $this->belongsToMany(
-            Bansos::class,
+            \App\Models\Bansos::class,
             'bansos_penerima',
             'warga_id',
             'bansos_id'
-        )->withPivot([
-            'tanggal_penerimaan',
-            'status',
-            'keterangan'
-        ]);
+        )
+            ->withPivot([
+                'tanggal_penerimaan',
+                'status',
+                'keterangan'
+            ])
+            ->withTimestamps();
     }
 
-
-
-
-
-
+    public function bansosPenerima()
+    {
+        return $this->hasMany(BansosPenerima::class, 'warga_id');
+    }
 }

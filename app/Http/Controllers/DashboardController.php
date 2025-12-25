@@ -10,6 +10,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $tahunBerjalan = now()->year;
+
         $totalWarga = Warga::count();
 
         $statusWarga = [
