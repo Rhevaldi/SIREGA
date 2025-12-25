@@ -11,7 +11,6 @@ class MediaWarga extends Model
 
     protected $table = 'media_warga';
 
-    
     protected $fillable = [
         'warga_id',
         'file_name',

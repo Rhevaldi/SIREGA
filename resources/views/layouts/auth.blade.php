@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Login | SIREGA')</title>
+    <title>{{ env('APP_TITLE') }} @yield('title', 'SIREGA - Login')</title>
+    <link rel="shortcut icon" href="{{ asset(env('APP_FAVICON_PATH')) }}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Font Awesome -->
@@ -24,4 +26,5 @@
     <!-- AdminLTE -->
     <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
 </body>
+
 </html>

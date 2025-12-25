@@ -20,40 +20,34 @@
                 </div>
             @endif
 
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped defaultDataTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>Nama Warga</th>
-                        <th>File</th>
-                        <th>Keterangan</th>
+                        <th>Jumlah Dokumen</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($medias as $media)
+                    @foreach ($medias as $media)
                         <tr>
-                            <td>{{ $media->id }}</td>
-                            <td>{{ $media->warga->nama ?? 'N/A' }}</td>
-                             <td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $media->warga->nama ?? '-' }}</td>
+                            <td>{{ $media->warga->medias->count() }}</td>
+                            {{-- <td>
                                 @if (in_array($media->file_type, ['jpg', 'jpeg', 'png']))
-                                    <img src="{{ asset('storage/' . $media->file_path) }}" width="80"
-                                        class="mb-1"><br>
+                                    <img src="{{ asset('storage/' . $media->file_path) }}" width="80" class="mb-1"><br>
                                 @endif
                                 <a href="{{ asset('storage/' . $media->file_path) }}" target="_blank">
                                     {{ $media->file_name }}
                                 </a>
-                            </td>
-
-                           
-
-                            <td>{{ $media->keterangan }}</td>
-                            
+                            </td> --}}
+                            {{-- <td>{{ $media->keterangan }}</td> --}}
                             <td>
                                 <a href="{{ route('media_warga.edit', $media->id) }}" class="btn btn-warning btn-sm">
-                                    Edit
+                                    Detail Media
                                 </a>
-
                                 <form action="{{ route('media_warga.destroy', $media->id) }}" method="POST"
                                     class="d-inline" onsubmit="return confirm('Yakin ingin hapus?');">
                                     @csrf
@@ -63,13 +57,8 @@
                                     </button>
                                 </form>
                             </td>
-
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada file</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

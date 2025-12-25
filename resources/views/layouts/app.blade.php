@@ -3,15 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'SIREGA')</title>
-    <link rel="shortcut icon" href="{{ asset('adminlte/img/AdminLTELogo.png') }}" type="image/x-icon">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ env('APP_TITLE') }} @yield('title', 'SIREGA')</title>
+    <link rel="shortcut icon" href="{{ asset(env('APP_FAVICON_PATH')) }}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-
-
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/dropzone/min/dropzone.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
     <link href="https://cdn.datatables.net/v/bs4/dt-2.3.5/r-3.0.7/datatables.min.css" rel="stylesheet"
         integrity="sha384-7BuMUZVY1n5/MC0a4MwlfSWYITJAWwNfOI3Pn3G37vlXjjKMqKowKM15z2TY/7Nt" crossorigin="anonymous">
@@ -62,6 +61,8 @@
 
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- dropzonejs -->
+    <script src="{{ asset('adminlte/plugins/dropzone/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
 
     <script src="https://cdn.datatables.net/v/bs4/dt-2.3.5/r-3.0.7/datatables.min.js"

@@ -6,25 +6,13 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-
-            <form action="{{ route('media_warga.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="media-warga-form" onsubmit="return false;">
                 @csrf
 
                 <div class="form-group mb-3">
                     <label>Warga</label>
                     <select name="warga_id" class="form-control" required>
-                        <option value="">-- Pilih Warga --</option>
+                        <option value="">- Pilih Warga -</option>
                         @foreach ($wargas as $warga)
                             <option value="{{ $warga->id }}">
                                 {{ $warga->nik }} - {{ $warga->nama }}
@@ -33,21 +21,210 @@
                     </select>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label>File</label>
-                    <input type="file" name="file" class="form-control" required>
-                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Upload Media Warga
+                                    <small class="text-danger text-xs"><em>*Maksimal : 5MB | Jenis File : JPG, JPEG,
+                                            PNG</em></small>
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="actions" class="row">
+                                    <div class="col-lg-6">
+                                        <div class="btn-group w-100">
+                                            <span class="btn btn-success col fileinput-button">
+                                                <i class="fas fa-plus"></i>
+                                                <span>Files</span>
+                                            </span>
+                                            <button type="button" class="btn btn-primary col start">
+                                                <i class="fas fa-upload"></i>
+                                                <span>Proses Upload</span>
+                                            </button>
+                                            <button type="reset" class="btn btn-warning col cancel">
+                                                <i class="fas fa-times-circle"></i>
+                                                <span>Batalkan</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 d-flex align-items-center">
+                                        <div class="fileupload-process w-100">
+                                            <div id="total-progress" class="progress progress-striped active"
+                                                role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                                <div class="progress-bar progress-bar-success" style="width:0%;"
+                                                    data-dz-uploadprogress></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table table-striped files" id="previews">
+                                    <div id="template" class="row mt-2">
+                                        <div class="col-auto">
+                                            <span class="preview">
+                                                <img src="data:," alt="" data-dz-thumbnail />
+                                            </span>
+                                        </div>
 
-                <div class="form-group mb-3">
-                    <label>Keterangan</label>
-                    <textarea name="keterangan" class="form-control"></textarea>
-                </div>
+                                        <div class="col">
+                                            <p class="mb-1">
+                                                <span class="lead" data-dz-name></span>
+                                                (<span data-dz-size></span>)
+                                            </p>
 
-                <div class="text-right">
-                    <a href="{{ route('media_warga.index') }}" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                                            <!-- TAMBAHAN -->
+                                            <textarea class="form-control form-control-sm keterangan-file" placeholder="Keterangan file (opsional)" rows="2"></textarea>
+
+                                            <strong class="error text-danger" data-dz-errormessage></strong>
+                                        </div>
+
+                                        <div class="col-4 d-flex align-items-center">
+                                            <div class="progress progress-striped active w-100">
+                                                <div class="progress-bar progress-bar-success" style="width:0%;"
+                                                    data-dz-uploadprogress></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-auto d-flex align-items-center">
+                                            <div class="btn-group">
+                                                <button class="btn btn-primary start">
+                                                    <i class="fas fa-upload"></i>
+                                                    <span>Start</span>
+                                                </button>
+                                                <button data-dz-remove class="btn btn-warning cancel">
+                                                    <i class="fas fa-times-circle"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                Visit <a href="https://www.dropzonejs.com">dropzone.js documentation</a> for more examples
+                                and
+                                information about the plugin.
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
                 </div>
             </form>
         </div>
     </div>
+
+    @push('js')
+        <script>
+            function getWargaId() {
+                const select = document.querySelector('select[name="warga_id"]');
+                return select ? select.value : '';
+            }
+
+            function validateWarga() {
+                const wargaId = getWargaId();
+
+                if (!wargaId) {
+                    alert('Silakan pilih Warga terlebih dahulu sebelum upload.');
+                    return false;
+                }
+                return true;
+            }
+
+            function hasFiles() {
+                return myDropzone.getFilesWithStatus(Dropzone.ADDED).length > 0;
+            }
+
+            const selectWarga = document.querySelector('select[name="warga_id"]');
+            const startBtn = document.querySelector('#actions .start');
+
+            selectWarga.addEventListener('change', function() {
+                startBtn.disabled = !this.value;
+            });
+
+            Dropzone.autoDiscover = false;
+
+            const targetUrl = "{{ route('media_warga.store') }}";
+            const wargaId = "{{ $warga->id ?? '' }}"; // pastikan variabel ini ada
+
+            // Ambil template
+            let previewNode = document.querySelector("#template");
+            previewNode.id = "";
+            let previewTemplate = previewNode.parentNode.innerHTML;
+            previewNode.parentNode.removeChild(previewNode);
+
+            let myDropzone = new Dropzone(document.body, {
+                url: targetUrl,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                thumbnailWidth: 80,
+                thumbnailHeight: 80,
+                parallelUploads: 10,
+                previewTemplate: previewTemplate,
+                autoQueue: false,
+                previewsContainer: "#previews",
+                clickable: ".fileinput-button",
+                paramName: "file",
+                maxFilesize: 5, // MB
+                acceptedFiles: ".jpg,.jpeg,.png",
+            });
+
+            // tombol start per file
+            myDropzone.on("addedfile", function(file) {
+                file.previewElement.querySelector(".start").onclick = function() {
+
+                    if (!validateWarga()) {
+                        return;
+                    }
+
+                    myDropzone.enqueueFile(file);
+                };
+            });
+
+            // kirim data tambahan
+            myDropzone.on("sending", function(file, xhr, formData) {
+                const wargaId = getWargaId();
+
+                let keterangan = file.previewElement
+                    .querySelector(".keterangan-file")
+                    .value;
+
+                formData.append("warga_id", wargaId);
+                formData.append("keterangan", keterangan);
+            });
+
+            // progress bar
+            myDropzone.on("totaluploadprogress", function(progress) {
+                document.querySelector("#total-progress .progress-bar")
+                    .style.width = progress + "%";
+            });
+
+            // selesai semua
+            myDropzone.on("queuecomplete", function() {
+                document.querySelector("#total-progress").style.opacity = "0";
+            });
+
+            // tombol global
+            document.querySelector("#actions .start").onclick = function() {
+                if (!validateWarga()) {
+                    return;
+                }
+
+                if (!hasFiles()) {
+                    alert('Silakan tambahkan minimal 1 file sebelum upload.');
+                    return;
+                }
+
+                myDropzone.enqueueFiles(
+                    myDropzone.getFilesWithStatus(Dropzone.ADDED)
+                );
+            };
+
+            document.querySelector("#actions .cancel").onclick = function() {
+                myDropzone.removeAllFiles(true);
+            };
+        </script>
+    @endpush
 @endsection

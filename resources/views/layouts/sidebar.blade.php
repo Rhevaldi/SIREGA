@@ -1,20 +1,23 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-
-    <a href="{{ url('/dashboard') }}" class="brand-link">
-        <span class="brand-text font-weight-light ml-3">SIREGA</span>
+    <a href="{{ route('dashboard') }}" class="brand-link">
+        <img src="{{ asset(env('APP_LOGO_PATH')) }}" alt="AdminLTE Logo" class="brand-image mx-3" style="opacity: .8">
+        <span class="brand-text font-weight-bold">SIREGA</span>
     </a>
-
 
     <div class="sidebar">
 
 
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel py-2 d-flex">
+            <div class="image mt-2">
+                <img src="{{ asset('adminlte/img/user1-128x128.jpg') }}" class="img-circle elevation-2"
+                    alt="User Image">
+            </div>
             <div class="info">
-                <a href="#" class="d-block">
+                <a href="#" class="d-block text-uppercase">
                     {{ auth()->user()->name }}
-                    <small class="d-block text-muted">{{ auth()->user()->role }}</small>
                 </a>
+                <small class="d-block text-muted text-capitalize">{{ auth()->user()->roles()->first()->name }}</small>
             </div>
         </div>
 
