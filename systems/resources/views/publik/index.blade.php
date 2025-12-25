@@ -6,7 +6,7 @@
 @section('content')
 
     <div class="card">
-        
+
 
 
 
@@ -39,7 +39,6 @@
                             <th>Pendidikan</th>
                             <th>Pekerjaan</th>
                             <th>Status<br>Warga</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,27 +73,10 @@
                                 <td class="text-capitalize">
                                     {{ $warga->status_warga }}
                                 </td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-sm detailWarga"
-                                            data-warga-id="{{ $warga->id }}">
-                                            <i class="fas fa-eye"></i> Detail
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon"
-                                            data-toggle="dropdown" aria-expanded="false">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu py-0" role="menu" style="">
-                                            <a class="dropdown-item btnShowKK" href="javascript:;"
-                                                data-id="{{ $warga->kartuKeluarga->id }}">
-                                                <i class="fas fa-users mr-1"></i> Data Keluarga
-                                            </a>
-                                            
-                                            
-                                            {{-- <i class="fas fa-trash"></i> Hapus --}}
-                                        </div>
-                                    </div>
-                                    {{-- <div class="btn-group" role="group">
+                                
+
+            </div>
+            {{-- <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-secondary btn-sm text-nowrap btnShowKK"
                                             data-id="{{ $warga->kartuKeluarga->id }}">
                                             <i class="fas fa-users"></i> Keluarga
@@ -120,14 +102,14 @@
                                             </button>
                                         </form>
                                     </div> --}}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
+            </td>
+            </tr>
+            @endforeach
+            </tbody>
+            </table>
         </div>
+
+    </div>
     </div>
 
     @include('warga.show')
