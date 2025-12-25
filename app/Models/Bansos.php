@@ -20,15 +20,23 @@ class Bansos extends Model
 
     public function penerima()
     {
-        return $this->hasMany(BansosPenerima::class);
+        return $this->belongsToMany(
+            Warga::class,
+            'bansos_penerima',
+            'bansos_id',
+            'warga_id'
+        )->withPivot([
+            'tanggal_penerimaan',
+            'status',
+            'keterangan'
+        ]);
     }
 
 
     public function warga()
-{
-    return $this->belongsToMany(Warga::class, 'bansos_penerima')
-        ->withPivot(['tanggal_penerimaan', 'status', 'keterangan'])
-        ->withTimestamps();
-}
-
+    {
+        return $this->belongsToMany(Warga::class, 'bansos_penerima')
+            ->withPivot(['tanggal_penerimaan', 'status', 'keterangan'])
+            ->withTimestamps();
+    }
 }

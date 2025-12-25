@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Warga;
+use App\Models\Bansos;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -17,15 +18,12 @@ class DashboardController extends Controller
             'wargaMeninggal' => Warga::where('status_warga', 'meninggal')->count(),
         ];
 
-        $statistik = DB::table('kategori_warga')
-            ->join('kategori', 'kategori.id', '=', 'kategori_warga.kategori_id')
-            ->select(
-                'kategori.nama',
-                DB::raw('COUNT(kategori_warga.warga_id) as total')
-            )
-            ->groupBy('kategori.nama')
-            ->get();
 
+        $statistik = Bansos::withCount([
+            'penerima as total' => function ($q) {
+                $q->where('status', 'diterima');
+            }
+        ])->orderBy('nama_program')->get();
 
         $wargas = Warga::select('nama', 'alamat', 'latitude', 'longitude')->get();
 

@@ -61,7 +61,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Statistik Kategori Warga</h3>
+                    <h3 class="card-title">Statistik Penerima Bantuan</h3>
                 </div>
                 <div class="card-body">
                     {{-- <canvas id="kategoriChart" height="120"></canvas> --}}
@@ -131,6 +131,8 @@
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/auto"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js">
@@ -202,7 +204,7 @@
             // new Chart(ctx, config);
 
             // --- BAGIAN DATA (SAMA SEPERTI SEBELUMNYA) ---
-            const labels = @json($statistik->pluck('nama'));
+            const labels = @json($statistik->pluck('nama_program'));
             const counts = @json($statistik->pluck('total'));
 
             const chartColors = [
@@ -220,7 +222,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Jumlah Warga',
+                        label: 'Jumlah Penerima',
                         data: counts,
                         backgroundColor: chartColors,
                         borderColor: borderColors,
@@ -241,13 +243,12 @@
                     plugins: {
                         legend: {
                             display: false
-                        }, // Sembunyikan legend
+                        },
                         tooltip: {
-                            titleFont: {
-                                size: 14
-                            },
-                            bodyFont: {
-                                size: 14
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Jumlah penerima: ' + context.parsed.x + ' warga';
+                                }
                             }
                         }
                     },
