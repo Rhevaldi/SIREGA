@@ -11,20 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode')->unique();
-            $table->string('nama');
-            $table->enum('tipe', [
-                'sosial',
-                'ekonomi',
-                'hunian',
-                'kesehatan',
-                'administratif'
-            ]);
-            $table->text('deskripsi')->nullable();
-            $table->timestamps();
-        });
+         Schema::create('kategori', function (Blueprint $table) {
+        $table->id();
+        $table->string('kode')->unique();
+        $table->string('nama');
+        $table->string('tipe', 50); 
+        $table->text('deskripsi')->nullable();
+        $table->timestamps();
+    });
     }
 
     /**
