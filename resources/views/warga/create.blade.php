@@ -248,7 +248,7 @@
                                         @endforeach
                                     </select>
 
-                                    <input type="hidden" name="rt_id" value="3">
+                                    <input type="hidden" name="rt_id" value="13">
                                 </div>
                             </div>
                             <div class="col-md-4">
