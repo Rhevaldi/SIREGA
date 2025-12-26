@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Login SIREGA')
+@section('title', 'Login')
 
 @section('content')
     <div class="login-box">

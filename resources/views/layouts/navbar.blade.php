@@ -10,8 +10,8 @@
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                {{ auth()->user()->name }}
+            <a class="nav-link font-italic font-weight-bold" data-toggle="dropdown" href="#">
+                {{ env('APP_NAME') }}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 {{-- <a href="{{ route('profile.edit') }}" class="dropdown-item">

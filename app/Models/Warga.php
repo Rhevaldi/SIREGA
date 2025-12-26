@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Warga extends Model
 {
@@ -76,5 +77,10 @@ class Warga extends Model
     public function bansosPenerima()
     {
         return $this->hasMany(BansosPenerima::class, 'warga_id');
+    }
+
+    public function medias(): HasMany
+    {
+        return $this->hasMany(MediaWarga::class, 'warga_id');
     }
 }
