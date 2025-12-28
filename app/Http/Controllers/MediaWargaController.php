@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\MediaWarga;
 use App\Models\Warga;
+use App\Models\MediaWarga;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class MediaWargaController extends Controller
@@ -71,13 +72,28 @@ class MediaWargaController extends Controller
         ]);
 
         $file = $request->file('file');
-        $path = $file->store('media_warga', 'public');
+        // Nama asli file
+        // $originalName = $file->getClientOriginalName();
+        // Ambil ekstensi file
+        $extension = $file->getClientOriginalExtension();
+        // Unique ID acak 8 digit angka
+        $uniqueId = str_pad(random_int(0, 99999999), 8, '0', STR_PAD_LEFT);
+        // // Enkripsi nama file
+        // $encryptedName = Crypt::encryptString($originalName);
+        // // Supaya bisa dipakai sebagai nama file di storage, biasanya di-hash atau diubah
+        // $safeName = md5($encryptedName) . '.' . $file->getClientOriginalExtension();
+        // // Simpan file ke storage
+        // $path = $file->storeAs('media_warga', $safeName, 'public');
+        // custom nama file sudah termasuk file_extension
+        $file_name = now()->format('Ymd') . '_' . $uniqueId;
+        // Simpan file ke storage
+        $file_path = $file->storeAs('media_warga', $file_name . '.' . $extension, 'public');
 
         MediaWarga::create([
             'warga_id' => $request->warga_id,
-            'file_name' => $file->getClientOriginalName(),
+            'file_name' => $file_name,
             'file_type' => $file->getClientOriginalExtension(),
-            'file_path' => $path,
+            'file_path' => $file_path,
             'keterangan' => $request->keterangan,
         ]);
 
@@ -87,7 +103,13 @@ class MediaWargaController extends Controller
         ]);
     }
 
-
+    public function show(MediaWarga $mediaWarga)
+    {
+        return response()->json([
+            'medias' => $mediaWarga->warga->media()->get()
+        ]);
+        // return response()->download(storage_path('app/public/' . $mediaWarga->file_path), $mediaWarga->file_name);
+    }
 
     public function destroy(MediaWarga $mediaWarga)
     {

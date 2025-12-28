@@ -11,7 +11,7 @@
 
                 <div class="form-group mb-3">
                     <label>Warga</label>
-                    <select name="warga_id" class="form-control" required>
+                    <select name="warga_id" class="form-control select2bs4" required>
                         <option value="">- Pilih Warga -</option>
                         @foreach ($wargas as $warga)
                             <option value="{{ $warga->id }}">
@@ -174,7 +174,6 @@
             // tombol start per file
             myDropzone.on("addedfile", function(file) {
                 file.previewElement.querySelector(".start").onclick = function() {
-
                     if (!validateWarga()) {
                         return;
                     }
@@ -204,6 +203,10 @@
             // selesai semua
             myDropzone.on("queuecomplete", function() {
                 document.querySelector("#total-progress").style.opacity = "0";
+                setTimeout(() => {
+                    alert('Semua file telah diupload.');
+                    window.location.href = "{{ route('media_warga.index') }}";
+                }, 500);
             });
 
             // tombol global
