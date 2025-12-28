@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('warga', function (Blueprint $table) {
             $table->id();
+            $table->string('no_kk');
             $table->string('nik')->unique();
             $table->string('nama');
             $table->enum('jenis_kelamin', ['L', 'P']);
@@ -21,8 +22,19 @@ return new class extends Migration
             $table->string('agama');
             $table->string('pendidikan');
             $table->string('pekerjaan');
-            $table->string('status_perkawinan');
-            $table->enum('status_warga', ['aktif', 'pindah', 'meninggal']);
+            $table->enum('status_perkawinan', ['kawin', 'belum_kawin', 'cerai_hidup', 'cerai_mati']);
+            $table->enum('status_hubungan', ['kepala_keluarga', 'suami', 'istri', 'anak', 'mertua', 'cucu', 'orang_tua', 'famili_lain', 'pembantu', 'lainnya']);
+            $table->enum('status_warga', [
+                'aktif',        // Warga masih tinggal di wilayah
+                'pindah',       // Warga pindah domisili
+                'meninggal',    // Warga sudah wafat
+                'sementara',    // Tinggal sementara (misalnya kos/kontrak)
+                'tidak_diketahui', // Status belum jelas / data tidak valid
+                'keluar',       // Keluar dari wilayah tanpa keterangan resmi
+                'baru',         // Baru terdaftar sebagai warga
+                'hilang',       // Tidak diketahui keberadaannya
+                'wna',          // Warga Negara Asing yang tinggal sementara
+            ]);
             $table->text('alamat');
             $table->foreignId('rt_id')->constrained('rt')->onDelete('cascade');
             $table->decimal('latitude', 10, 8);

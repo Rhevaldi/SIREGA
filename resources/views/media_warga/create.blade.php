@@ -4,7 +4,16 @@
 @section('page-title', 'Tambah Media Warga')
 
 @section('content')
-    <div class="card">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title mt-1">Form Tambah Media Warga</h3>
+            <div class="card-tools">
+                <a href="{{ route('media_warga.index') }}" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-arrow-left mr-1"></i> Daftar Media
+                </a>
+            </div>
+        </div>
+
         <div class="card-body">
             <form id="media-warga-form" onsubmit="return false;">
                 @csrf
@@ -103,7 +112,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                Visit <a href="https://www.dropzonejs.com">dropzone.js documentation</a> for more examples
+                                Visit <a href="https://www.dropzonejs.com">dropzone.js documentation</a> for more
+                                examples
                                 and
                                 information about the plugin.
                             </div>

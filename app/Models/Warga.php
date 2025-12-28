@@ -18,8 +18,8 @@ class Warga extends Model
         'longitude' => 'decimal:8',
     ];
 
-
     protected $fillable = [
+        'no_kk',
         'nik',
         'nama',
         'jenis_kelamin',
@@ -29,6 +29,7 @@ class Warga extends Model
         'pendidikan',
         'pekerjaan',
         'status_perkawinan',
+        'status_hubungan',
         'status_warga',
         'alamat',
         'rt_id',

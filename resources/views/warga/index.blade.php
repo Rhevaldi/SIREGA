@@ -25,6 +25,7 @@
                 <thead>
                     <tr>
                         <th width="50">No</th>
+                        <th>No. KK</th>
                         <th>NIK</th>
                         <th>Nama Lengkap</th>
                         <th>Alamat</th>
@@ -38,25 +39,14 @@
                     @foreach ($wargas as $warga)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $warga->no_kk }}</td>
                             <td>{{ $warga->nik }}</td>
                             <td>{{ $warga->nama }}</td>
                             <td>{{ $warga->alamat }}</td>
                             <td>{{ $warga->pendidikan }}</td>
                             <td>{{ $warga->pekerjaan }}</td>
                             <td class="text-capitalize">
-                                @if ($warga->status_warga === 'aktif')
-                                    <span class="badge badge-success">
-                                        {{ $warga->status_warga }}
-                                    </span>
-                                @elseif ($warga->status_warga === 'pindah')
-                                    <span class="badge badge-danger">
-                                        {{ $warga->status_warga }}
-                                    </span>
-                                @elseif ($warga->status_warga === 'meninggal')
-                                    <span class="badge badge-secondary">
-                                        {{ $warga->status_warga }}
-                                    </span>
-                                @endif
+                                {{ $warga->status_warga }}
                             </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
@@ -95,7 +85,6 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
 
-
                     <div class="modal-header">
                         <h5 class="modal-title">Detail Warga</h5>
                         <button type="button" class="close" data-dismiss="modal">
@@ -103,9 +92,7 @@
                         </button>
                     </div>
 
-
                     <div class="modal-body">
-
                         <div class="row">
                             {{-- Informasi Detail Warga --}}
                             <div class="col-md-6">
@@ -113,6 +100,10 @@
                                     <strong>Informasi Detail Warga</strong>
                                 </h6>
                                 <table class="table table-sm table-borderless table-striped">
+                                    <tr>
+                                        <th width="200">No. KK</th>
+                                        <td>: {{ $warga->no_kk }}</td>
+                                    </tr>
                                     <tr>
                                         <th width="200">NIK</th>
                                         <td>: {{ $warga->nik }}</td>
@@ -148,26 +139,17 @@
                                         <td>: {{ $warga->pekerjaan }}</td>
                                     </tr>
                                     <tr>
+                                        <th>Status Dalam Keluarga</th>
+                                        <td class="text-uppercase">: {{ $warga->status_hubungan }}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Status Perkawinan</th>
-                                        <td>: {{ $warga->status_perkawinan }}</td>
+                                        <td class="text-uppercase">: {{ $warga->status_perkawinan }}</td>
                                     </tr>
                                     <tr>
                                         <th>Status Warga</th>
                                         <td class="text-uppercase">
-                                            :
-                                            @if ($warga->status_warga === 'aktif')
-                                                <span class="badge badge-success">
-                                                    {{ $warga->status_warga }}
-                                                </span>
-                                            @elseif ($warga->status_warga === 'pindah')
-                                                <span class="badge badge-danger">
-                                                    {{ $warga->status_warga }}
-                                                </span>
-                                            @elseif ($warga->status_warga === 'meninggal')
-                                                <span class="badge badge-secondary">
-                                                    {{ $warga->status_warga }}
-                                                </span>
-                                            @endif
+                                            : {{ $warga->status_warga }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -276,7 +258,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-dismiss="modal">
