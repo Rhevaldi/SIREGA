@@ -22,14 +22,14 @@ return new class extends Migration
             $table->string('agama');
             $table->string('pendidikan');
             $table->string('pekerjaan');
-            $table->enum('status_perkawinan', ['kawin', 'belum_kawin', 'cerai_hidup', 'cerai_mati']);
-            $table->enum('status_hubungan', ['kepala_keluarga', 'suami', 'istri', 'anak', 'mertua', 'cucu', 'orang_tua', 'famili_lain', 'pembantu', 'lainnya']);
+            $table->enum('status_perkawinan', ['kawin', 'belum kawin', 'cerai hidup', 'cerai mati']);
+            $table->enum('status_hubungan', ['kepala keluarga', 'suami', 'istri', 'anak', 'mertua', 'cucu', 'orang tua', 'famili lain', 'pembantu', 'lainnya']);
             $table->enum('status_warga', [
                 'aktif',        // Warga masih tinggal di wilayah
                 'pindah',       // Warga pindah domisili
                 'meninggal',    // Warga sudah wafat
                 'sementara',    // Tinggal sementara (misalnya kos/kontrak)
-                'tidak_diketahui', // Status belum jelas / data tidak valid
+                'tidak diketahui', // Status belum jelas / data tidak valid
                 'keluar',       // Keluar dari wilayah tanpa keterangan resmi
                 'baru',         // Baru terdaftar sebagai warga
                 'hilang',       // Tidak diketahui keberadaannya

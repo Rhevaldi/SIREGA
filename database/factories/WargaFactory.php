@@ -58,19 +58,19 @@ class WargaFactory extends Factory
             ]),
             'status_perkawinan' => $this->faker->randomElement([
                 'kawin',
-                'belum_kawin',
-                'cerai_hidup',
-                'cerai_mati'
+                'belum kawin',
+                'cerai hidup',
+                'cerai mati'
             ]),
             'status_hubungan' => $this->faker->randomElement([
-                'kepala_keluarga',
+                'kepala keluarga',
                 'suami',
                 'istri',
                 'anak',
                 'mertua',
                 'cucu',
-                'orang_tua',
-                'famili_lain',
+                'orang tua',
+                'famili lain',
                 'pembantu',
                 'lainnya'
             ]),
@@ -79,7 +79,7 @@ class WargaFactory extends Factory
                 'pindah',
                 'meninggal',
                 'sementara',
-                'tidak_diketahui',
+                'tidak diketahui',
                 'keluar',
                 'baru',
                 'hilang',

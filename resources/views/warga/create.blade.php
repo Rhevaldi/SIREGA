@@ -18,15 +18,25 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label>NIK</label>
-                                    <input type="text" name="nik" class="form-control" value="{{ old('nik') }}"
+                                    <label>No. Kartu Keluarga</label>
+                                    <input type="text" name="no_kk" class="form-control" value="{{ old('no_kk') }}"
                                         autofocus>
-                                    @error('nik')
+                                    @error('no_kk')
                                         <p class="text-sm text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label>NIK</label>
+                                    <input type="text" name="nik" class="form-control" value="{{ old('nik') }}">
+                                    @error('nik')
+                                        <p class="text-sm text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label>Nama</label>
                                     <input type="text" name="nama" class="form-control" value="{{ old('nama') }}">
@@ -105,22 +115,72 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>Status Hubungan Dalam Keluarga</label>
+                                    <select name="status_hubungan" class="form-control text-capitalize">
+                                        <option value="">-- Pilih Status Hubungan --</option>
+                                        <option value="kepala keluarga"
+                                            {{ old('status_hubungan') == 'kepala keluarga' ? 'selected' : '' }}>
+                                            kepala keluarga
+                                        </option>
+                                        <option value="suami" {{ old('status_hubungan') == 'suami' ? 'selected' : '' }}>
+                                            suami
+                                        </option>
+                                        <option value="istri" {{ old('status_hubungan') == 'istri' ? 'selected' : '' }}>
+                                            istri
+                                        </option>
+                                        <option value="anak" {{ old('status_hubungan') == 'anak' ? 'selected' : '' }}>
+                                            anak
+                                        </option>
+                                        <option value="mertua" {{ old('status_hubungan') == 'mertua' ? 'selected' : '' }}>
+                                            mertua
+                                        </option>
+                                        <option value="cucu" {{ old('status_hubungan') == 'cucu' ? 'selected' : '' }}>
+                                            cucu
+                                        </option>
+                                        <option value="orang tua"
+                                            {{ old('status_hubungan') == 'orang tua' ? 'selected' : '' }}>
+                                            orang tua
+                                        </option>
+                                        <option value="famili lain"
+                                            {{ old('status_hubungan') == 'famili lain' ? 'selected' : '' }}>
+                                            famili lain
+                                        </option>
+                                        <option value="pembantu"
+                                            {{ old('status_hubungan') == 'pembantu' ? 'selected' : '' }}>
+                                            pembantu
+                                        </option>
+                                        <option value="lainnya"
+                                            {{ old('status_hubungan') == 'lainnya' ? 'selected' : '' }}>
+                                            lainnya
+                                        </option>
+                                    </select>
+                                    @error('status_hubungan')
+                                        <p class="text-sm text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label>Status Perkawinan</label>
-                                    <select name="status_perkawinan" class="form-control">
+                                    <select name="status_perkawinan" class="form-control text-capitalize">
                                         <option value="">-- Pilih --</option>
-                                        <option value="belum menikah"
-                                            {{ old('status_perkawinan') == 'belum menikah' ? 'selected' : '' }}>Belum
-                                            Menikah
+                                        <option value="kawin" {{ old('status_perkawinan') == 'kawin' ? 'selected' : '' }}>
+                                            Kawin
                                         </option>
-                                        <option value="menikah"
-                                            {{ old('status_perkawinan') == 'menikah' ? 'selected' : '' }}>
-                                            Menikah
+                                        <option value="belum kawin"
+                                            {{ old('status_perkawinan') == 'belum kawin' ? 'selected' : '' }}>
+                                            Belum Kawin
                                         </option>
-                                        <option value="cerai" {{ old('status_perkawinan') == 'cerai' ? 'selected' : '' }}>
-                                            Cerai
+                                        <option value="cerai hidup"
+                                            {{ old('status_perkawinan') == 'cerai hidup' ? 'selected' : '' }}>
+                                            Cerai Hidup
+                                        </option>
+                                        <option value="cerai mati"
+                                            {{ old('status_perkawinan') == 'cerai mati' ? 'selected' : '' }}>
+                                            Cerai Mati
                                         </option>
                                     </select>
                                     @error('status_perkawinan')
@@ -131,7 +191,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label>Status Warga</label>
-                                    <select name="status_warga" class="form-control">
+                                    <select name="status_warga" class="form-control text-capitalize">
                                         <option value="">-- Pilih --</option>
                                         <option value="aktif" {{ old('status_warga') == 'aktif' ? 'selected' : '' }}>
                                             Aktif
@@ -142,6 +202,26 @@
                                         <option value="meninggal"
                                             {{ old('status_warga') == 'meninggal' ? 'selected' : '' }}>
                                             Meninggal
+                                        </option>
+                                        <option value="sementara"
+                                            {{ old('status_warga') == 'sementara' ? 'selected' : '' }}>
+                                            Sementara
+                                        </option>
+                                        <option value="tidak diketahui"
+                                            {{ old('status_warga') == 'tidak diketahui' ? 'selected' : '' }}>
+                                            Tidak Diketahui
+                                        </option>
+                                        <option value="keluar" {{ old('status_warga') == 'keluar' ? 'selected' : '' }}>
+                                            Keluar
+                                        </option>
+                                        <option value="baru" {{ old('status_warga') == 'baru' ? 'selected' : '' }}>
+                                            Baru
+                                        </option>
+                                        <option value="hilang" {{ old('status_warga') == 'hilang' ? 'selected' : '' }}>
+                                            Hilang
+                                        </option>
+                                        <option value="wna" {{ old('status_warga') == 'wna' ? 'selected' : '' }}>
+                                            Warga Negara Asing
                                         </option>
                                     </select>
                                     @error('status_warga')
@@ -169,7 +249,8 @@
                                             <div class="card-header p-2" id="heading-{{ $tipe }}">
                                                 <h6 class="mb-0">
                                                     <button class="btn btn-link text-left w-100" type="button"
-                                                        data-toggle="collapse" data-target="#collapse-{{ $tipe }}"
+                                                        data-toggle="collapse"
+                                                        data-target="#collapse-{{ $tipe }}"
                                                         aria-expanded="false">
                                                         {{ strtoupper($tipe) }}
                                                     </button>

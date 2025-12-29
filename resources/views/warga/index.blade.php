@@ -114,29 +114,30 @@
                                     </tr>
                                     <tr>
                                         <th>Jenis Kelamin</th>
-                                        <td>: {{ $warga->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                        <td class="text-uppercase">:
+                                            {{ $warga->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Tempat Lahir</th>
-                                        <td>: {{ $warga->tempat_lahir }}</td>
+                                        <td class="text-uppercase">: {{ $warga->tempat_lahir }}</td>
                                     </tr>
                                     <tr>
                                         <th>Tanggal Lahir</th>
                                         <td>
-                                            : {{ \Carbon\Carbon::parse($warga->tanggal_lahir)->translatedFormat('d F Y') }}
+                                            : {{ $warga->tanggal_lahir->format('d-m-Y') }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Agama</th>
-                                        <td>: {{ $warga->agama }}</td>
+                                        <td class="text-uppercase">: {{ $warga->agama }}</td>
                                     </tr>
                                     <tr>
                                         <th>Pendidikan</th>
-                                        <td>: {{ $warga->pendidikan }}</td>
+                                        <td class="text-uppercase">: {{ $warga->pendidikan }}</td>
                                     </tr>
                                     <tr>
                                         <th>Pekerjaan</th>
-                                        <td>: {{ $warga->pekerjaan }}</td>
+                                        <td class="text-uppercase">: {{ $warga->pekerjaan }}</td>
                                     </tr>
                                     <tr>
                                         <th>Status Dalam Keluarga</th>

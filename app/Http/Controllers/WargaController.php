@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Warga\WargaStoreRequest;
 use App\Models\Rt;
 use App\Models\Warga;
 use App\Models\Kategori;
@@ -15,8 +16,7 @@ class WargaController extends Controller
         $wargas = Warga::with(['rt', 'kategori', 'bansos'])->get();
         $bansosList = Bansos::orderBy('nama_program')->get();
 
-         return view('warga.index', compact('wargas', 'bansosList'));
-
+        return view('warga.index', compact('wargas', 'bansosList'));
     }
 
     public function create()
@@ -29,25 +29,9 @@ class WargaController extends Controller
 
 
 
-    public function store(Request $request)
+    public function store(WargaStoreRequest $request)
     {
-        $validated = $request->validate([
-            'nik' => 'required|unique:warga,nik',
-            'nama' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:L,P',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'agama' => 'required|string|max:255',
-            'pendidikan' => 'nullable|string|max:255',
-            'pekerjaan' => 'nullable|string|max:255',
-            'status_perkawinan' => 'required|in:belum menikah,menikah,cerai',
-            'status_warga' => 'required|in:aktif,pindah,meninggal',
-            'alamat' => 'required|string',
-            'rt_id' => 'required|exists:rt,id',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
-        ]);
-
+        $validated = $request->validated();
 
         $warga = Warga::create($validated);
 
@@ -61,9 +45,6 @@ class WargaController extends Controller
             }
         }
 
-
-
-
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
     }
 
@@ -72,7 +53,7 @@ class WargaController extends Controller
         $rts = Rt::all();
         $kategoris = Kategori::orderBy('tipe')->orderBy('kode')->get();
 
-      
+
         $warga->load('kategori');
 
         return view('warga.edit', compact(

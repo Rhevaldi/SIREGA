@@ -20,7 +20,7 @@ class WargaSeeder extends Seeder
             // Kepala keluarga (selalu kawin)
             $kepala = Warga::factory()->create([
                 'no_kk' => $noKK,
-                'status_hubungan' => 'kepala_keluarga',
+                'status_hubungan' => 'kepala keluarga',
                 'status_perkawinan' => 'kawin',
             ]);
 
@@ -37,7 +37,7 @@ class WargaSeeder extends Seeder
                 Warga::factory()->create([
                     'no_kk' => $noKK,
                     'status_hubungan' => 'anak',
-                    'status_perkawinan' => 'belum_kawin',
+                    'status_perkawinan' => 'belum kawin',
                 ]);
             }
 
@@ -45,8 +45,8 @@ class WargaSeeder extends Seeder
             if (rand(0, 1)) {
                 Warga::factory()->create([
                     'no_kk' => $noKK,
-                    'status_hubungan' => 'orang_tua',
-                    'status_perkawinan' => fake()->randomElement(['kawin', 'cerai_mati']),
+                    'status_hubungan' => 'orang tua',
+                    'status_perkawinan' => fake()->randomElement(['kawin', 'cerai mati']),
                 ]);
             }
 
@@ -54,8 +54,8 @@ class WargaSeeder extends Seeder
             if (rand(0, 1)) {
                 Warga::factory()->create([
                     'no_kk' => $noKK,
-                    'status_hubungan' => fake()->randomElement(['famili_lain', 'pembantu']),
-                    'status_perkawinan' => fake()->randomElement(['belum_kawin', 'kawin']),
+                    'status_hubungan' => fake()->randomElement(['famili lain', 'pembantu']),
+                    'status_perkawinan' => fake()->randomElement(['belum kawin', 'kawin']),
                 ]);
             }
         }
@@ -63,7 +63,7 @@ class WargaSeeder extends Seeder
         // Tambahan warga random di luar KK (misalnya kos/kontrak)
         Warga::factory()->count(10)->create([
             'status_hubungan' => 'lainnya',
-            'status_perkawinan' => fake()->randomElement(['belum_kawin', 'kawin']),
+            'status_perkawinan' => fake()->randomElement(['belum kawin', 'kawin']),
         ]);
     }
 }
