@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-
+        $tahunBerjalan = now()->year;
         $totalWarga = Warga::count();
 
         $statusWarga = [
@@ -17,7 +17,6 @@ class DashboardController extends Controller
             'wargaPindah'    => Warga::where('status_warga', 'pindah')->count(),
             'wargaMeninggal' => Warga::where('status_warga', 'meninggal')->count(),
         ];
-
 
         $listTahun = DB::table('bansos')
             ->select('tahun')
@@ -27,11 +26,9 @@ class DashboardController extends Controller
 
         $tahunAktif = request('tahun', $listTahun->first());
 
-   
         $statistik = DB::table('bansos')
             ->leftJoin('bansos_penerima', function ($join) {
-                $join->on('bansos.id', '=', 'bansos_penerima.bansos_id')
-                     ->where('bansos_penerima.status', 'diterima');
+                $join->on('bansos.id', '=', 'bansos_penerima.bansos_id')->where('bansos_penerima.status', 'diterima');
             })
             ->where('bansos.tahun', $tahunAktif)
             ->select(
@@ -45,7 +42,33 @@ class DashboardController extends Controller
         /* ===============================
          * MAP WARGA
          * =============================== */
-        $wargas = Warga::select('nama', 'alamat', 'latitude', 'longitude')->get();
+        // $wargas = Warga::select('nama', 'alamat', 'latitude', 'longitude')->get();
+        $wargas = Warga::with(['bansosPenerima' => function ($query) use ($tahunBerjalan) {
+            $query->whereYear('tanggal_penerimaan', $tahunBerjalan)
+                ->where('status', 'diterima')
+                ->join('bansos', 'bansos.id', '=', 'bansos_penerima.bansos_id')
+                ->select(
+                    'bansos_penerima.warga_id',
+                    'bansos.nama_program as nama_bansos',
+                    'bansos_penerima.tanggal_penerimaan'
+                );
+        }])
+            ->select('id', 'nama', 'alamat', 'latitude', 'longitude')
+            ->get()
+            ->map(function ($warga) {
+                return [
+                    'nama'      => $warga->nama,
+                    'alamat'   => $warga->alamat,
+                    'latitude' => $warga->latitude,
+                    'longitude' => $warga->longitude,
+                    'bansos'   => $warga->bansosPenerima->map(function ($b) {
+                        return [
+                            'nama' => $b->nama_bansos,
+                            'tanggal' => $b->tanggal_penerimaan
+                        ];
+                    })->values()
+                ];
+            });
 
         return view('dashboard', compact(
             'totalWarga',

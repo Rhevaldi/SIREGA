@@ -80,7 +80,7 @@
                     <h3 class="card-title">Lokasi Warga</h3>
                 </div>
                 <div class="card-body">
-                    <div id="map" style="height:300px"></div>
+                    <div id="map" style="height:500px"></div>
                 </div>
             </div>
         </div>
@@ -99,7 +99,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
 
             const labels = @json($statistik->pluck('nama_program'));
             const dataWarga = @json($statistik->pluck('jumlah_warga'));
@@ -136,32 +135,78 @@
                 });
             }
 
+            // $('#calendar').datetimepicker({
+            //     format: 'L',
+            //     inline: true
+            // });
 
-            const warga = @json($wargas);
-            const map = L.map('map');
-            const markers = L.featureGroup();
+            var map = L.map('map');
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
             }).addTo(map);
 
-            warga.forEach(w => {
-                if (!w.latitude || !w.longitude) return;
-
-                markers.addLayer(
-                    L.marker([w.latitude, w.longitude])
-                    .bindPopup(`<strong>${w.nama}</strong><br>${w.alamat}`)
-                );
+            var defaultIcon = L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                shadowSize: [41, 41]
             });
 
-            markers.addTo(map);
+            var bansosIcon = L.icon({
+                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -28]
+            });
 
-            if (markers.getLayers().length > 0) {
-                map.fitBounds(markers.getBounds(), {
+            var wargaMarkers = {!! json_encode($wargas) !!};
+            var markerGroup = L.featureGroup();
+
+            wargaMarkers.forEach(function(warga) {
+                if (!warga.latitude || !warga.longitude) return;
+
+                var hasBansos = warga.bansos.length > 0;
+                console.log(warga);
+
+                var iconToUse = hasBansos ? bansosIcon : defaultIcon;
+
+                var bansosHtml = '';
+
+                if (hasBansos) {
+                    bansosHtml += '<hr><strong>Daftar Bansos Tahun Ini:</strong><ul>';
+                    warga.bansos.forEach(function(b) {
+                        bansosHtml += `<li>${b.nama} <small>(${b.tanggal})</small></li>`;
+                    });
+                    bansosHtml += '</ul>';
+                }
+
+                var popupContent = `
+                    <strong>${warga.nama}</strong><br>
+                    ${warga.alamat}
+                    ${bansosHtml}
+                `;
+
+                var marker = L.marker(
+                    [parseFloat(warga.latitude), parseFloat(warga.longitude)], {
+                        icon: iconToUse
+                    }
+                ).bindPopup(popupContent);
+
+                markerGroup.addLayer(marker);
+            });
+
+            markerGroup.addTo(map);
+
+            if (markerGroup.getLayers().length > 0) {
+                map.fitBounds(markerGroup.getBounds(), {
                     padding: [30, 30]
                 });
             } else {
-                map.setView([-0.5, 117], 5);
+                map.setView([0, 0], 5);
             }
         });
     </script>
