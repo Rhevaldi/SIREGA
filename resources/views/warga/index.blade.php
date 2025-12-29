@@ -307,9 +307,8 @@
                             <div class="form-group">
                                 <label>Status</label>
                                 <select name="status" class="form-control" required>
-                                    <option value="diajukan">Diajukan</option>
-                                    <option value="diterima">Diterima</option>
-                                    <option value="ditolak">Ditolak</option>
+                                    <option value="calon penerima">Calon Penerima</option>
+                                    <option value="penerima">Penerima</option>
                                 </select>
                             </div>
 

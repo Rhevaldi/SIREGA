@@ -28,7 +28,7 @@ class DashboardController extends Controller
 
         $statistik = DB::table('bansos')
             ->leftJoin('bansos_penerima', function ($join) {
-                $join->on('bansos.id', '=', 'bansos_penerima.bansos_id')->where('bansos_penerima.status', 'diterima');
+                $join->on('bansos.id', '=', 'bansos_penerima.bansos_id')->where('bansos_penerima.status', 'penerima');
             })
             ->where('bansos.tahun', $tahunAktif)
             ->select(
@@ -45,7 +45,7 @@ class DashboardController extends Controller
         // $wargas = Warga::select('nama', 'alamat', 'latitude', 'longitude')->get();
         $wargas = Warga::with(['bansosPenerima' => function ($query) use ($tahunBerjalan) {
             $query->whereYear('tanggal_penerimaan', $tahunBerjalan)
-                ->where('status', 'diterima')
+                ->where('status', 'penerima')
                 ->join('bansos', 'bansos.id', '=', 'bansos_penerima.bansos_id')
                 ->select(
                     'bansos_penerima.warga_id',

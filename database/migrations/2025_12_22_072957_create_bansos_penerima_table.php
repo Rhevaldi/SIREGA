@@ -9,19 +9,11 @@ return new class extends Migration {
     {
         Schema::create('bansos_penerima', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('warga_id')
-                  ->constrained('warga')
-                  ->cascadeOnDelete();
-
-            $table->foreignId('bansos_id')
-                  ->constrained('bansos')
-                  ->cascadeOnDelete();
-
+            $table->foreignId('warga_id')->constrained('warga')->cascadeOnDelete();
+            $table->foreignId('bansos_id')->constrained('bansos')->cascadeOnDelete();
             $table->date('tanggal_penerimaan')->nullable();
-            $table->enum('status', ['diajukan', 'diterima', 'ditolak'])->default('diajukan');
+            $table->enum('status', ['calon penerima', 'penerima'])->default('calon penerima');
             $table->text('keterangan')->nullable();
-
             $table->timestamps();
         });
     }

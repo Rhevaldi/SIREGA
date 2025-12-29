@@ -20,6 +20,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
+                                    <label>No. Kartu Keluarga</label>
+                                    <input type="text" name="no_kk" class="form-control"
+                                        value="{{ old('no_kk', $warga->no_kk) }}" autofocus>
+                                    @error('no_kk')
+                                        <p class="text-sm text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
                                     <label>NIK</label>
                                     <input type="text" name="nik" class="form-control" value="{{ $warga->nik }}"
                                         autofocus>
@@ -28,7 +38,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label>Nama</label>
                                     <input type="text" name="nama" class="form-control" value="{{ $warga->nama }}">
@@ -103,22 +113,74 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label>Status Hubungan Dalam Keluarga</label>
+                                    <select name="status_hubungan" class="form-control text-capitalize">
+                                        <option value="">-- Pilih Status Hubungan --</option>
+                                        <option value="kepala keluarga"
+                                            {{ $warga->status_hubungan == 'kepala keluarga' ? 'selected' : '' }}>
+                                            kepala keluarga
+                                        </option>
+                                        <option value="suami" {{ $warga->status_hubungan == 'suami' ? 'selected' : '' }}>
+                                            suami
+                                        </option>
+                                        <option value="istri" {{ $warga->status_hubungan == 'istri' ? 'selected' : '' }}>
+                                            istri
+                                        </option>
+                                        <option value="anak" {{ $warga->status_hubungan == 'anak' ? 'selected' : '' }}>
+                                            anak
+                                        </option>
+                                        <option value="mertua" {{ $warga->status_hubungan == 'mertua' ? 'selected' : '' }}>
+                                            mertua
+                                        </option>
+                                        <option value="cucu" {{ $warga->status_hubungan == 'cucu' ? 'selected' : '' }}>
+                                            cucu
+                                        </option>
+                                        <option value="orang tua"
+                                            {{ $warga->status_hubungan == 'orang tua' ? 'selected' : '' }}>
+                                            orang tua
+                                        </option>
+                                        <option value="famili lain"
+                                            {{ $warga->status_hubungan == 'famili lain' ? 'selected' : '' }}>
+                                            famili lain
+                                        </option>
+                                        <option value="pembantu"
+                                            {{ $warga->status_hubungan == 'pembantu' ? 'selected' : '' }}>
+                                            pembantu
+                                        </option>
+                                        <option value="lainnya"
+                                            {{ $warga->status_hubungan == 'lainnya' ? 'selected' : '' }}>
+                                            lainnya
+                                        </option>
+                                    </select>
+                                    @error('status_hubungan')
+                                        <p class="text-sm text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label>Status Perkawinan</label>
                                     <select name="status_perkawinan" class="form-control">
                                         <option value="">-- Pilih --</option>
-                                        <option value="belum menikah"
-                                            {{ $warga->status_perkawinan == 'belum menikah' ? 'selected' : '' }}>
-                                            Belum Menikah
+                                        <option value="kawin"
+                                            {{ $warga->status_perkawinan == 'kawin' ? 'selected' : '' }}>
+                                            Kawin
                                         </option>
-                                        <option value="menikah"
-                                            {{ $warga->status_perkawinan == 'menikah' ? 'selected' : '' }}>
-                                            Menikah
+                                        <option value="belum kawin"
+                                            {{ $warga->status_perkawinan == 'belum kawin' ? 'selected' : '' }}>
+                                            Belum Kawin
                                         </option>
-                                        <option value="cerai"
-                                            {{ $warga->status_perkawinan == 'cerai' ? 'selected' : '' }}>
-                                            Cerai
+                                        <option value="cerai hidup"
+                                            {{ $warga->status_perkawinan == 'cerai hidup' ? 'selected' : '' }}>
+                                            Cerai Hidup
+                                        </option>
+                                        <option value="cerai mati"
+                                            {{ $warga->status_perkawinan == 'cerai mati' ? 'selected' : '' }}>
+                                            Cerai Mati
                                         </option>
                                     </select>
                                     @error('status_perkawinan')
@@ -140,6 +202,26 @@
                                         <option value="meninggal"
                                             {{ $warga->status_warga == 'meninggal' ? 'selected' : '' }}>
                                             Meninggal
+                                        </option>
+                                        <option value="sementara"
+                                            {{ $warga->status_warga == 'sementara' ? 'selected' : '' }}>
+                                            Sementara
+                                        </option>
+                                        <option value="tidak diketahui"
+                                            {{ $warga->status_warga == 'tidak diketahui' ? 'selected' : '' }}>
+                                            Tidak Diketahui
+                                        </option>
+                                        <option value="keluar" {{ $warga->status_warga == 'keluar' ? 'selected' : '' }}>
+                                            Keluar
+                                        </option>
+                                        <option value="baru" {{ $warga->status_warga == 'baru' ? 'selected' : '' }}>
+                                            Baru
+                                        </option>
+                                        <option value="hilang" {{ $warga->status_warga == 'hilang' ? 'selected' : '' }}>
+                                            Hilang
+                                        </option>
+                                        <option value="wna" {{ $warga->status_warga == 'wna' ? 'selected' : '' }}>
+                                            Warga Negara Asing
                                         </option>
                                     </select>
                                     @error('status_warga')
@@ -167,7 +249,8 @@
                                             <div class="card-header p-2" id="heading-{{ $tipe }}">
                                                 <h6 class="mb-0">
                                                     <button class="btn btn-link text-left w-100" type="button"
-                                                        data-toggle="collapse" data-target="#collapse-{{ $tipe }}"
+                                                        data-toggle="collapse"
+                                                        data-target="#collapse-{{ $tipe }}"
                                                         aria-expanded="false">
                                                         {{ strtoupper($tipe) }}
                                                     </button>
