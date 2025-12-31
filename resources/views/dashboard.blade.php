@@ -5,7 +5,6 @@
 
 @section('content')
 
-
     <div class="row">
         <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
@@ -46,18 +45,20 @@
                 <div class="icon"><i class="fas fa-user-times"></i></div>
             </div>
         </div>
+
     </div>
 
-
     <div class="row mt-3">
-        <div class="col-md-4">
-            <div class="card card-primary">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">
+
+        <div class="col-md-6 mb-3">
+            <div class="card card-primary h-100">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title mb-0">
                         Statistik Penerima Bantuan ({{ $tahunAktif }})
                     </h3>
-                    <form method="GET">
-                        <select name="tahun" class="form-control form-control-sm" onchange="this.form.submit()">
+                    <form method="GET" class="ml-auto m-0 p-0" style="width: auto;">
+                        <select name="tahun" class="form-control form-control-sm" style="min-width: 100px;"
+                            onchange="this.form.submit()">
                             @foreach ($listTahun as $t)
                                 <option value="{{ $t }}" {{ $tahunAktif == $t ? 'selected' : '' }}>
                                     {{ $t }}
@@ -66,25 +67,37 @@
                         </select>
                     </form>
                 </div>
-                <div class="card-body">
-                    <div style="height:220px">
-                        <canvas id="bansosChart"></canvas>
-                    </div>
+
+                <div class="card-body" style="height: 300px;">
+                    <canvas id="bansosChart" style="height: 100%; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-12">
-            <div class="card card-primary">
+        <div class="col-md-6 mb-3">
+            <div class="card card-info h-100">
                 <div class="card-header">
-                    <h3 class="card-title">Lokasi Warga</h3>
+                    <h3 class="card-title">Statistik Kartu Keluarga Warga</h3>
                 </div>
-                <div class="card-body">
-                    <div id="map" style="height:500px"></div>
+                <div class="card-body" style="height: 300px;">
+                    <canvas id="kkChart" style="height: 100%; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
+    </div>
 
+
+
+    <div class="col-12 mt-3">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Lokasi Warga</h3>
+            </div>
+            <div class="card-body">
+                <div id="map" style="height:500px"></div>
+            </div>
+        </div>
+    </div>
     </div>
 
 @endsection
@@ -100,6 +113,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
+            // ===============================
+            // PIE CHART BANSOS
+            // ===============================
             const labels = @json($statistik->pluck('nama_program'));
             const dataWarga = @json($statistik->pluck('jumlah_warga'));
 
@@ -135,11 +151,33 @@
                 });
             }
 
-            // $('#calendar').datetimepicker({
-            //     format: 'L',
-            //     inline: true
-            // });
+            // ===============================
+            // PIE CHART KK 
+            // ===============================
+            const kkData = {
+                labels: ['Total KK', 'Total Warga'],
+                datasets: [{
+                    data: [{{ $totalKK }}, {{ $totalWarga }}],
+                    backgroundColor: ['#0d6efd', '#20c997']
+                }]
+            };
 
+            new Chart(document.getElementById('kkChart'), {
+                type: 'pie',
+                data: kkData,
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // ===============================
+            // MAP WARGA
+            // ===============================
             var map = L.map('map');
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -170,12 +208,9 @@
                 if (!warga.latitude || !warga.longitude) return;
 
                 var hasBansos = warga.bansos.length > 0;
-                console.log(warga);
-
                 var iconToUse = hasBansos ? bansosIcon : defaultIcon;
 
                 var bansosHtml = '';
-
                 if (hasBansos) {
                     bansosHtml += '<hr><strong>Daftar Bansos Tahun Ini:</strong><ul>';
                     warga.bansos.forEach(function(b) {
