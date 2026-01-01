@@ -34,10 +34,13 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
         Route::get('/warga/create', [WargaController::class, 'create'])->name('warga.create');
+        route::get('/warga/search', [WargaController::class, 'search'])->name('warga.search');
+        route::get('warga/datatables', [WargaController::class, 'datatables'])->name('warga.datatables');
         Route::post('/warga', [WargaController::class, 'store'])->name('warga.store');
         Route::get('/warga/{warga}/edit', [WargaController::class, 'edit'])->name('warga.edit');
         Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
+        
 
         // route::get('desa', [DesaController::class, 'index'])->name('desa.index');
         // route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');

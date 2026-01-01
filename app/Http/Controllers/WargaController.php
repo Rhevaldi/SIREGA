@@ -65,7 +65,7 @@ class WargaController extends Controller
     {
         $validated = $request->validated();
 
-        $warga->kategori()->detach(); // reset dulu
+        $warga->kategori()->detach();
 
         if ($request->kategori) {
             foreach ($request->kategori as $kategori_id => $nilai) {
@@ -86,5 +86,39 @@ class WargaController extends Controller
     {
         $warga->delete();
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus.');
+    }
+
+
+   
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $warga = Warga::where('nik', $keyword)
+            ->orWhere('no_kk', $keyword)
+            ->first();
+
+        if (!$warga) {
+            return response()->json([
+                'status' => false
+            ]);
+        }
+
+        // Ambil seluruh keluarga
+        $keluarga = Warga::where('no_kk', $warga->no_kk)
+            ->select(
+                'no_kk',
+                'nik',
+                'nama',
+                'status_hubungan',
+                'status_warga'
+            )
+            ->orderByRaw("FIELD(status_hubungan, 'kepala keluarga') DESC")
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'data'   => $keluarga
+        ]);
     }
 }

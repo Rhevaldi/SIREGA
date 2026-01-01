@@ -50,6 +50,15 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
+
+
+                                    
+                                    <button type="button" class="btn btn-secondary btn-sm text-nowrap btn-keluarga"
+                                        data-kk="{{ $warga->no_kk }}">
+                                        <i class="fas fa-users"></i> Keluarga
+                                    </button>
+
+
                                     <button type="button" class="btn btn-info btn-sm text-nowrap" data-toggle="modal"
                                         data-target="#detailModal{{ $warga->id }}">
                                         <i class="fas fa-eye"></i> Detail
@@ -79,6 +88,42 @@
     </div>
 
 
+    {{-- ================= MODAL DETAIL KELUARGA  ================= --}}
+    <div class="modal fade" id="keluargaModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Data Anggota Keluarga</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>No KK</th>
+                                <th>NIK</th>
+                                <th>Nama</th>
+                                <th>Status Hubungan</th>
+                                <th>Status Warga</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keluargaBody">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">
+                                    Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {{-- ================= MODAL DETAIL WARGA ================= --}}
     @foreach ($wargas as $warga)
         <div class="modal fade" id="detailModal{{ $warga->id }}" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -361,5 +406,59 @@
                 });
             @endforeach
         })
+
+
+
+       
+        $(document).ready(function() {
+            $('.defaultDataTable').DataTable();
+        });
+
+        /* ================= DETAIL KELUARGA ================= */
+        $(document).on('click', '.btn-keluarga', function() {
+
+            let no_kk = $(this).data('kk');
+
+            $('#keluargaModal').modal('show');
+            $('#keluargaBody').html(`
+        <tr>
+            <td colspan="5" class="text-center text-muted">
+                Memuat data...
+            </td>
+        </tr>
+    `);
+
+            $.get("{{ route('warga.search') }}", {
+                keyword: no_kk
+            }, function(res) {
+
+                if (!res.status || res.data.length === 0) {
+                    $('#keluargaBody').html(`
+                <tr>
+                    <td colspan="5" class="text-center text-danger">
+                        Data keluarga tidak ditemukan
+                    </td>
+                </tr>
+            `);
+                    return;
+                }
+
+                let html = '';
+                res.data.forEach(item => {
+                    html += `
+                <tr>
+                    <td>${item.no_kk}</td>
+                    <td>${item.nik}</td>
+                    <td>${item.nama}</td>
+                    <td class="text-capitalize">${item.status_hubungan}</td>
+                    <td class="text-capitalize">${item.status_warga}</td>
+                </tr>
+            `;
+                });
+
+                $('#keluargaBody').html(html);
+            });
+
+        });
     </script>
 @endpush
