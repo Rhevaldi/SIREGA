@@ -135,11 +135,6 @@
                 });
             }
 
-            // $('#calendar').datetimepicker({
-            //     format: 'L',
-            //     inline: true
-            // });
-
             var map = L.map('map');
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -148,16 +143,14 @@
             }).addTo(map);
 
             var defaultIcon = L.icon({
-                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
+                iconUrl: `{{ asset('adminlte/img/map-default-icon.png') }}`,
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
                 popupAnchor: [1, -34],
-                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-                shadowSize: [41, 41]
             });
 
             var bansosIcon = L.icon({
-                iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                iconUrl: `{{ asset('adminlte/img/map-bansos-penerima-icon.png') }}`,
                 iconSize: [32, 32],
                 iconAnchor: [16, 32],
                 popupAnchor: [0, -28]
@@ -177,7 +170,9 @@
                 var bansosHtml = '';
 
                 if (hasBansos) {
-                    bansosHtml += '<hr><strong>Daftar Bansos Tahun Ini:</strong><ul>';
+                    bansosHtml += '<hr class="my-1">';
+                    bansosHtml += '<strong>Daftar Bantuan Yang Diterima :</strong>';
+                    bansosHtml += '<ul>';
                     warga.bansos.forEach(function(b) {
                         bansosHtml += `<li>${b.nama} <small>(${b.tanggal})</small></li>`;
                     });
