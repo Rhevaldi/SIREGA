@@ -1,0 +1,31 @@
+[33mf107631[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix: pie chart dashboard per tahun, hapus kalender, add kategori seeder
+[33m279cdf4[m fix: Merge Conflict
+[33ma1afdfc[m fix: fitur statistik penerima bansos
+[33mb6e7151[m Merge branch 'main' of https://github.com/Rhevaldi/SIREGA
+[33m0c39396[m fix: Penyesuaian UI Dashboard Map Marker Mapping Warga & Warga Penerima Bansos
+[33m681d2f2[m[33m ([m[1;31morigin/fitur-indikator-kesejahteraan[m[33m)[m fix: Tampilkan indikator kesejahteraan warga terkelompok per kategori
+[33m7b444a3[m fix: Penyesuaian beberapa fitur dan UI dashboard
+[33m89aefc9[m fix: Merging conflict
+[33mff6fb3c[m[33m ([m[1;31morigin/fixed-rules-pendataan[m[33m)[m fix: Perbaikan modul warga (add, edit, detail), dan alert request)
+[33mdc1ca98[m[33m ([m[1;31morigin/login-ui[m[33m)[m Feat: login ui
+[33m62d28c1[m fix: Controller BansosPenerima
+[33md6f9daa[m fix: Perbaikan struktur migration
+[33m8c72889[m Feat: Add modul bansos: master bansos, penerima bansos, dan integrasi di detail warga
+[33me5598cd[m feat: Add kategori warga, dashboard statistik, dan integrasi CRUD warga
+[33mb155697[m Add kategori warga, dashboard statistik, dan integrasi CRUD warga
+[33ma052c4b[m feat: Add kategori warga, dashboard statistik, dan integrasi CRUD warga
+[33m2bbaae7[m Fix: media warga routes and upload
+[33ma9cf0bd[m Feat: feature media-warga
+[33md7b7a1f[m fix: Penambahan dataTable di desa, rt, warga
+[33m0756c12[m feat: SeederDesa, Menu desa dihilangkan
+[33m28274f5[m fix: Perbaikan migration warga dan rt. Perbaikan inisialisasi maping leaflet
+[33mc0549b5[m fix: Perbaikan crud, warga,desa,rt
+[33m514540e[m fix: Perbaikan route web dan sidebar sesuai level akses admin dan superadmin
+[33made49f3[m fix: Perbaikan conflict
+[33m662e126[m[33m ([m[1;31morigin/users-feature[m[33m)[m feat: Data Pengguna CRUD
+[33m30628a4[m[33m ([m[1;31morigin/feature_desa[m[33m)[m fix: Penyesuaian feature desa rt dan warga
+[33m7c1edab[m fix: perbaikan route sidebar dan dashboard
+[33m450c8b3[m[33m ([m[1;31morigin/migration-fixed[m[33m)[m fix: Migration, users auth, laravel permission installed
+[33mc45c8c3[m Initial commit project SIREGA
+[33mdad68ae[m first commit
+[33me3b8556[m commit first
