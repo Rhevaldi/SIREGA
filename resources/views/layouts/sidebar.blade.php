@@ -80,10 +80,26 @@
                             <i class="nav-icon fas fa-hand-holding-heart"></i>
                             <p>Program Bansos</p>
                         </a>
-                    @endrole
+                    </li>
 
-                    <div class="nav-header">SISTEM</div>
-                    @role('superadmin')
+
+                    <div class="nav-header">LAPORAN</div>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>DATA WARGA</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file-archive"></i>
+                            <p>PENERIMA BANSOS</p>
+                        </a>
+                    </li>
+                @endrole
+
+                <div class="nav-header">SISTEM</div>
+                @role('superadmin')
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}"
                             class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
