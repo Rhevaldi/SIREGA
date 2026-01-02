@@ -47,11 +47,11 @@
                                     <ul class="list-inline mb-0">
                                         @foreach ($media->warga->medias->take(5) as $item)
                                             <li class="list-inline-item">
-                                                <a href="{{ asset('storage/' . $item->file_path) }}"
+                                                <a href="/storage/{{ $item->file_path }}"
                                                     data-caption="{{ $item->keterangan }}">
                                                     <img alt="Avatar" class="table-avatar img-fixed img-thumbnail"
                                                         style="width: 2.3rem !important; height: 2.3rem !important; border-radius: 50%;"
-                                                        src="{{ asset('storage/' . $item->file_path) }}">
+                                                        src="/storage/{{ $item->file_path }}">
                                                 </a>
                                             </li>
                                         @endforeach

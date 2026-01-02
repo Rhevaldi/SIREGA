@@ -100,6 +100,10 @@
     </div>
     </div>
 
+    <!-- Modal Detail Warga from Marker -->
+    @include('modal.dashboard-detail-warga')
+
+
 @endsection
 
 @push('css')
@@ -151,8 +155,6 @@
                 });
             }
 
-<<<<<<< HEAD
-=======
             // ===============================
             // PIE CHART KK 
             // ===============================
@@ -180,24 +182,31 @@
             // ===============================
             // MAP WARGA
             // ===============================
->>>>>>> 48927d0fd500548f355e8f0e0b45b8799b176859
-            var map = L.map('map');
+            var map = L.map('map', {
+                scrollWheelZoom: false
+            });
+            map.on('focus', () => {
+                map.scrollWheelZoom.enable();
+            });
+            map.on('blur', () => {
+                map.scrollWheelZoom.disable();
+            });
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
-                attribution: '© OpenStreetMap'
+                attribution: '© OpenStreetMap',
             }).addTo(map);
 
             var defaultIcon = L.icon({
                 iconUrl: `{{ asset('adminlte/img/map-default-icon.png') }}`,
-                iconSize: [32, 32],
+                iconSize: [24, 24],
                 iconAnchor: [16, 32],
                 popupAnchor: [1, -34],
             });
 
             var bansosIcon = L.icon({
                 iconUrl: `{{ asset('adminlte/img/map-bansos-penerima-icon.png') }}`,
-                iconSize: [32, 32],
+                iconSize: [24, 24],
                 iconAnchor: [16, 32],
                 popupAnchor: [0, -28]
             });
@@ -205,34 +214,44 @@
             var wargaMarkers = {!! json_encode($wargas) !!};
             var markerGroup = L.featureGroup();
 
+            // wargaMarkers.forEach(function(warga) {
+            //     if (!warga.latitude || !warga.longitude) return;
+
+            //     var hasBansosTahunBerjalan = warga.has_bansos_tahun_berjalan === true;
+            //     var iconToUse = hasBansosTahunBerjalan ? bansosIcon : defaultIcon;
+
+            //     var marker = L.marker(
+            //         [parseFloat(warga.latitude), parseFloat(warga.longitude)], {
+            //             icon: iconToUse
+            //         }
+            //     );
+
+            //     marker.on('click', function() {
+            //         showWargaModal(warga);
+            //     });
+
+            //     markerGroup.addLayer(marker);
+            // });
             wargaMarkers.forEach(function(warga) {
                 if (!warga.latitude || !warga.longitude) return;
 
-                var hasBansos = warga.bansos.length > 0;
-                var iconToUse = hasBansos ? bansosIcon : defaultIcon;
+                // FLAG dari backend
+                var hasBansosTahunBerjalan = warga.has_bansos_tahun_berjalan === true;
 
-                var bansosHtml = '';
-                if (hasBansos) {
-                    bansosHtml += '<hr class="my-1">';
-                    bansosHtml += '<strong>Daftar Bantuan Yang Diterima :</strong>';
-                    bansosHtml += '<ul>';
-                    warga.bansos.forEach(function(b) {
-                        bansosHtml += `<li>${b.nama} <small>(${b.tanggal})</small></li>`;
-                    });
-                    bansosHtml += '</ul>';
-                }
+                // Tentukan icon
+                var iconToUse = hasBansosTahunBerjalan ? bansosIcon : defaultIcon;
 
-                var popupContent = `
-                    <strong>${warga.nama}</strong><br>
-                    ${warga.alamat}
-                    ${bansosHtml}
-                `;
-
+                // Marker
                 var marker = L.marker(
                     [parseFloat(warga.latitude), parseFloat(warga.longitude)], {
                         icon: iconToUse
                     }
-                ).bindPopup(popupContent);
+                );
+
+                // Klik marker → modal
+                marker.on('click', function() {
+                    showWargaModal(warga);
+                });
 
                 markerGroup.addLayer(marker);
             });
@@ -246,6 +265,97 @@
             } else {
                 map.setView([0, 0], 5);
             }
+
         });
+
+        function showWargaModal(warga) {
+            document.getElementById('md-no_kk').innerText = warga.no_kk;
+            document.getElementById('md-nik').innerText = warga.nik;
+            document.getElementById('md-nama').innerText = warga.nama;
+            document.getElementById('md-jenis_kelamin').innerText = warga.jenis_kelamin;
+            document.getElementById('md-tempat_lahir').innerText = warga.tempat_lahir;
+            document.getElementById('md-tanggal_lahir').innerText = warga.tanggal_lahir;
+            document.getElementById('md-agama').innerText = warga.agama;
+            document.getElementById('md-pendidikan').innerText = warga.pendidikan;
+            document.getElementById('md-pekerjaan').innerText = warga.pekerjaan;
+            document.getElementById('md-status_hubungan').innerText = warga.status_hubungan;
+            document.getElementById('md-status_perkawinan').innerText = warga.status_perkawinan;
+            document.getElementById('md-status_warga').innerText = warga.status_warga;
+            document.getElementById('md-alamat').innerText = warga.alamat;
+            document.getElementById('md-rt').innerText = warga.rt?.rt ?? '-';
+
+            let bansosHtml = '';
+
+            if (warga.bansos_all && warga.bansos_all.length > 0) {
+                warga.bansos_all.forEach(function(b) {
+                    bansosHtml += `
+                        <tr>
+                            <td>${b.nama}</td>
+                            <td class="text-center">${b.tahun}</td>
+                            <td>
+                                ${b.keterangan ?? '-'}
+                                <br>
+                                <small class="text-muted">
+                                    ${b.status} • ${b.tanggal}
+                                </small>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                bansosHtml = `
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">
+                            - Tidak Menerima Bantuan Sosial -
+                        </td>
+                    </tr>
+                `;
+            }
+
+            document.getElementById('md-bansos').innerHTML = bansosHtml;
+
+            // ===============================
+            // MEDIA WARGA
+            // ===============================
+            let mediaHtml = '';
+
+            if (warga.medias && warga.medias.length > 0) {
+                mediaHtml += '<div class="row" uk-lightbox="slidenav: false; nav: thumbnav">';
+
+                warga.medias.forEach(function(media) {
+                    mediaHtml += `
+                        <div class="col-md-3 text-center mb-3">
+                            <a href="/storage/${media.file_path}"
+                            data-caption="${media.keterangan ?? ''}">
+                                <img src="/storage/${media.file_path}" width="200"
+                                    class="img-fixed img-thumbnail mb-1"
+                                    style="max-height: 200px;">
+                            </a>
+                            <div class="text-muted small">
+                                ${media.keterangan ?? '-'}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                mediaHtml += '</div>';
+            } else {
+                mediaHtml = `
+                    <div class="col-12 text-center text-muted">
+                        - Tidak ada media warga -
+                    </div>
+                `;
+            }
+
+            document.getElementById('md-medias').innerHTML = mediaHtml;
+
+            new bootstrap.Modal(
+                document.getElementById('modalDetailWarga')
+            ).show();
+        }
+
+        if (window.UIkit) {
+            UIkit.lightbox('[uk-lightbox]');
+        }
     </script>
 @endpush

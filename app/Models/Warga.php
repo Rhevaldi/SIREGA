@@ -84,4 +84,27 @@ class Warga extends Model
     {
         return $this->hasMany(MediaWarga::class, 'warga_id');
     }
+
+    // Semua bansos yang pernah diterima
+    public function bansosAll()
+    {
+        return $this->hasMany(BansosPenerima::class, 'warga_id')
+            ->where('bansos_penerima.status', 'penerima')
+            ->join('bansos', 'bansos.id', '=', 'bansos_penerima.bansos_id')
+            ->select(
+                'bansos_penerima.warga_id',
+                'bansos_penerima.keterangan',
+                'bansos_penerima.status',
+                'bansos_penerima.tanggal_penerimaan',
+                'bansos.nama_program as nama_bansos'
+            );
+    }
+
+    // Bansos tahun berjalan saja
+    public function bansosTahunBerjalan()
+    {
+        return $this->hasMany(BansosPenerima::class, 'warga_id')
+            ->where('status', 'penerima')
+            ->whereYear('tanggal_penerimaan', now()->year);
+    }
 }

@@ -52,7 +52,7 @@
                                 <div class="btn-group" role="group">
 
 
-                                    
+
                                     <button type="button" class="btn btn-secondary btn-sm text-nowrap btn-keluarga"
                                         data-kk="{{ $warga->no_kk }}">
                                         <i class="fas fa-users"></i> Keluarga
@@ -208,7 +208,6 @@
                                     </tr>
                                 </table>
                             </div>
-
 
                             <div class="col-md-6">
                                 <h6>
@@ -409,7 +408,7 @@
 
 
 
-       
+
         $(document).ready(function() {
             $('.defaultDataTable').DataTable();
         });

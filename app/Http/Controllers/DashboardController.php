@@ -11,10 +11,8 @@ class DashboardController extends Controller
     {
         $tahunBerjalan = now()->year;
 
-      
         $totalWarga = Warga::count();
 
-   
         $totalKK = Warga::distinct('no_kk')->count('no_kk');
 
         $statusWarga = [
@@ -23,7 +21,6 @@ class DashboardController extends Controller
             'wargaMeninggal' => Warga::where('status_warga', 'meninggal')->count(),
         ];
 
-      
         $listTahun = DB::table('bansos')
             ->select('tahun')
             ->distinct()
@@ -35,7 +32,7 @@ class DashboardController extends Controller
         $statistik = DB::table('bansos')
             ->leftJoin('bansos_penerima', function ($join) {
                 $join->on('bansos.id', '=', 'bansos_penerima.bansos_id')
-                     ->where('bansos_penerima.status', 'penerima');
+                    ->where('bansos_penerima.status', 'penerima');
             })
             ->where('bansos.tahun', $tahunAktif)
             ->select(
@@ -46,37 +43,62 @@ class DashboardController extends Controller
             ->orderBy('bansos.nama_program')
             ->get();
 
-     
-        $wargas = Warga::with(['bansosPenerima' => function ($query) use ($tahunBerjalan) {
-            $query->whereYear('tanggal_penerimaan', $tahunBerjalan)
-                ->where('status', 'penerima')
-                ->join('bansos', 'bansos.id', '=', 'bansos_penerima.bansos_id')
-                ->select(
-                    'bansos_penerima.warga_id',
-                    'bansos.nama_program as nama_bansos',
-                    'bansos_penerima.tanggal_penerimaan'
-                );
-        }])
-        ->select('id', 'nama', 'alamat', 'latitude', 'longitude')
-        ->get()
-        ->map(function ($warga) {
-            return [
-                'nama'      => $warga->nama,
-                'alamat'    => $warga->alamat,
-                'latitude'  => $warga->latitude,
-                'longitude' => $warga->longitude,
-                'bansos'    => $warga->bansosPenerima->map(function ($b) {
-                    return [
-                        'nama'    => $b->nama_bansos,
-                        'tanggal'=> $b->tanggal_penerimaan
-                    ];
-                })->values()
-            ];
-        });
+
+        $wargas = Warga::with(['rt', 'bansosAll', 'bansosTahunBerjalan'])
+            ->get()
+            ->map(function ($warga) {
+                return [
+                    ...$warga->only([
+                        'no_kk',
+                        'nik',
+                        'nama',
+                        'jenis_kelamin',
+                        'tempat_lahir',
+                        'tanggal_lahir',
+                        'agama',
+                        'pendidikan',
+                        'pekerjaan',
+                        'status_hubungan',
+                        'status_perkawinan',
+                        'status_warga',
+                        'alamat',
+                        'latitude',
+                        'longitude',
+                    ]),
+
+                    'rt' => [
+                        'id' => $warga->rt?->id,
+                        'rt' => $warga->rt?->rt,
+                    ],
+
+                    'bansos_all' => $warga->bansosAll->map(function ($b) {
+                        return [
+                            'nama'       => $b->nama_bansos,
+                            'tahun'      => \Carbon\Carbon::parse($b->tanggal_penerimaan)->year,
+                            'keterangan' => $b->keterangan ?? '-',
+                            'status'     => $b->status,
+                            'tanggal'    => $b->tanggal_penerimaan,
+                        ];
+                    })->values(),
+
+                    'has_bansos_tahun_berjalan' =>
+                    $warga->bansosTahunBerjalan->isNotEmpty(),
+
+                    'medias' => $warga->medias->map(function ($m) {
+                        return [
+                            'file_path' => $m->file_path,
+                            'file_name' => $m->file_name,
+                            'file_type' => $m->file_type,
+                            'keterangan' => $m->keterangan,
+                        ];
+                    })->values(),
+                ];
+            });
+
 
         return view('dashboard', compact(
             'totalWarga',
-            'totalKK',      
+            'totalKK',
             'statusWarga',
             'statistik',
             'wargas',
