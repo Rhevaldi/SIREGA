@@ -85,15 +85,16 @@
 
                     <div class="nav-header">LAPORAN</div>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('reports.warga') }}"
+                            class="nav-link {{ request()->routeIs('reports.warga') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-file-alt"></i>
-                            <p>DATA WARGA</p>
+                            <p>Data Warga</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-file-archive"></i>
-                            <p>PENERIMA BANSOS</p>
+                            <p>Penerima Bantuan</p>
                         </a>
                     </li>
                 @endrole

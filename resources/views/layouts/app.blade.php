@@ -14,6 +14,11 @@
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/dropzone/min/dropzone.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
@@ -41,6 +46,11 @@
         .uk-lightbox,
         .uk-lightbox-overlay {
             z-index: 99999 !important;
+        }
+
+        span.select2-results,
+        span.select2-selection {
+            text-transform: capitalize !important;
         }
     </style>
 </head>
@@ -96,10 +106,19 @@
     <!-- dropzonejs -->
     <script src="{{ asset('adminlte/plugins/dropzone/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
-
-    <script src="https://cdn.datatables.net/v/bs4/dt-2.3.5/r-3.0.7/datatables.min.js"
-        integrity="sha384-xNl4KzWHw1EHKaRnrmS9oDxGXAqYaJgo7L5Pl8yXfLXP6eJD5IN1poOMFK4UcBeV" crossorigin="anonymous">
-    </script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -110,6 +129,14 @@
                 }]
             });
             $('#usersTable').DataTable();
+            $(".reportsTable").DataTable({
+                "responsive": false,
+                "lengthChange": true,
+                "autoWidth": false,
+                rowGroup: {
+                    dataSrc: 1 // index kolom No KK
+                }
+            })
 
             //Initialize Select2 Elements
             $('.select2').select2()

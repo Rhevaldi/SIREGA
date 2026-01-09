@@ -24,17 +24,7 @@ return new class extends Migration
             $table->string('pekerjaan');
             $table->enum('status_perkawinan', ['kawin', 'belum kawin', 'cerai hidup', 'cerai mati']);
             $table->enum('status_hubungan', ['kepala keluarga', 'suami', 'istri', 'anak', 'mertua', 'cucu', 'orang tua', 'famili lain', 'pembantu', 'lainnya']);
-            $table->enum('status_warga', [
-                'aktif',        // Warga masih tinggal di wilayah
-                'pindah',       // Warga pindah domisili
-                'meninggal',    // Warga sudah wafat
-                'sementara',    // Tinggal sementara (misalnya kos/kontrak)
-                'tidak diketahui', // Status belum jelas / data tidak valid
-                'keluar',       // Keluar dari wilayah tanpa keterangan resmi
-                'baru',         // Baru terdaftar sebagai warga
-                'hilang',       // Tidak diketahui keberadaannya
-                'wna',          // Warga Negara Asing yang tinggal sementara
-            ]);
+            $table->enum('status_warga', ['aktif', 'pindah', 'meninggal', 'sementara', 'tidak diketahui', 'keluar', 'baru', 'hilang', 'wna']);
             $table->text('alamat');
             $table->foreignId('rt_id')->constrained('rt')->onDelete('cascade');
             $table->decimal('latitude', 10, 8);

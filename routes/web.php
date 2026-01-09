@@ -5,11 +5,12 @@ use App\Http\Controllers\RtController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\BansosController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaWargaController;
-use App\Http\Controllers\BansosController;
 use App\Http\Controllers\BansosPenerimaController;
 
 /*
@@ -40,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/warga/{warga}/edit', [WargaController::class, 'edit'])->name('warga.edit');
         Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
-        
+
 
         // route::get('desa', [DesaController::class, 'index'])->name('desa.index');
         // route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');
@@ -61,6 +62,9 @@ Route::middleware(['auth'])->group(function () {
         ]);
         Route::post('/bansos-penerima', [BansosPenerimaController::class, 'store'])
             ->name('bansos-penerima.store');
+
+        Route::get('reports/warga', [ReportController::class, 'warga'])->name('reports.warga');
+        Route::get('/reports/warga/cetak', [ReportController::class, 'cetakWarga'])->name('reports.warga.cetak');
     });
 
 
