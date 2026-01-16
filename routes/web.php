@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaWargaController;
+use App\Http\Controllers\KartuKeluargaController;
 use App\Http\Controllers\BansosPenerimaController;
 
 /*
@@ -32,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         // route::resource('rt', RtController::class)->except(['show']);
+        Route::resource('kk', KartuKeluargaController::class)->parameters([
+            'kk' => 'kartuKeluarga'
+        ]);
 
         Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
         Route::get('/warga/create', [WargaController::class, 'create'])->name('warga.create');

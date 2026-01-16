@@ -354,7 +354,6 @@
                             </div>
 
                             <div class="col-12">
-
                                 <div class="mb-2">
                                     <label>
                                         Tandai Lokasi Rumah

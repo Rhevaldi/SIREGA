@@ -50,8 +50,15 @@
                         </a>
                     </li> --}}
                     <li class="nav-item">
-                        <a href="{{ route('warga.index') }}" class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
+                        <a href="{{ route('kk.index') }}" class="nav-link {{ request()->is('kk*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-passport"></i>
+                            <p>Kartu Keluarga</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('warga.index') }}"
+                            class="nav-link {{ request()->is('warga*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-id-card"></i>
                             <p>Data Warga</p>
                         </a>
                     </li>
