@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             DesaSeeder::class,
             KategoriSeeder::class,
             BansosSeeder::class,
-            WargaSeeder::class,
+            PekerjaanSeeder::class,
+            // WargaSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

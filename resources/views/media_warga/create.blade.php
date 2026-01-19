@@ -20,11 +20,11 @@
 
                 <div class="form-group mb-3">
                     <label>Warga</label>
-                    <select name="warga_id" class="form-control select2bs4" required>
+                    <select name="kk_id" class="form-control select2bs4" required>
                         <option value="">- Pilih Warga -</option>
-                        @foreach ($wargas as $warga)
-                            <option value="{{ $warga->id }}">
-                                {{ $warga->nik }} - {{ $warga->nama }}
+                        @foreach ($kartu_keluargas as $kk)
+                            <option value="{{ $kk->id }}">
+                                {{ $kk->no_kk }} - {{ $kk->nama_kepala_keluarga ?? 'null' }}
                             </option>
                         @endforeach
                     </select>
@@ -36,8 +36,9 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     Upload Media Warga
-                                    <small class="text-danger text-xs"><em>*Maksimal : 5MB | Jenis File : JPG, JPEG,
-                                            PNG</em></small>
+                                    <small class="text-danger text-xs">
+                                        <em>*Maksimal : 5MB | Jenis File : JPG, JPEG, PNG</em>
+                                    </small>
                                 </h3>
                             </div>
                             <div class="card-body">
@@ -127,16 +128,16 @@
 
     @push('js')
         <script>
-            function getWargaId() {
-                const select = document.querySelector('select[name="warga_id"]');
+            function getKkId() {
+                const select = document.querySelector('select[name="kk_id"]');
                 return select ? select.value : '';
             }
 
-            function validateWarga() {
-                const wargaId = getWargaId();
+            function validateKk() {
+                const KkId = getKkId();
 
-                if (!wargaId) {
-                    alert('Silakan pilih Warga terlebih dahulu sebelum upload.');
+                if (!KkId) {
+                    alert('Silakan pilih KK terlebih dahulu sebelum upload.');
                     return false;
                 }
                 return true;
@@ -146,17 +147,17 @@
                 return myDropzone.getFilesWithStatus(Dropzone.ADDED).length > 0;
             }
 
-            const selectWarga = document.querySelector('select[name="warga_id"]');
+            const selectKk = document.querySelector('select[name="kk_id"]');
             const startBtn = document.querySelector('#actions .start');
 
-            selectWarga.addEventListener('change', function() {
+            selectKk.addEventListener('change', function() {
                 startBtn.disabled = !this.value;
             });
 
             Dropzone.autoDiscover = false;
 
             const targetUrl = "{{ route('media_warga.store') }}";
-            const wargaId = "{{ $warga->id ?? '' }}"; // pastikan variabel ini ada
+            const KkId = "{{ $kk->id ?? '' }}"; // pastikan variabel ini ada
 
             // Ambil template
             let previewNode = document.querySelector("#template");
@@ -184,7 +185,7 @@
             // tombol start per file
             myDropzone.on("addedfile", function(file) {
                 file.previewElement.querySelector(".start").onclick = function() {
-                    if (!validateWarga()) {
+                    if (!validateKk()) {
                         return;
                     }
 
@@ -194,13 +195,13 @@
 
             // kirim data tambahan
             myDropzone.on("sending", function(file, xhr, formData) {
-                const wargaId = getWargaId();
+                const KkId = getKkId();
 
                 let keterangan = file.previewElement
                     .querySelector(".keterangan-file")
                     .value;
 
-                formData.append("warga_id", wargaId);
+                formData.append("kk_id", KkId);
                 formData.append("keterangan", keterangan);
             });
 
@@ -221,7 +222,7 @@
 
             // tombol global
             document.querySelector("#actions .start").onclick = function() {
-                if (!validateWarga()) {
+                if (!validateKk()) {
                     return;
                 }
 

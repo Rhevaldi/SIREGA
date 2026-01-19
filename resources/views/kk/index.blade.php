@@ -46,20 +46,29 @@
                                     <td class="text-center">
                                         {{ $kk->longitude }}
                                     </td>
-                                    <td class="project-actions text-center">
-                                        <a class="btn btn-info btn-xs" href="{{ route('kk.edit', $kk->id) }}">
-                                            <i class="fas fa-pencil-alt"></i>
-                                            Edit
-                                        </a>
-                                        <form action="{{ route('kk.destroy', $kk->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
-                                                <i class="fas fa-trash"></i> Hapus
+
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-info btn-sm text-nowrap btnShowKK"
+                                                data-id="{{ $kk->id }}">
+                                                <i class="fas fa-eye"></i> Detail
                                             </button>
-                                        </form>
+
+                                            <a class="btn btn-warning btn-sm" href="{{ route('kk.edit', $kk->id) }}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                Edit
+                                            </a>
+
+                                            <form action="{{ route('kk.destroy', $kk->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus kartu keluarga ini?')">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -83,5 +92,7 @@
         </div>
         <!-- /.col -->
     </div>
+
+    @include('kk.show')
 
 @endsection

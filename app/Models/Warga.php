@@ -15,12 +15,11 @@ class Warga extends Model
 
     protected $casts = [
         'tanggal_lahir' => 'date',
-        'latitude' => 'decimal:8',
-        'longitude' => 'decimal:8',
     ];
 
     protected $fillable = [
         'no_kk',
+        'pekerjaan_id',
         'nik',
         'nama',
         'jenis_kelamin',
@@ -28,32 +27,26 @@ class Warga extends Model
         'tanggal_lahir',
         'agama',
         'pendidikan',
-        'pekerjaan',
+        // 'pekerjaan',
         'status_perkawinan',
         'status_hubungan',
         'status_warga',
-        'alamat',
-        'rt_id',
-        'latitude',
-        'longitude',
     ];
 
     public function kartuKeluarga(): BelongsTo
     {
-        // Satu Warga merujuk ke satu KK
-        return $this->belongsTo(KartuKeluarga::class);
+        return $this->belongsTo(KartuKeluarga::class, 'no_kk', 'no_kk');
+    }
+
+    public function pekerjaan()
+    {
+        return $this->belongsTo(Pekerjaan::class);
     }
 
     public function rt()
     {
         return $this->belongsTo(Rt::class, 'rt_id');
     }
-
-    public function media()
-    {
-        return $this->hasMany(MediaWarga::class);
-    }
-
 
     public function kategori()
     {

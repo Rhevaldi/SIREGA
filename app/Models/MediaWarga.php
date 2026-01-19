@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MediaWarga extends Model
 {
@@ -12,15 +13,15 @@ class MediaWarga extends Model
     protected $table = 'media_warga';
 
     protected $fillable = [
-        'warga_id',
+        'kk_id',
         'file_name',
         'file_type',
         'file_path',
         'keterangan'
     ];
 
-    public function warga()
+    public function kartuKeluarga()
     {
-        return $this->belongsTo(Warga::class);
+        return $this->belongsTo(KartuKeluarga::class, 'kk_id', 'id');
     }
 }

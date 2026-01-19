@@ -127,7 +127,7 @@
                     targets: [0, -1],
                     className: 'text-center'
                 }],
-                "responsive": true,
+                // "responsive": true,
             });
             $('#usersTable').DataTable();
             $(".reportsTable").DataTable({
@@ -140,13 +140,216 @@
             })
 
             //Initialize Select2 Elements
-            $('.select2').select2()
+            $('.select2').select2({
+                minimumResultsForSearch: -1
+            })
 
             //Initialize Select2 Elements
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
             })
         });
+
+        // Fungsi format tanggal dd-mm-yyyy
+        function formatDateInKk(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+    </script>
+
+    <script>
+        $(document).on('click', '.btnShowKK', function() {
+            const id = $(this).data('id');
+            const url = "{{ route('kk.show', ':id') }}".replace(':id', id);
+
+            // Pastikan modal tidak bisa ditutup oleh backdrop atau ESC
+            // $('#modalDetailKK').attr('data-backdrop', 'static').attr('data-keyboard', 'false');
+            $('#modalDetailKK').modal('show');
+
+            $('#keluargaBody').html(`
+                    <tr>
+                        <td colspan="9" class="text-center text-muted">
+                            Memuat data...
+                        </td>
+                    </tr>
+                `);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    // Header KK
+                    $('#showNoKk').text(res.kartu_keluarga.no_kk ?? '-');
+                    $('#showNamaKepalaKeluarga').text(res.kartu_keluarga.nama_kepala_keluarga ?? '-');
+                    $('#showAlamat').text(res.kartu_keluarga.alamat ?? '-');
+                    $('#showRt').text(res.kartu_keluarga.rt ?? '-');
+                    $('#showRw').text(res.kartu_keluarga.rw ?? '-');
+                    $('#showDesaKelurahan').text(res.kartu_keluarga.desa ?? '-');
+                    $('#showKecamatan').text(res.kartu_keluarga.kecamatan ?? '-');
+                    $('#showKabupatenKota').text(res.kartu_keluarga.kabupaten ?? '-');
+                    $('#showKodePos').text(res.kartu_keluarga.kode_pos ?? '-');
+                    $('#showProvinsi').text(res.kartu_keluarga.provinsi ?? '-');
+
+                    if (!res.status || res.warga.length === 0) {
+                        $('#keluargaBody').html(`
+                                <tr>
+                                    <td colspan="9" class="text-center text-danger">
+                                        Data keluarga masih kosong
+                                    </td>
+                                </tr>
+                            `);
+                    } else {
+                        let html = '';
+                        let no = 1;
+
+                        res.warga.forEach(item => {
+                            html += `
+                                <tr>
+                                    <td>${no++}</td>
+                                    <td>
+                                        ${item.nama}
+                                        <div class="d-table-cell">
+                                            <span class="badge badge-dark text-muted text-white text-xs">${item.status_perkawinan}</span>
+                                            <span class="badge badge-info text-muted text-white text-xs">${item.status_hubungan}</span>
+                                        </div>
+                                    </td>
+                                    <td>${item.nik}</td>
+                                    <td>${item.jenis_kelamin}</td>
+                                    <td>${item.tempat_lahir}</td>
+                                    <td>${formatDateInKk(item.tanggal_lahir)}</td>
+                                    <td>${item.agama}</td>
+                                    <td>${item.pendidikan}</td>
+                                    <td>${item.pekerjaan?.nama ?? '-'}</td>
+                                </tr>
+                            `;
+                        });
+
+                        $('#keluargaBody').html(html);
+                    }
+
+                    // Map Koordinat
+                    const lat = res.kartu_keluarga.latitude;
+                    const lng = res.kartu_keluarga.longitude;
+
+                    if (lat && lng) {
+                        $('#showLat').text(lat);
+                        $('#showLng').text(lng);
+
+                        setTimeout(() => {
+                            initMap(lat, lng);
+                        }, 300); // delay agar modal sudah tampil
+                    } else {
+                        $('#showLat').text('-');
+                        $('#showLng').text('-');
+
+                        $('#map').html(`
+                            <div class="text-center text-muted mt-5">
+                                Koordinat belum tersedia
+                            </div>
+                        `);
+                    }
+
+                    // Media
+                    let mediaHtml = '';
+
+                    if (res.media && res.media.length > 0) {
+                        mediaHtml += ' <div class="row" uk-lightbox="slidenav: false; nav: thumbnav">';
+
+                        res.media.forEach(media => {
+                            mediaHtml += `
+                                <div class="col-3">
+                                    <a href="/storage/${media.file_path}" data-caption="${media.keterangan}">
+                                        <img src="/storage/${media.file_path}" class="img-fluid rounded border img-fixed" width="150" height="150">
+                                    </a>
+                                </div>
+                            `;
+                        });
+
+                        mediaHtml += '</ div>';
+                    } else {
+                        mediaHtml = `
+                            <div class="col-12 text-muted text-center">
+                                Tidak ada media rumah
+                            </div>
+                        `;
+                    }
+
+                    $('#mediaContainer').html(mediaHtml);
+                },
+                error: function() {
+                    $('#keluargaBody').html(`
+                        <tr>
+                            <td colspan="9" class="text-center text-danger">
+                                Gagal memuat data kartu keluarga
+                            </td>
+                        </tr>
+                    `);
+                }
+            });
+        });
+
+        let map;
+        let marker;
+
+        function initMap(lat, lng) {
+            if (!map) {
+                map = L.map('map').setView([lat, lng], 16);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+            }
+
+            if (marker) {
+                marker.remove();
+            }
+
+            marker = L.marker([lat, lng]).addTo(map);
+
+            marker.on('mouseover', function() {
+                this._icon.style.cursor = 'pointer';
+            });
+            marker.bindTooltip('Klik untuk buka aplikasi map');
+            // CLICK MARKER → GOOGLE MAPS
+            // marker.on('click', function() {
+            //     openGoogleMaps(lat, lng);
+            // });
+            marker.bindPopup(`
+                <div class="text-center">
+                    <strong>Lokasi Rumah</strong><br>
+                    <button class="btn btn-sm btn-primary mt-2"
+                        onclick="openGoogleMaps(${lat}, ${lng})">
+                        Buka Aplikasi Map
+                    </button>
+                    <button class="btn btn-sm btn-info mt-2"
+                        onclick="openNavGoogleMaps(${lat}, ${lng})">
+                        Arahkan ke Lokasi
+                    </button>
+                </div>
+            `);
+
+            map.setView([lat, lng], 16);
+        }
+
+        function openGoogleMaps(lat, lng) {
+            if (!lat || !lng) {
+                alert('Koordinat tidak valid');
+                return;
+            }
+
+            const url = `https://www.google.com/maps?q=${lat},${lng}`;
+            window.open(url, '_blank');
+        }
+
+        function openNavGoogleMaps(lat, lng) {
+            const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+            window.open(url, '_blank');
+        }
     </script>
 
     @stack('js')

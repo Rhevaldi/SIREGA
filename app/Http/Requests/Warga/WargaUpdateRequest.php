@@ -23,32 +23,18 @@ class WargaUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'no_kk' => 'required|numeric|min_digits:16|max_digits:16',
+            'no_kk' => 'required|exists:kartu_keluargas,no_kk',
             'nik' => 'required|numeric|min_digits:16|max_digits:16|' . Rule::unique('warga', 'nik')->ignore($this->warga->id),
             'nama' => 'required|string|max:255',
-
             'jenis_kelamin' => 'required|in:L,P',
-
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
-
-            'agama' => 'required|string|max:50',
-
-            'pendidikan' => 'required|string|max:100',
-            'pekerjaan' => 'required|string|max:100',
-
-            'status_perkawinan' => 'required|in:kawin,belum kawin,cerai hidup,cerai mati',
-
-            'status_hubungan' => 'required|in:kepala keluarga,suami,istri,anak,mertua,cucu,orang tua,famili lain,pembantu,lainnya',
-
-            'status_warga' => 'required|in:aktif,pindah,meninggal,sementara,tidak diketahui,keluar,baru,hilang,wna',
-
-            'alamat' => 'required|string',
-
-            'rt_id' => 'required|exists:rt,id',
-
-            'latitude' => 'required|numeric|between:-90,90',
-            'longitude' => 'required|numeric|between:-180,180',
+            'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu, Kepercayaan lainnya',
+            'pendidikan' => 'required|in:Tidak/Belum Sekolah,Belum Tamat SD/Sederajat,Tamat SD/Sederajat,SLTP/Sederajat,SLTA/Sederajat,Diploma I/II,Diploma III/Sarjana Muda,Diploma IV/Strata I,Strata II,Strata III',
+            'pekerjaan_id' => 'required|exists:pekerjaans,id',
+            'status_perkawinan' => 'required|in:Kawin Tercatat,Kawin Tidak Tercatat,Kawin,Belum Kawin,Cerai Hidup,Cerai Mati',
+            'status_hubungan' => 'required|in:Kepala Keluarga,Suami,Istri,Anak,Menantu,Cucu,Orang Tua,Mertua,Famili Lain,Lainnya',
+            'status_warga' => 'required|in:Aktif,Pindah,Meninggal,Sementara,Tidak Diketahui,Keluar,Baru,Hilang,WNA',
         ];
     }
 }

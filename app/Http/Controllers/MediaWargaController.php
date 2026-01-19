@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Warga;
+use App\Models\KartuKeluarga;
 use App\Models\MediaWarga;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class MediaWargaController extends Controller
@@ -13,7 +12,7 @@ class MediaWargaController extends Controller
 
     public function index()
     {
-        $medias = MediaWarga::with('warga')->get()->groupBy('warga_id')->map(function ($group) {
+        $medias = MediaWarga::with('kartuKeluarga')->get()->groupBy('no_kk')->map(function ($group) {
             return $group->first();
         })->values();
         return view('media_warga.index', compact('medias'));
@@ -22,8 +21,8 @@ class MediaWargaController extends Controller
 
     public function create()
     {
-        $wargas = Warga::all();
-        return view('media_warga.create', compact('wargas'));
+        $kartu_keluargas = KartuKeluarga::all();
+        return view('media_warga.create', compact('kartu_keluargas'));
     }
 
 
@@ -44,7 +43,7 @@ class MediaWargaController extends Controller
     //     ]);
 
     //     $request->validate([
-    //         'warga_id' => 'required|exists:warga,id',
+    //         'kk_id' => 'required|exists:warga,id',
     //         'file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
     //         'keterangan' => 'nullable|string'
     //     ]);
@@ -53,7 +52,7 @@ class MediaWargaController extends Controller
     //     $path = $file->store('media_warga', 'public');
 
     //     MediaWarga::create([
-    //         'warga_id' => $request->warga_id,
+    //         'kk_id' => $request->kk_id,
     //         'file_name' => $file->getClientOriginalName(),
     //         'file_type' => $file->getClientOriginalExtension(),
     //         'file_path' => $path,
@@ -66,7 +65,7 @@ class MediaWargaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'warga_id' => 'required|exists:warga,id',
+            'kk_id' => 'required|exists:kartu_keluargas,id',
             'file' => 'required|file|mimes:jpg,jpeg,png|max:5120',
             'keterangan' => 'nullable|string'
         ]);
@@ -90,7 +89,7 @@ class MediaWargaController extends Controller
         $file_path = $file->storeAs('media_warga', $file_name . '.' . $extension, 'public');
 
         MediaWarga::create([
-            'warga_id' => $request->warga_id,
+            'kk_id' => $request->kk_id,
             'file_name' => $file_name,
             'file_type' => $file->getClientOriginalExtension(),
             'file_path' => $file_path,
@@ -106,16 +105,14 @@ class MediaWargaController extends Controller
     public function show(MediaWarga $mediaWarga)
     {
         return response()->json([
-            'medias' => $mediaWarga->warga->media()->get()
+            'medias' => $mediaWarga->kartuKeluarga->media()->get()
         ]);
         // return response()->download(storage_path('app/public/' . $mediaWarga->file_path), $mediaWarga->file_name);
     }
 
     public function destroy(MediaWarga $mediaWarga)
     {
-
         Storage::disk('public')->delete($mediaWarga->file_path);
-
 
         $mediaWarga->delete();
 
@@ -125,14 +122,14 @@ class MediaWargaController extends Controller
 
     public function edit(MediaWarga $mediaWarga)
     {
-        $wargas = Warga::all();
-        return view('media_warga.edit', compact('mediaWarga', 'wargas'));
+        $kartu_keluargas = KartuKeluarga::all();
+        return view('media_warga.edit', compact('mediaWarga', 'kartu_keluargas'));
     }
 
     public function update(Request $request, MediaWarga $mediaWarga)
     {
         $request->validate([
-            'warga_id' => 'required|exists:warga,id',
+            'kk_id' => 'required|exists:kartu_keluargas,id',
             'file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
             'keterangan' => 'nullable|string'
         ]);
@@ -150,7 +147,7 @@ class MediaWargaController extends Controller
         }
 
         $mediaWarga->update([
-            'warga_id' => $request->warga_id,
+            'kk_id' => $request->kk_id,
             'keterangan' => $request->keterangan
         ]);
 

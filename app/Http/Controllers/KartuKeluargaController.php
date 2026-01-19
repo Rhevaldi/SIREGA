@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warga;
 use App\Models\Region;
+use Illuminate\Http\Request;
 use App\Models\KartuKeluarga;
 use App\Http\Requests\KartuKeluarga\StoreKartuKeluargaRequest;
 use App\Http\Requests\KartuKeluarga\UpdateKartuKeluargaRequest;
@@ -72,8 +73,22 @@ class KartuKeluargaController extends Controller
      */
     public function show(KartuKeluarga $kartuKeluarga)
     {
-        //
+        $kartuKeluarga->load([
+            'warga' => function ($query) {
+                $query->with('pekerjaan')->orderBy('created_at', 'asc');
+            },
+            'media' // jika ada relasi media
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'kartu_keluarga' => $kartuKeluarga,
+            'warga' => $kartuKeluarga->warga,
+            'media' => $kartuKeluarga->media ?? [],
+        ]);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

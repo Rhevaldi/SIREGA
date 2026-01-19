@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Warga\WargaStoreRequest;
-use App\Http\Requests\Warga\WargaUpdateRequest;
 use App\Models\Rt;
 use App\Models\Warga;
-use App\Models\Kategori;
-use Illuminate\Http\Request;
 use App\Models\Bansos;
+use App\Models\Kategori;
+use App\Models\Pekerjaan;
+use Illuminate\Http\Request;
+use App\Models\KartuKeluarga;
+use App\Http\Requests\Warga\WargaStoreRequest;
+use App\Http\Requests\Warga\WargaUpdateRequest;
 
 class WargaController extends Controller
 {
     public function index()
     {
-        $wargas = Warga::with(['rt', 'kategori', 'bansos'])->get();
+        $wargas = Warga::with(['rt', 'kategori', 'bansos', 'pekerjaan', 'kartuKeluarga'])->get();
         $bansosList = Bansos::orderBy('nama_program')->get();
 
         return view('warga.index', compact('wargas', 'bansosList'));
@@ -22,10 +24,77 @@ class WargaController extends Controller
 
     public function create()
     {
-
-        $rts = Rt::orderBy('rt')->get();
+        $kartu_keluargas = KartuKeluarga::select(['no_kk'])->orderBy('no_kk', 'ASC')->get();
         $kategoris = Kategori::orderBy('tipe')->get();
-        return view('warga.create', compact('rts', 'kategoris'));
+        $religions = [
+            'Islam' => 'Islam',
+            'Kristen' => 'Kristen',
+            'Katolik' => 'Katolik',
+            'Hindu' => 'Hindu',
+            'Buddha' => 'Buddha',
+            'Konghucu' => 'Konghucu',
+            'Kepercayaan lainnya' => 'Kepercayaan lainnya'
+        ];
+        $jenis_kelamin = [
+            'L' => 'Laki-laki',
+            'P' => 'Perempuan'
+        ];
+        $pendidikan = [
+            'Tidak/Belum Sekolah' => 'Tidak/Belum Sekolah',
+            'Belum Tamat SD/Sederajat' => 'Belum Tamat SD/Sederajat',
+            'Tamat SD/Sederajat' => 'Tamat SD/Sederajat',
+            'SLTP/Sederajat' => 'SLTP/Sederajat',
+            'SLTA/Sederajat' => 'SLTA/Sederajat',
+            'Diploma I/II' => 'Diploma I/II',
+            'Diploma III/Sarjana Muda' => 'Diploma III/Sarjana Muda',
+            'Diploma IV/Strata I' => 'Diploma IV/Strata I',
+            'Strata II' => 'Strata II',
+            'Strata III' => 'Strata III',
+        ];
+        $pekerjaans = Pekerjaan::select(['id', 'nama'])->orderBy('nama')->get();
+        $status_perkawinan = [
+            'Kawin Tercatat' => 'Kawin Tercatat',
+            'Kawin Tidak Tercatat' => 'Kawin Tidak Tercatat',
+            'Kawin' => 'Kawin',
+            'Belum Kawin' => 'Belum Kawin',
+            'Cerai Hidup' => 'Cerai Hidup',
+            'Cerai Mati' => 'Cerai Mati'
+        ];
+        $status_hubungan = [
+            'Kepala Keluarga' => 'Kepala Keluarga',
+            'Suami' => 'Suami',
+            'Istri' => 'Istri',
+            'Anak' => 'Anak',
+            'Menantu' => 'Menantu',
+            'Cucu' => 'Cucu',
+            'Orang Tua' => 'Orang Tua',
+            'Mertua' => 'Mertua',
+            'Famili Lain' => 'Famili Lain',
+            'Lainnya' => 'Lainnya'
+        ];
+        $status_warga = [
+            'Aktif' => 'Aktif',
+            'Pindah' => 'Pindah',
+            'Meninggal' => 'Meninggal',
+            'Sementara' => 'Sementara',
+            'Tidak Diketahui' => 'Tidak Diketahui',
+            'Keluar' => 'Keluar',
+            'Baru' => 'Baru',
+            'Hilang' => 'Hilang',
+            'WNA' => 'Warga Negara Asing'
+        ];
+
+        return view('warga.create', compact(
+            'kartu_keluargas',
+            'kategoris',
+            'religions',
+            'jenis_kelamin',
+            'pendidikan',
+            'pekerjaans',
+            'status_perkawinan',
+            'status_hubungan',
+            'status_warga'
+        ));
     }
 
     public function store(WargaStoreRequest $request)
@@ -34,7 +103,16 @@ class WargaController extends Controller
 
         $warga = Warga::create($validated);
 
-        if ($request->kategori) {
+        // Jika Kepala Keluarga, update nama di tabel KK
+        if ($validated['status_hubungan'] === 'Kepala Keluarga') {
+            KartuKeluarga::where('no_kk', $validated['no_kk'])
+                ->update([
+                    'nama_kepala_keluarga' => $validated['nama']
+                ]);
+        }
+
+        // Attach kategori (jika ada)
+        if ($request->filled('kategori')) {
             foreach ($request->kategori as $kategori_id => $nilai) {
                 if ($nilai !== null && $nilai !== '') {
                     $warga->kategori()->attach($kategori_id, [
@@ -44,20 +122,87 @@ class WargaController extends Controller
             }
         }
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
+        return redirect()
+            ->route('warga.index')
+            ->with('success', 'Data warga berhasil ditambahkan.');
     }
 
     public function edit(Warga $warga)
     {
+        $kartu_keluargas = KartuKeluarga::select(['no_kk'])->orderBy('no_kk', 'ASC')->get();
         $rts = Rt::all();
         $kategoris = Kategori::orderBy('tipe')->orderBy('kode')->get();
+        $religions = [
+            'Islam' => 'Islam',
+            'Kristen' => 'Kristen',
+            'Katolik' => 'Katolik',
+            'Hindu' => 'Hindu',
+            'Buddha' => 'Buddha',
+            'Konghucu' => 'Konghucu',
+            'Kepercayaan lainnya' => 'Kepercayaan lainnya'
+        ];
+        $jenis_kelamin = [
+            'L' => 'Laki-laki',
+            'P' => 'Perempuan'
+        ];
+        $pendidikan = [
+            'Tidak/Belum Sekolah' => 'Tidak/Belum Sekolah',
+            'Belum Tamat SD/Sederajat' => 'Belum Tamat SD/Sederajat',
+            'Tamat SD/Sederajat' => 'Tamat SD/Sederajat',
+            'SLTP/Sederajat' => 'SLTP/Sederajat',
+            'SLTA/Sederajat' => 'SLTA/Sederajat',
+            'Diploma I/II' => 'Diploma I/II',
+            'Diploma III/Sarjana Muda' => 'Diploma III/Sarjana Muda',
+            'Diploma IV/Strata I' => 'Diploma IV/Strata I',
+            'Strata II' => 'Strata II',
+            'Strata III' => 'Strata III',
+        ];
+        $pekerjaans = Pekerjaan::select(['id', 'nama'])->orderBy('nama')->get();
+        $status_perkawinan = [
+            'Kawin Tercatat' => 'Kawin Tercatat',
+            'Kawin Tidak Tercatat' => 'Kawin Tidak Tercatat',
+            'Kawin' => 'Kawin',
+            'Belum Kawin' => 'Belum Kawin',
+            'Cerai Hidup' => 'Cerai Hidup',
+            'Cerai Mati' => 'Cerai Mati'
+        ];
+        $status_hubungan = [
+            'Kepala Keluarga' => 'Kepala Keluarga',
+            'Suami' => 'Suami',
+            'Istri' => 'Istri',
+            'Anak' => 'Anak',
+            'Menantu' => 'Menantu',
+            'Cucu' => 'Cucu',
+            'Orang Tua' => 'Orang Tua',
+            'Mertua' => 'Mertua',
+            'Famili Lain' => 'Famili Lain',
+            'Lainnya' => 'Lainnya'
+        ];
+        $status_warga = [
+            'Aktif' => 'Aktif',
+            'Pindah' => 'Pindah',
+            'Meninggal' => 'Meninggal',
+            'Sementara' => 'Sementara',
+            'Tidak Diketahui' => 'Tidak Diketahui',
+            'Keluar' => 'Keluar',
+            'Baru' => 'Baru',
+            'Hilang' => 'Hilang',
+            'WNA' => 'Warga Negara Asing'
+        ];
 
         $warga->load('kategori');
 
         return view('warga.edit', compact(
             'warga',
-            'rts',
-            'kategoris'
+            'kartu_keluargas',
+            'kategoris',
+            'religions',
+            'jenis_kelamin',
+            'pendidikan',
+            'pekerjaans',
+            'status_perkawinan',
+            'status_hubungan',
+            'status_warga'
         ));
     }
 
@@ -89,7 +234,7 @@ class WargaController extends Controller
     }
 
 
-   
+
     public function search(Request $request)
     {
         $keyword = $request->keyword;

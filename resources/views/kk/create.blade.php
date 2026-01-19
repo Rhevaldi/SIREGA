@@ -214,7 +214,7 @@
                                         <i class="fas fa-location-arrow"></i> Gunakan Lokasi Saat Ini
                                     </button>
                                 </label>
-                                <div id="map" style="height:300px;"></div>
+                                <div id="mapForm" style="height:300px;"></div>
                             </div>
                         </div>
                     </div>
@@ -229,8 +229,8 @@
             let latRaw = "{{ old('latitude') }}";
             let lngRaw = "{{ old('longitude') }}";
 
-            let lat = parseFloat(latRaw);
-            let lng = parseFloat(lngRaw);
+            let latForm = parseFloat(latRaw);
+            let lngForm = parseFloat(lngRaw);
 
             // 2. Tentukan koordinat awal (Default: Jakarta atau tengah Indonesia) 
             // agar map tidak error saat inisialisasi awal
@@ -238,29 +238,29 @@
             let defaultLng = 106.816666;
 
             // 3. Cek apakah koordinat valid (tidak NaN)
-            const hasCoords = !isNaN(lat) && !isNaN(lng);
+            const hasCoords = !isNaN(latForm) && !isNaN(lngForm);
 
             // Inisialisasi map dengan koordinat yang ada atau default
-            const map = L.map('map').setView([hasCoords ? lat : defaultLat, hasCoords ? lng : defaultLng], 14);
+            const mapForm = L.map('mapForm').setView([hasCoords ? latForm : defaultLat, hasCoords ? lngForm : defaultLng], 14);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap'
-            }).addTo(map);
+            }).addTo(mapForm);
 
             // Inisialisasi marker
-            let marker = L.marker([hasCoords ? lat : defaultLat, hasCoords ? lng : defaultLng], {
+            let markerForm = L.marker([hasCoords ? latForm : defaultLat, hasCoords ? lngForm : defaultLng], {
                 draggable: true
-            }).addTo(map);
+            }).addTo(mapForm);
 
-            function updateLatLng(lat, lng) {
-                document.getElementById('latitude').value = lat.toFixed(8);
-                document.getElementById('longitude').value = lng.toFixed(8);
-                marker.setLatLng([lat, lng]);
-                map.setView([lat, lng], 16);
+            function updateLatLng(latForm, lngForm) {
+                document.getElementById('latitude').value = latForm.toFixed(8);
+                document.getElementById('longitude').value = lngForm.toFixed(8);
+                markerForm.setLatLng([latForm, lngForm]);
+                mapForm.setView([latForm, lngForm], 16);
             }
 
-            map.on('click', e => updateLatLng(e.latlng.lat, e.latlng.lng));
-            marker.on('dragend', e => updateLatLng(e.target.getLatLng().lat, e.target.getLatLng().lng));
+            mapForm.on('click', e => updateLatLng(e.latlng.latForm, e.latlng.lngForm));
+            markerForm.on('dragend', e => updateLatLng(e.target.getLatLng().latForm, e.target.getLatLng().lngForm));
 
             function getLocation() {
                 if (navigator.geolocation) {
@@ -279,7 +279,7 @@
             if (!hasCoords) {
                 getLocation();
             } else {
-                updateLatLng(lat, lng);
+                updateLatLng(latForm, lngForm);
             }
         </script>
     @endpush

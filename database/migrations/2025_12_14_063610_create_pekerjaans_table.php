@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('media_warga', function (Blueprint $table) {
+        Schema::create('pekerjaans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kk_id')->constrained('kartu_keluargas')->onDelete('cascade'); // foreign key ke kartu_keluargas.id
-            $table->string('file_name');
-            $table->string('file_type');
-            $table->string('file_path');
-            $table->text('keterangan')->nullable();
+            $table->string('kode', 10)->unique();
+            $table->string('nama');
+            $table->string('keterangan')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('media_warga');
+        Schema::dropIfExists('pekerjaans');
     }
 };

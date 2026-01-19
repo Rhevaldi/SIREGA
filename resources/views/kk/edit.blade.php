@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Kartu Keluarga Baru')
-@section('page-title', 'Kartu Keluarga Baru')
+@section('title', 'Edit Kartu Keluarga')
+@section('page-title', 'Edit Kartu Keluarga')
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title mt-1">Form Kartu Keluarga Baru</h3>
+                    <h3 class="card-title mt-1">Form Edit Kartu Keluarga</h3>
                     <a href="{{ route('kk.index') }}" class="btn btn-sm btn-secondary float-right">
                         <i class="fas fa-arrow-left"></i> Daftar Kartu Keluarga
                     </a>

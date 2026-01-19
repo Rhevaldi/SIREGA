@@ -24,7 +24,8 @@
                 <thead>
                     <tr class="text-nowrap">
                         <th>#</th>
-                        <th>Nama Warga</th>
+                        <th>No. Kartu Keluarga</th>
+                        <th>Kepala Keluarga</th>
                         <th class="text-center">Jumlah Dokumen</th>
                         <th style="width: 500px;">Foto</th>
                         <th>Aksi</th>
@@ -36,16 +37,19 @@
                             <td>
                                 {{ $loop->iteration }}
                             </td>
+                            <td>
+                                {{ $media->kartuKeluarga->no_kk ?? '-' }}
+                            </td>
                             <td class="text-nowrap">
-                                {{ $media->warga->nama ?? '-' }}
+                                {{ $media->kartuKeluarga->nama_kepala_keluarga ?? 'null' }}
                             </td>
                             <td class="text-center">
-                                {{ $media->warga->medias->count() }}
+                                {{ $media->kartuKeluarga->media->count() }}
                             </td>
                             <td>
                                 <div uk-lightbox="slidenav: false; nav: thumbnav">
                                     <ul class="list-inline mb-0">
-                                        @foreach ($media->warga->medias->take(5) as $item)
+                                        @foreach ($media->kartuKeluarga->media->take(5) as $item)
                                             <li class="list-inline-item">
                                                 <a href="/storage/{{ $item->file_path }}"
                                                     data-caption="{{ $item->keterangan }}">
