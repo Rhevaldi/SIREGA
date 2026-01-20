@@ -151,7 +151,7 @@
                                         <option value="">-- Pilih Pekerjaan --</option>
                                         @foreach ($pekerjaans as $pekerjaan)
                                             <option value="{{ $pekerjaan->id }}"
-                                                {{ old('pekerjaan') == $pekerjaan->id ? 'selected' : '' }}>
+                                                {{ old('pekerjaan_id') == $pekerjaan->id ? 'selected' : '' }}>
                                                 {{ $pekerjaan->nama }}
                                             </option>
                                         @endforeach
