@@ -143,9 +143,6 @@ class KartuKeluargaController extends Controller
      */
     public function destroy(KartuKeluarga $kartuKeluarga)
     {
-        // Set `no_kk` to null for all related `Warga` records
-        // Warga::where('kk_id', $kartuKeluarga->id)->update(['kk_id' => null]);
-
         $kartuKeluarga->delete();
 
         return redirect()->route('kk.index')->with('success', 'Data Kartu Keluarga berhasil dihapus.');

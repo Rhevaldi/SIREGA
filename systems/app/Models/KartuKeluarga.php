@@ -10,6 +10,20 @@ class KartuKeluarga extends Model
 {
     use HasFactory;
 
+    protected static function booted()
+    {
+        static::deleting(function ($kk) {
+            // Hapus semua warga terkait
+            $kk->warga()->each(function ($warga) {
+                $warga->delete();
+            });
+        });
+
+        static::deleting(function ($kk) {
+            $kk->media()->each(fn($media) => $media->delete());
+        });
+    }
+
     protected $fillable = [
         'no_kk',
         'nama_kepala_keluarga',
@@ -53,6 +67,7 @@ class KartuKeluarga extends Model
     {
         return $this->hasMany(Warga::class, 'no_kk', 'no_kk');
     }
+
 
     public function media()
     {
