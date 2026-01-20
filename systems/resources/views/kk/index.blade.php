@@ -15,76 +15,78 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="kkTable" class="table table-bordered table-hover defaultDataTable">
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th>No KK</th>
-                                <th>Nama Kepala Keluarga</th>
-                                <th>Desa/Kelurahan</th>
-                                <th class="text-center">Latitude</th>
-                                <th class="text-center">Longitude</th>
-                                <th class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $kk)
+                    <div class="table-responsive">
+                        <table id="kkTable" class="table table-bordered table-hover defaultDataTable">
+                            <thead>
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $kk->no_kk }}
-                                    </td>
-                                    <td>
-                                        {{ $kk->nama_kepala_keluarga ?? 'null' }}
-                                    </td>
-                                    <td>
-                                        {{ $kk->desa }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $kk->latitude }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $kk->longitude }}
-                                    </td>
-
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-info btn-sm text-nowrap btnShowKK"
-                                                data-id="{{ $kk->id }}">
-                                                <i class="fas fa-eye"></i> Detail
-                                            </button>
-
-                                            <a class="btn btn-warning btn-sm" href="{{ route('kk.edit', $kk->id) }}">
-                                                <i class="fas fa-pencil-alt"></i>
-                                                Edit
-                                            </a>
-
-                                            <form action="{{ route('kk.destroy', $kk->id) }}" method="POST"
-                                                style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus kartu keluarga ini?')">
-                                                    <i class="fas fa-trash"></i> Hapus
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
+                                    <th class="text-center">#</th>
+                                    <th>No KK</th>
+                                    <th>Nama Kepala Keluarga</th>
+                                    <th>Desa/Kelurahan</th>
+                                    <th class="text-center">Latitude</th>
+                                    <th class="text-center">Longitude</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th>No KK</th>
-                                <th>Nama Kepala Keluarga</th>
-                                <th>Desa/Kelurahan</th>
-                                <th class="text-center">Latitude</th>
-                                <th class="text-center">Longitude</th>
-                                <th class="text-center">Aksi</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $kk)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $kk->no_kk }}
+                                        </td>
+                                        <td>
+                                            {{ $kk->nama_kepala_keluarga ?? 'null' }}
+                                        </td>
+                                        <td>
+                                            {{ $kk->desa }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $kk->latitude }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $kk->longitude }}
+                                        </td>
+
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-info btn-sm text-nowrap btnShowKK"
+                                                    data-id="{{ $kk->id }}">
+                                                    <i class="fas fa-eye"></i> Detail
+                                                </button>
+
+                                                <a class="btn btn-warning btn-sm" href="{{ route('kk.edit', $kk->id) }}">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                    Edit
+                                                </a>
+
+                                                <form action="{{ route('kk.destroy', $kk->id) }}" method="POST"
+                                                    style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus kartu keluarga ini?')">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>No KK</th>
+                                    <th>Nama Kepala Keluarga</th>
+                                    <th>Desa/Kelurahan</th>
+                                    <th class="text-center">Latitude</th>
+                                    <th class="text-center">Longitude</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
