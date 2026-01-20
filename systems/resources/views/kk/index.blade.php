@@ -16,7 +16,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="kkTable" class="table table-bordered table-hover defaultDataTable">
+                        <table id="kkTable" class="table table-bordered table-hover text-nowrap defaultDataTable">
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
