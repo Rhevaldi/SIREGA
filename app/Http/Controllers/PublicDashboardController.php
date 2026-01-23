@@ -60,6 +60,11 @@ class PublicDashboardController extends Controller
                 ];
             });
 
+        $jenisKelamin = [
+            'laki' => Warga::where('jenis_kelamin', 'L')->count(),
+            'perempuan' => Warga::where('jenis_kelamin', 'P')->count(),
+        ];
+
         return view('welcome', compact(
             'totalWarga',
             'totalKK',
@@ -67,7 +72,8 @@ class PublicDashboardController extends Controller
             'statistik',
             'wargas',
             'listTahun',
-            'tahunAktif'
+            'tahunAktif',
+            'jenisKelamin'
         ));
     }
 }
