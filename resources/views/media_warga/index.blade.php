@@ -23,7 +23,7 @@
             <table class="table table-bordered table-striped defaultDataTable" style="width: 100% !important;">
                 <thead>
                     <tr class="text-nowrap">
-                        <th>#</th>
+                        <th>No</th>
                         <th>Nama Warga</th>
                         <th class="text-center">Jumlah Dokumen</th>
                         <th style="width: 500px;">Foto</th>

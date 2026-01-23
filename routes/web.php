@@ -11,7 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaWargaController;
 use App\Http\Controllers\BansosController;
 use App\Http\Controllers\BansosPenerimaController;
-
+use App\Http\Controllers\PublicDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +19,7 @@ use App\Http\Controllers\BansosPenerimaController;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicDashboardController::class, 'index'])->name('welcome');
 
 // Super Admin
 Route::middleware(['auth'])->group(function () {
