@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class KartuKeluarga extends Model
 {
@@ -54,15 +54,8 @@ class KartuKeluarga extends Model
         return $this->hasMany(Warga::class, 'no_kk', 'no_kk');
     }
 
-
-    public function medias(): HasMany
+    public function media_warga(): HasMany
     {
         return $this->hasMany(MediaWarga::class, 'kk_id', 'id');
-    }
-
-
-    public function kartuKeluarga()
-    {
-        return $this->belongsTo(KartuKeluarga::class, 'kk_id', 'id');
     }
 }

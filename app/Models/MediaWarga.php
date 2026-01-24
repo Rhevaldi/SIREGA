@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MediaWarga extends Model
 {
@@ -17,7 +16,7 @@ class MediaWarga extends Model
         'file_name',
         'file_type',
         'file_path',
-        'keterangan'
+        'keterangan',
     ];
 
     public function kartuKeluarga()

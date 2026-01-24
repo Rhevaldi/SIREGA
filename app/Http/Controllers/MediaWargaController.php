@@ -9,25 +9,22 @@ use Illuminate\Support\Facades\Storage;
 
 class MediaWargaController extends Controller
 {
-
     public function index()
     {
-        $kartuKeluargas = KartuKeluarga::with(['medias'])
-            ->withCount('medias')
-            ->has('medias')
+        $kartuKeluargas = KartuKeluarga::with(['media_warga'])
+            ->withCount('media_warga')
+            ->has('media_warga')
             ->get();
 
         return view('media_warga.index', compact('kartuKeluargas'));
     }
 
-
-
     public function create()
     {
         $kartu_keluargas = KartuKeluarga::all();
+
         return view('media_warga.create', compact('kartu_keluargas'));
     }
-
 
     // public function store(Request $request)
     // {
@@ -70,7 +67,7 @@ class MediaWargaController extends Controller
         $request->validate([
             'kk_id' => 'required|exists:kartu_keluargas,id',
             'file' => 'required|file|mimes:jpg,jpeg,png|max:5120',
-            'keterangan' => 'nullable|string'
+            'keterangan' => 'nullable|string',
         ]);
 
         $file = $request->file('file');
@@ -87,9 +84,9 @@ class MediaWargaController extends Controller
         // // Simpan file ke storage
         // $path = $file->storeAs('media_warga', $safeName, 'public');
         // custom nama file sudah termasuk file_extension
-        $file_name = now()->format('Ymd') . '_' . $uniqueId;
+        $file_name = now()->format('Ymd').'_'.$uniqueId;
         // Simpan file ke storage
-        $file_path = $file->storeAs('media_warga', $file_name . '.' . $extension, 'public');
+        $file_path = $file->storeAs('media_warga', $file_name.'.'.$extension, 'public');
 
         MediaWarga::create([
             'kk_id' => $request->kk_id,
@@ -101,19 +98,18 @@ class MediaWargaController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'File berhasil diupload'
+            'message' => 'File berhasil diupload',
         ]);
     }
 
     public function show($kk_id)
-{
-    $kk = KartuKeluarga::with('medias')->findOrFail($kk_id);
+    {
+        $kk = KartuKeluarga::with('media_warga')->findOrFail($kk_id);
 
-    return response()->json([
-        'medias' => $kk->medias
-    ]);
-}
-
+        return response()->json([
+            'media_warga' => $kk->media_warga,
+        ]);
+    }
 
     public function destroy(MediaWarga $mediaWarga)
     {
@@ -124,10 +120,10 @@ class MediaWargaController extends Controller
         return redirect()->route('media_warga.index')->with('success', 'File berhasil dihapus');
     }
 
-
     public function edit(MediaWarga $mediaWarga)
     {
         $kartu_keluargas = KartuKeluarga::all();
+
         return view('media_warga.edit', compact('mediaWarga', 'kartu_keluargas'));
     }
 
@@ -136,7 +132,7 @@ class MediaWargaController extends Controller
         $request->validate([
             'kk_id' => 'required|exists:kartu_keluargas,id',
             'file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
-            'keterangan' => 'nullable|string'
+            'keterangan' => 'nullable|string',
         ]);
 
         if ($request->hasFile('file')) {
@@ -153,7 +149,7 @@ class MediaWargaController extends Controller
 
         $mediaWarga->update([
             'kk_id' => $request->kk_id,
-            'keterangan' => $request->keterangan
+            'keterangan' => $request->keterangan,
         ]);
 
         return redirect()->route('media_warga.index')

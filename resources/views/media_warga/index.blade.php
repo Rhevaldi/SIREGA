@@ -44,12 +44,12 @@
                                 {{ $kk->nama_kepala_keluarga ?? 'null' }}
                             </td>
                             <td class="text-center">
-                                {{ $kk->medias->count() }}
+                                {{ $kk->media_warga->count() }}
                             </td>
                             <td>
                                 <div uk-lightbox="slidenav: false; nav: thumbnav">
                                     <ul class="list-inline mb-0">
-                                        @foreach ($kk->medias->take(5) as $item)
+                                        @foreach ($kk->media_warga->take(5) as $item)
                                             <li class="list-inline-item">
                                                 <a href="/storage/{{ $item->file_path }}"
                                                     data-caption="{{ $item->keterangan }}">
@@ -116,7 +116,7 @@
                         url: '/media_warga/' + mediaId,
                         type: 'GET',
                         success: function(response) {
-                            var mediaList = response.medias;
+                            var mediaList = response.media_warga;
                             var modalBody = '';
                             if (mediaList.length > 0) {
                                 modalBody +=
