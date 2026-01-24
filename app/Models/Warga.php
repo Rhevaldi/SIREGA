@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+
 
 class Warga extends Model
 {
@@ -79,9 +81,16 @@ class Warga extends Model
         return $this->hasMany(BansosPenerima::class, 'warga_id');
     }
 
-    public function medias(): HasMany
+    public function medias(): HasManyThrough
     {
-        return $this->hasMany(MediaWarga::class, 'warga_id');
+        return $this->hasManyThrough(
+            MediaWarga::class,
+            KartuKeluarga::class,
+            'no_kk',     
+            'kk_id',     
+            'no_kk',     
+            'id'         
+        );
     }
 
     // Semua bansos yang pernah diterima

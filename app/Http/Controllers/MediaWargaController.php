@@ -12,11 +12,14 @@ class MediaWargaController extends Controller
 
     public function index()
     {
-        $medias = MediaWarga::with('kartuKeluarga')->get()->groupBy('no_kk')->map(function ($group) {
-            return $group->first();
-        })->values();
-        return view('media_warga.index', compact('medias'));
+        $kartuKeluargas = KartuKeluarga::with(['medias'])
+            ->withCount('medias')
+            ->has('medias')
+            ->get();
+
+        return view('media_warga.index', compact('kartuKeluargas'));
     }
+
 
 
     public function create()
@@ -102,13 +105,15 @@ class MediaWargaController extends Controller
         ]);
     }
 
-    public function show(MediaWarga $mediaWarga)
-    {
-        return response()->json([
-            'medias' => $mediaWarga->kartuKeluarga->media()->get()
-        ]);
-        // return response()->download(storage_path('app/public/' . $mediaWarga->file_path), $mediaWarga->file_name);
-    }
+    public function show($kk_id)
+{
+    $kk = KartuKeluarga::with('medias')->findOrFail($kk_id);
+
+    return response()->json([
+        'medias' => $kk->medias
+    ]);
+}
+
 
     public function destroy(MediaWarga $mediaWarga)
     {

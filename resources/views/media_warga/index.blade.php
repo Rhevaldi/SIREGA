@@ -32,24 +32,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($medias as $media)
+                    @foreach ($kartuKeluargas as $kk)
                         <tr>
                             <td>
                                 {{ $loop->iteration }}
                             </td>
                             <td>
-                                {{ $media->kartuKeluarga->no_kk ?? '-' }}
+                                {{ $kk->no_kk ?? '-' }}
                             </td>
                             <td class="text-nowrap">
-                                {{ $media->kartuKeluarga->nama_kepala_keluarga ?? 'null' }}
+                                {{ $kk->nama_kepala_keluarga ?? 'null' }}
                             </td>
                             <td class="text-center">
-                                {{ $media->kartuKeluarga->media->count() }}
+                                {{ $kk->medias->count() }}
                             </td>
                             <td>
                                 <div uk-lightbox="slidenav: false; nav: thumbnav">
                                     <ul class="list-inline mb-0">
-                                        @foreach ($media->kartuKeluarga->media->take(5) as $item)
+                                        @foreach ($kk->medias->take(5) as $item)
                                             <li class="list-inline-item">
                                                 <a href="/storage/{{ $item->file_path }}"
                                                     data-caption="{{ $item->keterangan }}">
@@ -73,23 +73,13 @@
                             {{-- <td>{{ $media->keterangan }}</td> --}}
                             <td class="text-nowrap">
                                 <div class="btn-group" role="group">
-                                    <button type="button" id="showMedia" data-id="{{ $media->id }}"
+                                    <button type="button" id="showMedia" data-id="{{ $kk->id }}"
                                         class="btn btn-info btn-sm btn-flat">
                                         <i class="fas fa-eye"></i> Detail Media
-                                        {{-- <a href="{{ route('media_warga.edit', $media->id) }}" class="btn btn-warning btn-sm">
-                                        Detail Media
-                                    </a>  --}}
                                     </button>
-                                    <form action="{{ route('media_warga.destroy', $media->id) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Yakin ingin hapus?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm btn-flat">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -134,28 +124,38 @@
                                 mediaList.forEach(function(media) {
                                     if (['jpg', 'jpeg', 'png'].includes(media.file_type)) {
                                         modalBody +=
-                                            '<div class="col-md-4 text-center">';
+                                            '<div class="col-md-4 text-center mb-3">';
                                         modalBody += '<a href="/storage/' + media
-                                            .file_path + '" data-caption="' + media
-                                            .keterangan + '">';
+                                            .file_path + '" data-caption="' + (media
+                                                .keterangan ?? '') + '">';
                                         modalBody += '<img src="/storage/' + media
                                             .file_path +
-                                            '" width="200" class="img-fixed mb-1"><br>';
+                                            '" width="200" class="img-fixed mb-1" onerror="this.style.display=\'none\'"><br>';
                                         modalBody += '</a>';
-                                        modalBody += '<a href="/storage/' + media
-                                            .file_path + '" target="_blank">' + media
-                                            .file_name + '.' + media.file_type + '</a>';
-                                        modalBody += '<p class="mb-0">' + media.keterangan +
-                                            '</p>';
-                                        modalBody += '</div>';
+                                        modalBody += '<p class="mb-0">' + (media
+                                            .keterangan ?? '-') + '</p>';
                                     } else {
                                         modalBody += '<div class="mb-3">';
                                         modalBody += '<a href="/storage/' + media
                                             .file_path + '" target="_blank">' + media
                                             .file_name + '</a>';
-                                        modalBody += '</div>';
                                     }
+
+                                    // 🔥 TOMBOL HAPUS PER FILE
+                                    modalBody += `
+        <form method="POST" action="/media_warga/${media.id}" 
+            onsubmit="return confirm('Yakin ingin menghapus file ini?')" class="mt-2">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Hapus
+            </button>
+        </form>
+    `;
+
+                                    modalBody += '</div>';
                                 });
+
                                 modalBody += '</div>';
                             } else {
                                 modalBody = '<p>Tidak ada media tersedia.</p>';

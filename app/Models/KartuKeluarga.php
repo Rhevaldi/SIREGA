@@ -54,8 +54,15 @@ class KartuKeluarga extends Model
         return $this->hasMany(Warga::class, 'no_kk', 'no_kk');
     }
 
-    public function media()
+
+    public function medias(): HasMany
     {
         return $this->hasMany(MediaWarga::class, 'kk_id', 'id');
+    }
+
+
+    public function kartuKeluarga()
+    {
+        return $this->belongsTo(KartuKeluarga::class, 'kk_id', 'id');
     }
 }
