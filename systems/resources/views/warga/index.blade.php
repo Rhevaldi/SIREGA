@@ -244,7 +244,7 @@
                                             </tr>
                                             <tr>
                                                 <th>Pekerjaan</th>
-                                                <td class="text-uppercase">: {{ $warga->pekerjaan->nama }}</td>
+                                                <td class="text-uppercase">: {{ $warga->pekerjaan?->nama }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Status Dalam Keluarga</th>
