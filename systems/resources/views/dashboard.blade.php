@@ -214,6 +214,9 @@
             var wargaMarkers = {!! json_encode($wargas) !!};
             var markerGroup = L.featureGroup();
 
+            console.log(wargaMarkers);
+
+
             // wargaMarkers.forEach(function(warga) {
             //     if (!warga.latitude || !warga.longitude) return;
 

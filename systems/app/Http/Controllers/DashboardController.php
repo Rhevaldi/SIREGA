@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Warga;
+use App\Models\KartuKeluarga;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -51,69 +52,73 @@ class DashboardController extends Controller
         // ===============================
         // DATA WARGA UNTUK MAP & MODAL
         // ===============================
-        $wargas = Warga::with([
-            'rt',
-            'bansosAll',
-            'bansosTahunBerjalan',
-            'kartuKeluarga.media'
-        ])
-            ->get()
-            ->map(function ($warga) {
-                return [
-                    ...$warga->only([
-                        'no_kk',
-                        'nik',
-                        'nama',
-                        'jenis_kelamin',
-                        'tempat_lahir',
-                        'tanggal_lahir',
-                        'agama',
-                        'pendidikan',
-                        'pekerjaan',
-                        'status_hubungan',
-                        'status_perkawinan',
-                        'status_warga',
-                        'alamat',
-                        'latitude',
-                        'longitude',
-                    ]),
+        // Ambil data KartuKeluarga, bungkus data `warga` di dalamnya beserta bansos dan medias.
+        $wargas = KartuKeluarga::with([
+            'warga.rt',
+            'warga.bansosAll',
+            'warga.bansosTahunBerjalan',
+            'media'
+        ])->get()->map(function (KartuKeluarga $kk) {
+            return [
+                ...$kk->only([
+                    'id',
+                    'no_kk',
+                    'nama_kepala_keluarga',
+                    'alamat',
+                    'rt',
+                    'rw',
+                    'desa',
+                    'kecamatan',
+                    'kabupaten',
+                    'provinsi',
+                    'kode_pos',
+                    'latitude',
+                    'longitude',
+                ]),
 
-                    'rt' => [
-                        'id' => $warga->rt?->id,
-                        'rt' => $warga->rt?->rt,
-                    ],
+                'warga' => $kk->warga->map(function ($warga) {
+                    return [
+                        ...$warga->only([
+                            'nik',
+                            'nama',
+                            'jenis_kelamin',
+                            'tempat_lahir',
+                            'tanggal_lahir',
+                            'agama',
+                            'pendidikan',
+                            'pekerjaan',
+                            'status_hubungan',
+                            'status_perkawinan',
+                            'status_warga',
+                        ]),
 
-                    // ===============================
-                    // BANSOS (via bansos_penerima.warga_id)
-                    // ===============================
-                    'bansos_all' => $warga->bansosAll->map(function ($b) {
-                        return [
-                            'nama'       => $b->nama_program ?? $b->nama_bansos,
-                            'tahun'      => \Carbon\Carbon::parse(
-                                $b->pivot->tanggal_penerimaan
-                            )->year,
-                            'keterangan' => $b->pivot->keterangan ?? '-',
-                            'status'     => $b->pivot->status,
-                            'tanggal'    => $b->pivot->tanggal_penerimaan,
-                        ];
-                    })->values(),
+                        // BANSOS (via bansos_penerima.warga_id)
+                        'bansos_all' => $warga->bansosAll->map(function ($b) {
+                            return [
+                                'nama'       => $b->nama_program ?? $b->nama_bansos,
+                                'tahun'      => \Carbon\Carbon::parse($b->pivot->tanggal_penerimaan)->year,
+                                'keterangan' => $b->pivot->keterangan ?? '-',
+                                'status'     => $b->pivot->status,
+                                'tanggal'    => $b->pivot->tanggal_penerimaan,
+                            ];
+                        })->values(),
 
-                    'has_bansos_tahun_berjalan' =>
-                    $warga->bansosTahunBerjalan->isNotEmpty(),
+                        'has_bansos_tahun_berjalan' =>
+                        $warga->bansosTahunBerjalan->isNotEmpty(),
+                    ];
+                })->values(),
 
-                    // ===============================
-                    // MEDIA → DARI KARTU KELUARGA
-                    // ===============================
-                    'medias' => $warga->kartuKeluarga?->media->map(function ($m) {
-                        return [
-                            'file_path'  => $m->file_path,
-                            'file_name'  => $m->file_name,
-                            'file_type'  => $m->file_type,
-                            'keterangan' => $m->keterangan,
-                        ];
-                    })->values() ?? [],
-                ];
-            });
+                // MEDIA → dari KartuKeluarga
+                'medias' => $kk->media->map(function ($m) {
+                    return [
+                        'file_path'  => $m->file_path,
+                        'file_name'  => $m->file_name,
+                        'file_type'  => $m->file_type,
+                        'keterangan' => $m->keterangan,
+                    ];
+                })->values() ?? [],
+            ];
+        })->values();
 
         return view('dashboard', compact(
             'totalWarga',
