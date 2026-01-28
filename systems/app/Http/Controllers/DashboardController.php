@@ -55,7 +55,7 @@ class DashboardController extends Controller
             'rt',
             'bansosAll',
             'bansosTahunBerjalan',
-            'kartuKeluarga.medias'
+            'kartuKeluarga.media'
         ])
             ->get()
             ->map(function ($warga) {
