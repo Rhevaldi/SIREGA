@@ -79,11 +79,6 @@ class Warga extends Model
         return $this->hasMany(BansosPenerima::class, 'warga_id');
     }
 
-    public function medias(): HasMany
-    {
-        return $this->hasMany(MediaWarga::class, 'warga_id');
-    }
-
     // Semua bansos yang pernah diterima
     public function bansosAll()
     {

@@ -12,7 +12,6 @@ class DashboardController extends Controller
         $tahunBerjalan = now()->year;
 
         $totalWarga = Warga::count();
-
         $totalKK = Warga::distinct('no_kk')->count('no_kk');
 
         $statusWarga = [
@@ -21,6 +20,9 @@ class DashboardController extends Controller
             'wargaMeninggal' => Warga::where('status_warga', 'meninggal')->count(),
         ];
 
+        // ===============================
+        // LIST TAHUN BANSOS
+        // ===============================
         $listTahun = DB::table('bansos')
             ->select('tahun')
             ->distinct()
@@ -29,6 +31,9 @@ class DashboardController extends Controller
 
         $tahunAktif = request('tahun', $listTahun->first());
 
+        // ===============================
+        // STATISTIK PIE BANSOS
+        // ===============================
         $statistik = DB::table('bansos')
             ->leftJoin('bansos_penerima', function ($join) {
                 $join->on('bansos.id', '=', 'bansos_penerima.bansos_id')
@@ -43,8 +48,15 @@ class DashboardController extends Controller
             ->orderBy('bansos.nama_program')
             ->get();
 
-
-        $wargas = Warga::with(['rt', 'bansosAll', 'bansosTahunBerjalan'])
+        // ===============================
+        // DATA WARGA UNTUK MAP & MODAL
+        // ===============================
+        $wargas = Warga::with([
+            'rt',
+            'bansosAll',
+            'bansosTahunBerjalan',
+            'kartuKeluarga.medias'
+        ])
             ->get()
             ->map(function ($warga) {
                 return [
@@ -71,30 +83,37 @@ class DashboardController extends Controller
                         'rt' => $warga->rt?->rt,
                     ],
 
+                    // ===============================
+                    // BANSOS (via bansos_penerima.warga_id)
+                    // ===============================
                     'bansos_all' => $warga->bansosAll->map(function ($b) {
                         return [
-                            'nama'       => $b->nama_bansos,
-                            'tahun'      => \Carbon\Carbon::parse($b->tanggal_penerimaan)->year,
-                            'keterangan' => $b->keterangan ?? '-',
-                            'status'     => $b->status,
-                            'tanggal'    => $b->tanggal_penerimaan,
+                            'nama'       => $b->nama_program ?? $b->nama_bansos,
+                            'tahun'      => \Carbon\Carbon::parse(
+                                $b->pivot->tanggal_penerimaan
+                            )->year,
+                            'keterangan' => $b->pivot->keterangan ?? '-',
+                            'status'     => $b->pivot->status,
+                            'tanggal'    => $b->pivot->tanggal_penerimaan,
                         ];
                     })->values(),
 
                     'has_bansos_tahun_berjalan' =>
                     $warga->bansosTahunBerjalan->isNotEmpty(),
 
-                    'medias' => $warga->medias->map(function ($m) {
+                    // ===============================
+                    // MEDIA → DARI KARTU KELUARGA
+                    // ===============================
+                    'medias' => $warga->kartuKeluarga?->media->map(function ($m) {
                         return [
-                            'file_path' => $m->file_path,
-                            'file_name' => $m->file_name,
-                            'file_type' => $m->file_type,
+                            'file_path'  => $m->file_path,
+                            'file_name'  => $m->file_name,
+                            'file_type'  => $m->file_type,
                             'keterangan' => $m->keterangan,
                         ];
-                    })->values(),
+                    })->values() ?? [],
                 ];
             });
-
 
         return view('dashboard', compact(
             'totalWarga',
