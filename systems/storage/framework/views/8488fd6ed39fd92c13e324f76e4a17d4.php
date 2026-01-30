@@ -17,12 +17,12 @@
                 <?php echo csrf_field(); ?>
 
                 <div class="form-group mb-3">
-                    <label>Warga</label>
+                    <label>Kartu Keluarga</label>
                     <select name="kk_id" class="form-control select2bs4" required>
-                        <option value="">- Pilih Warga -</option>
+                        <option value="">- Pilih Kartu Keluarga -</option>
                         <?php $__currentLoopData = $kartu_keluargas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($kk->id); ?>">
-                                <?php echo e($kk->no_kk); ?> - <?php echo e($kk->nama_kepala_keluarga ?? 'null'); ?>
+                                <?php echo e($kk->no_kk); ?> | <?php echo e($kk->nama_kepala_keluarga ?? 'null'); ?>
 
                             </option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

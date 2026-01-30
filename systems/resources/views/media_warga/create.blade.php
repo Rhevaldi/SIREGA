@@ -19,9 +19,9 @@
                 @csrf
 
                 <div class="form-group mb-3">
-                    <label>Warga</label>
+                    <label>Kartu Keluarga</label>
                     <select name="kk_id" class="form-control select2bs4" required>
-                        <option value="">- Pilih Warga -</option>
+                        <option value="">- Pilih Kartu Keluarga -</option>
                         @foreach ($kartu_keluargas as $kk)
                             <option value="{{ $kk->id }}">
                                 {{ $kk->no_kk }} - {{ $kk->nama_kepala_keluarga ?? 'null' }}
