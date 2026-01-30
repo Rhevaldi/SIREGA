@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD:app/Models/MediaWarga.php
-=======
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
->>>>>>> dev:systems/app/Models/MediaWarga.php
 
 class MediaWarga extends Model
 {

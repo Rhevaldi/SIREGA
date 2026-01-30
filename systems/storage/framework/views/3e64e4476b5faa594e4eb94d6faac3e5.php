@@ -31,28 +31,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $__currentLoopData = $medias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $media): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = $kartuKeluargas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td>
                                 <?php echo e($loop->iteration); ?>
 
                             </td>
                             <td>
-                                <?php echo e($media->kartuKeluarga->no_kk ?? '-'); ?>
+                                <?php echo e($kk->no_kk ?? '-'); ?>
 
                             </td>
                             <td class="text-nowrap">
-                                <?php echo e($media->kartuKeluarga->nama_kepala_keluarga ?? 'null'); ?>
+                                <?php echo e($kk->nama_kepala_keluarga ?? 'null'); ?>
 
                             </td>
                             <td class="text-center">
-                                <?php echo e($media->kartuKeluarga->media->count()); ?>
+                                <?php echo e($kk->media_warga->count()); ?>
 
                             </td>
                             <td>
                                 <div uk-lightbox="slidenav: false; nav: thumbnav">
                                     <ul class="list-inline mb-0">
-                                        <?php $__currentLoopData = $media->kartuKeluarga->media->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $kk->media_warga->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <li class="list-inline-item">
                                                 <a href="/storage/<?php echo e($item->file_path); ?>"
                                                     data-caption="<?php echo e($item->keterangan); ?>">
@@ -69,21 +69,13 @@
                             
                             <td class="text-nowrap">
                                 <div class="btn-group" role="group">
-                                    <button type="button" id="showMedia" data-id="<?php echo e($media->id); ?>"
+                                    <button type="button" id="showMedia" data-id="<?php echo e($kk->id); ?>"
                                         class="btn btn-info btn-sm btn-flat">
                                         <i class="fas fa-eye"></i> Detail Media
-                                        
                                     </button>
-                                    <form action="<?php echo e(route('media_warga.destroy', $media->id)); ?>" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Yakin ingin hapus?');">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn btn-danger btn-sm btn-flat">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
+
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
@@ -120,7 +112,7 @@
                         url: '/media_warga/' + mediaId,
                         type: 'GET',
                         success: function(response) {
-                            var mediaList = response.medias;
+                            var mediaList = response.media_warga;
                             var modalBody = '';
                             if (mediaList.length > 0) {
                                 modalBody +=
@@ -128,28 +120,38 @@
                                 mediaList.forEach(function(media) {
                                     if (['jpg', 'jpeg', 'png'].includes(media.file_type)) {
                                         modalBody +=
-                                            '<div class="col-md-4 text-center">';
+                                            '<div class="col-md-4 text-center mb-3">';
                                         modalBody += '<a href="/storage/' + media
-                                            .file_path + '" data-caption="' + media
-                                            .keterangan + '">';
+                                            .file_path + '" data-caption="' + (media
+                                                .keterangan ?? '') + '">';
                                         modalBody += '<img src="/storage/' + media
                                             .file_path +
-                                            '" width="200" class="img-fixed mb-1"><br>';
+                                            '" width="200" class="img-fixed mb-1" onerror="this.style.display=\'none\'"><br>';
                                         modalBody += '</a>';
-                                        modalBody += '<a href="/storage/' + media
-                                            .file_path + '" target="_blank">' + media
-                                            .file_name + '.' + media.file_type + '</a>';
-                                        modalBody += '<p class="mb-0">' + media.keterangan +
-                                            '</p>';
-                                        modalBody += '</div>';
+                                        modalBody += '<p class="mb-0">' + (media
+                                            .keterangan ?? '-') + '</p>';
                                     } else {
                                         modalBody += '<div class="mb-3">';
                                         modalBody += '<a href="/storage/' + media
                                             .file_path + '" target="_blank">' + media
                                             .file_name + '</a>';
-                                        modalBody += '</div>';
                                     }
+
+                                    // 🔥 TOMBOL HAPUS PER FILE
+                                    modalBody += `
+        <form method="POST" action="/media_warga/${media.id}" 
+            onsubmit="return confirm('Yakin ingin menghapus file ini?')" class="mt-2">
+            <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Hapus
+            </button>
+        </form>
+    `;
+
+                                    modalBody += '</div>';
                                 });
+
                                 modalBody += '</div>';
                             } else {
                                 modalBody = '<p>Tidak ada media tersedia.</p>';

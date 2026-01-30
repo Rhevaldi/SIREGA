@@ -183,6 +183,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(res) {
+                    console.log(res);
                     // Header KK
                     $('#showNoKk').text(res.kartu_keluarga.no_kk ?? '-');
                     $('#showNamaKepalaKeluarga').text(res.kartu_keluarga.nama_kepala_keluarga ?? '-');
@@ -281,7 +282,9 @@
 
                     $('#mediaContainer').html(mediaHtml);
                 },
-                error: function() {
+                error: function(xhr) {
+                    // let response = xhr.responseJSON;
+                    // console.log(response.data);
                     $('#keluargaBody').html(`
                         <tr>
                             <td colspan="9" class="text-center text-danger">

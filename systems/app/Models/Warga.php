@@ -81,21 +81,18 @@ class Warga extends Model
         return $this->hasMany(BansosPenerima::class, 'warga_id');
     }
 
-<<<<<<< HEAD:app/Models/Warga.php
     public function medias(): HasManyThrough
     {
         return $this->hasManyThrough(
             MediaWarga::class,
             KartuKeluarga::class,
-            'no_kk',     
-            'kk_id',     
-            'no_kk',     
-            'id'         
+            'no_kk',
+            'kk_id',
+            'no_kk',
+            'id'
         );
     }
 
-=======
->>>>>>> dev:systems/app/Models/Warga.php
     // Semua bansos yang pernah diterima
     public function bansosAll()
     {

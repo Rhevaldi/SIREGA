@@ -194,7 +194,11 @@
                                             </tr>
                                             <tr>
                                                 <th>Pekerjaan</th>
+<<<<<<< HEAD:resources/views/warga/index.blade.php
+                                                <td class="text-uppercase">: <?php echo e($warga->pekerjaan->nama ?? '-'); ?></td>
+=======
                                                 <td class="text-uppercase">: <?php echo e($warga->pekerjaan?->nama); ?></td>
+>>>>>>> dev:systems/resources/views/warga/index.blade.php
                                             </tr>
                                             <tr>
                                                 <th>Status Dalam Keluarga</th>
