@@ -127,6 +127,27 @@ class WargaController extends Controller
             ->with('success', 'Data warga berhasil ditambahkan.');
     }
 
+    public function show(Warga $warga)
+    {
+        try {
+            $warga->load('kategori', 'pekerjaan', 'kartuKeluarga', 'bansos');
+
+            return response()->json([
+                'status' => true,
+                'warga' => $warga,
+                'kategori' => $warga->kategori,
+                'kartu_keluarga' => $warga->kartuKeluarga,
+                'bansos' => $warga->bansos,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'data' => $warga,
+                'status' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data Warga: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function edit(Warga $warga)
     {
         $kartu_keluargas = KartuKeluarga::select(['no_kk'])->orderBy('no_kk', 'ASC')->get();
@@ -232,8 +253,6 @@ class WargaController extends Controller
         $warga->delete();
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus.');
     }
-
-
 
     public function search(Request $request)
     {

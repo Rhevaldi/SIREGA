@@ -11,8 +11,7 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link font-italic font-weight-bold" data-toggle="dropdown" href="#">
-                <?php echo e(env('APP_NAME')); ?>
-
+                <?php echo e(Auth::user()->name); ?> <i class="fas fa-chevron-circle-down ml-1"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 

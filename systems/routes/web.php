@@ -41,8 +41,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/warga/create', [WargaController::class, 'create'])->name('warga.create');
         route::get('/warga/search', [WargaController::class, 'search'])->name('warga.search');
         route::get('warga/datatables', [WargaController::class, 'datatables'])->name('warga.datatables');
-        Route::post('/warga', [WargaController::class, 'store'])->name('warga.store');
         Route::get('/warga/{warga}/edit', [WargaController::class, 'edit'])->name('warga.edit');
+        Route::post('/warga', [WargaController::class, 'store'])->name('warga.store');
         Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
 
@@ -72,7 +72,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-    Route::get('/warga/{id}', [WargaController::class, 'show'])->name('warga.show');
+    // Route::get('/warga/{id}', [WargaController::class, 'show'])->name('warga.show');
+    Route::get('/warga/{warga}', [WargaController::class, 'show'])->name('warga.show');
     Route::get('/map/warga', [WargaController::class, 'map'])->name('warga.map');
 
 

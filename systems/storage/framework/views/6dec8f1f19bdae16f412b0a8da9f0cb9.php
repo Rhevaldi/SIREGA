@@ -8,7 +8,6 @@
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-
                 <div class="row justify-content-between">
                     <div class="col-12 text-center">
                         <h1 class="font-weight-bold mb-0">KARTU KELUARGA</h1>

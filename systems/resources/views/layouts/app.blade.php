@@ -48,6 +48,24 @@
             z-index: 99999 !important;
         }
 
+        /* Pastikan modal bansos selalu di depan detail warga */
+        #bansosModal {
+            z-index: 99998 !important;
+        }
+
+        #bansosModal+.modal-backdrop {
+            z-index: 99997 !important;
+        }
+
+        /* Pastikan modal detail warga selalu paling depan */
+        #modalDetailWarga {
+            z-index: 99996 !important;
+        }
+
+        #modalDetailWarga+.modal-backdrop {
+            z-index: 99995 !important;
+        }
+
         span.select2-results,
         span.select2-selection {
             text-transform: capitalize !important;
@@ -183,7 +201,6 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(res) {
-                    console.log(res);
                     // Header KK
                     $('#showNoKk').text(res.kartu_keluarga.no_kk ?? '-');
                     $('#showNamaKepalaKeluarga').text(res.kartu_keluarga.nama_kepala_keluarga ?? '-');
@@ -213,7 +230,7 @@
                                 <tr>
                                     <td>${no++}</td>
                                     <td>
-                                        ${item.nama}
+                                        ${item.nama} <a href="javascript:;" class="detailWarga" data-warga-id="${item.id}"><i class="far fa-eye"></i></a>
                                         <div class="d-table-cell">
                                             <span class="badge badge-dark text-muted text-white text-xs">${item.status_perkawinan}</span>
                                             <span class="badge badge-info text-muted text-white text-xs">${item.status_hubungan}</span>
@@ -294,6 +311,133 @@
                     `);
                 }
             });
+        });
+
+        // Show Detail Warga
+        $(document).on('click', '.detailWarga', function() {
+            const id = $(this).data('warga-id');
+            const url = "{{ route('warga.show', ':id') }}".replace(':id', +id);
+
+            $('#modalDetailWarga').modal('show');
+
+            // kosongkan #indikatorBody
+            $('#detailWargaIndikatorBody').empty();
+            $('#detailWargaPenerimaBansosBody').empty();
+            // $('#detailWargaIndikatorBody').html('');
+            // $('#detailWargaPenerimaBansosBody').html('');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    // Informasi Warga
+                    $('#detailWargaNoKK').text(res.warga.no_kk ?? '-');
+                    $('#detailWargaNIK').text(res.warga.nik ?? '-');
+                    $('#detailWargaNama').text(res.warga.nama ?? '-');
+                    $('#detailWargaJenisKelamin').text(res.warga.jenis_kelamin ?? '-');
+                    $('#detailWargaTempatLahir').text(res.warga.tempat_lahir ?? '-');
+                    $('#detailWargaTanggalLahir').text(res.warga.tanggal_lahir ? formatDateInKk(res
+                        .warga.tanggal_lahir) : '-');
+                    let jenisKelamin = res.warga.jenis_kelamin === 'L' ? 'Laki-Laki' : (res.warga
+                        .jenis_kelamin === 'P' ? 'Perempuan' : '-');
+                    $('#detailWargaJenisKelamin').text(jenisKelamin);
+                    $('#detailWargaAgama').text(res.warga.agama ?? '-');
+                    $('#detailWargaPendidikan').text(res.warga.pendidikan ?? '-');
+                    $('#detailWargaPekerjaan').text(res.warga.pekerjaan?.nama ?? '-');
+                    $('#detailWargaStatusHubungan').text(res.warga.status_hubungan ?? '-');
+                    $('#detailWargaStatusPerkawinan').text(res.warga.status_perkawinan ?? '-');
+                    $('#detailWargaStatusWarga').text(res.warga.status_warga ?? '-');
+                    $('#detailWargaAlamat').text(res.kartu_keluarga.alamat ?? '-');
+                    $('#detailWargaRTRW').text(res.kartu_keluarga.rt ?? '-');
+                    // isi value warga_id di tombol tambah bansos & isi value hidden input di modal bansos
+                    $('#modalDetailWarga .btnAddBansos').data('warga-id', res.warga.id);
+                    // Indikator Kesejahteraan Masyarakat
+                    if (res.kategori.length === 0) {
+                        $('#detailWargaIndikatorBody').html(
+                            `<tr>
+                                <td colspan="2" class="text-center text-muted">
+                                    Tidak ada data indikator
+                                </td>
+                            </tr>`
+                        );
+                    } else {
+                        let indikatorHtml = '';
+                        const grouped = {};
+
+                        // Group indikator by tipe
+                        res.kategori.forEach(item => {
+                            if (!grouped[item.tipe]) {
+                                grouped[item.tipe] = [];
+                            }
+                            grouped[item.tipe].push(item);
+                        });
+
+                        // Build HTML
+                        for (const tipe in grouped) {
+                            indikatorHtml += `
+                                <tr class="bg-light">
+                                    <td colspan="2">
+                                        <strong>${tipe.charAt(0).toUpperCase() + tipe.slice(1)}</strong>
+                                    </td>
+                                </tr>
+                            `;
+                            grouped[tipe].forEach(kat => {
+                                indikatorHtml += `
+                                    <tr>
+                                        <td style="padding-left:20px">
+                                            <b>*</b> ${kat.nama}
+                                        </td>
+                                        <td class="text-capitalize">
+                                            ${kat.pivot.nilai ?? ':-'}
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+
+                        $('#detailWargaIndikatorBody').html(indikatorHtml);
+                    }
+                    // Penerima Bansos
+                    let bansosHtml = '';
+                    if (res.warga.bansos.length === 0) {
+                        bansosHtml = `
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">
+                                    Tidak ada data penerima bansos
+                                </td>
+                            </tr>
+                        `;
+                    } else {
+                        res.warga.bansos.forEach(bansos => {
+                            bansosHtml += `
+                                <tr>
+                                    <td>${bansos.nama_program}</td>
+                                    <td>${bansos.tahun}</td>
+                                    <td>
+                                        ${bansos.pivot.keterangan ?? '-'}
+                                        <br>
+                                        <small class="text-muted">
+                                            ${bansos.pivot.status} • ${bansos.pivot.tanggal_penerimaan}
+                                        </small>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    }
+                    $('#detailWargaPenerimaBansosBody').html(bansosHtml);
+                },
+                error: function(xhr) {
+                    const response = xhr.responseJSON
+                    console.log(response);
+                }
+            })
+        })
+        // Jika Tombol Tambah Bansos dalam .detailWarga di klik maka Tangani dibawah ini
+        $(document).on('click', '.btnAddBansos', function() {
+            const wargaId = $(this).data('warga-id');
+            $('#bansosModal').modal('show');
+            $('#bansosModal #warga_id').val(wargaId);
         });
 
         let map;

@@ -169,7 +169,7 @@
                                     <label for="latitude">
                                         Latitude <span class="text-xs text-danger">*</span>
                                     </label>
-                                    <input type="text" id="latitude" name="latitude" class="form-control" readonly
+                                    <input type="text" id="latitude" name="latitude" class="form-control"
                                         value="{{ $kartuKeluarga->latitude }}">
                                     @error('latitude')
                                         <p class="text-sm text-danger">{{ $message }}</p>
@@ -181,7 +181,7 @@
                                     <label for="longitude">
                                         Longitude <span class="text-xs text-danger">*</span>
                                     </label>
-                                    <input type="text" id="longitude" name="longitude" class="form-control" readonly
+                                    <input type="text" id="longitude" name="longitude" class="form-control"
                                         value="{{ $kartuKeluarga->longitude }}">
                                     @error('longitude')
                                         <p class="text-sm text-danger">{{ $message }}</p>

@@ -11,7 +11,7 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link font-italic font-weight-bold" data-toggle="dropdown" href="#">
-                {{ env('APP_NAME') }}
+                {{ Auth::user()->name }} <i class="fas fa-chevron-circle-down ml-1"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 {{-- <a href="{{ route('profile.edit') }}" class="dropdown-item">

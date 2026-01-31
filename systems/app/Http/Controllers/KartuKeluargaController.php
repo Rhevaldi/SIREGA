@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Warga;
+use App\Models\Bansos;
+use App\Models\Region;
+use App\Models\KartuKeluarga;
 use App\Http\Requests\KartuKeluarga\StoreKartuKeluargaRequest;
 use App\Http\Requests\KartuKeluarga\UpdateKartuKeluargaRequest;
-use App\Models\KartuKeluarga;
-use App\Models\Region;
-use App\Models\Warga;
 
 class KartuKeluargaController extends Controller
 {
@@ -18,7 +19,9 @@ class KartuKeluargaController extends Controller
         // Lebih fleksibel karena kamu masih bisa menambah ->paginate() atau ->get()
         $data = KartuKeluarga::sortedByName()->get();
 
-        return view('kk.index', compact(['data']));
+        $bansosList = Bansos::orderBy('nama_program')->get();
+
+        return view('kk.index', compact(['data', 'bansosList']));
     }
 
     /**
@@ -91,7 +94,7 @@ class KartuKeluargaController extends Controller
             return response()->json([
                 'data' => $kartuKeluarga,
                 'status' => false,
-                'message' => 'Terjadi kesalahan saat mengambil data Kartu Keluarga: '.$e->getMessage(),
+                'message' => 'Terjadi kesalahan saat mengambil data Kartu Keluarga: ' . $e->getMessage(),
             ], 500);
         }
     }

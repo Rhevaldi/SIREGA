@@ -96,5 +96,6 @@
     </div>
 
     @include('kk.show')
+    @include('warga.show')
 
 @endsection

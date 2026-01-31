@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Warga;
+use App\Models\Bansos;
 use App\Models\KartuKeluarga;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +58,7 @@ class DashboardController extends Controller
             'warga.rt',
             'warga.bansosAll',
             'warga.bansosTahunBerjalan',
-            'media'
+            'media_warga',
         ])->get()->map(function (KartuKeluarga $kk) {
             return [
                 ...$kk->only([
@@ -109,7 +110,7 @@ class DashboardController extends Controller
                 })->values(),
 
                 // MEDIA → dari KartuKeluarga
-                'medias' => $kk->media->map(function ($m) {
+                'medias' => $kk->media_warga->map(function ($m) {
                     return [
                         'file_path'  => $m->file_path,
                         'file_name'  => $m->file_name,
@@ -120,6 +121,8 @@ class DashboardController extends Controller
             ];
         })->values();
 
+        $bansosList = Bansos::orderBy('nama_program')->get();
+
         return view('dashboard', compact(
             'totalWarga',
             'totalKK',
@@ -127,7 +130,8 @@ class DashboardController extends Controller
             'statistik',
             'wargas',
             'listTahun',
-            'tahunAktif'
+            'tahunAktif',
+            'bansosList',
         ));
     }
 }
