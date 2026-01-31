@@ -9,8 +9,8 @@
         <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>{{ $totalWarga }}</h3>
-                    <p>Total Warga</p>
+                    <h3>{{ $totalKK }}</h3>
+                    <p>Kepala Keluarga</p>
                 </div>
                 <div class="icon"><i class="fas fa-users"></i></div>
             </div>
@@ -19,8 +19,8 @@
         <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>{{ $statusWarga['wargaAktif'] }}</h3>
-                    <p>Warga Aktif</p>
+                    <h3>{{ $totalWarga }}</h3>
+                    <p>Total Warga</p>
                 </div>
                 <div class="icon"><i class="fas fa-user-check"></i></div>
             </div>
@@ -29,20 +29,20 @@
         <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
                 <div class="inner text-white">
-                    <h3>{{ $statusWarga['wargaPindah'] }}</h3>
-                    <p>Warga Pindah</p>
+                    <h3>{{ $totalLakiLaki }}</h3>
+                    <p>Jumlah Laki-Laki</p>
                 </div>
-                <div class="icon"><i class="fas fa-people-carry"></i></div>
+                <div class="icon"><i class="fas fa-male"></i></div>
             </div>
         </div>
 
         <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>{{ $statusWarga['wargaMeninggal'] }}</h3>
-                    <p>Warga Meninggal</p>
+                    <h3>{{ $totalPerempuan }}</h3>
+                    <p>Jumlah Perempuan</p>
                 </div>
-                <div class="icon"><i class="fas fa-user-times"></i></div>
+                <div class="icon"><i class="fas fa-female"></i></div>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="card-body" style="height: 300px;">
-                    <canvas id="bansosChart" style="height: 100%; width: 100%;"></canvas>
+                    <canvas id="bansosBarChart" style="height: 100%; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -77,10 +77,10 @@
         <div class="col-md-6 mb-3">
             <div class="card card-info h-100">
                 <div class="card-header">
-                    <h3 class="card-title">Statistik Kartu Keluarga Warga</h3>
+                    <h3 class="card-title">Statistik by Jenis Kelamin</h3>
                 </div>
                 <div class="card-body" style="height: 300px;">
-                    <canvas id="kkChart" style="height: 100%; width: 100%;"></canvas>
+                    <canvas id="genusChart" style="height: 100%; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -94,14 +94,15 @@
                 <h3 class="card-title">Lokasi Warga</h3>
             </div>
             <div class="card-body">
-                <div id="map" style="height:500px"></div>
+                <div id="mapDashboard" style="height:500px"></div>
             </div>
         </div>
     </div>
     </div>
 
-    <!-- Modal Detail Warga from Marker -->
-    @include('modal.dashboard-detail-warga')
+    <!-- Modals -->
+    @include('kk.show')
+    @include('warga.show')
 
 
 @endsection
@@ -118,36 +119,69 @@
         document.addEventListener('DOMContentLoaded', function() {
 
             // ===============================
-            // PIE CHART BANSOS
+            // BAR CHART PENERIMA BANTUAN (Calon & Penerima)
             // ===============================
-            const labels = @json($statistik->pluck('nama_program'));
-            const dataWarga = @json($statistik->pluck('jumlah_warga'));
+            const bansosStatsRaw = @json($bansosStats);
 
-            if (labels.length > 0) {
-                new Chart(document.getElementById('bansosChart'), {
-                    type: 'pie',
+            if (bansosStatsRaw.length > 0) {
+                // Group by program name
+                const groupedByProgram = {};
+                bansosStatsRaw.forEach(item => {
+                    if (!groupedByProgram[item.nama_program]) {
+                        groupedByProgram[item.nama_program] = {
+                            'calon penerima': 0,
+                            'penerima': 0
+                        };
+                    }
+                    groupedByProgram[item.nama_program][item.status] = item.jumlah_penerima;
+                });
+
+                const programNames = Object.keys(groupedByProgram);
+                const calonPenerimaData = programNames.map(prog => groupedByProgram[prog]['calon penerima']);
+                const penerimaBenusData = programNames.map(prog => groupedByProgram[prog]['penerima']);
+
+                new Chart(document.getElementById('bansosBarChart'), {
+                    type: 'bar',
                     data: {
-                        labels: labels,
+                        labels: programNames,
                         datasets: [{
-                            data: dataWarga,
-                            backgroundColor: [
-                                '#4e73df', '#1cc88a', '#36b9cc',
-                                '#f6c23e', '#e74a3b', '#858796'
-                            ],
-                            borderWidth: 1
-                        }]
+                                label: 'Calon Penerima',
+                                data: calonPenerimaData,
+                                backgroundColor: '#ffc107',
+                                borderColor: '#ff9800',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Penerima',
+                                data: penerimaBenusData,
+                                backgroundColor: '#28a745',
+                                borderColor: '#1e7e34',
+                                borderWidth: 1
+                            }
+                        ]
                     },
                     options: {
                         maintainAspectRatio: false,
+                        responsive: true,
+                        indexAxis: 'y',
                         plugins: {
                             legend: {
-                                position: 'bottom'
+                                display: true,
+                                position: 'top'
                             },
                             tooltip: {
                                 callbacks: {
                                     label: function(ctx) {
-                                        return ctx.label + ' : ' + ctx.parsed + ' warga';
+                                        return ctx.dataset.label + ': ' + ctx.parsed.x + ' orang';
                                     }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
                                 }
                             }
                         }
@@ -156,24 +190,35 @@
             }
 
             // ===============================
-            // PIE CHART KK 
+            // PIE CHART WARGA BY JENIS KELAMIN
             // ===============================
-            const kkData = {
-                labels: ['Total KK', 'Total Warga'],
-                datasets: [{
-                    data: [{{ $totalKK }}, {{ $totalWarga }}],
-                    backgroundColor: ['#0d6efd', '#20c997']
-                }]
-            };
+            const genusLabels = @json($wargaByJenisKelamin->keys());
+            const genusData = @json($wargaByJenisKelamin->values());
 
-            new Chart(document.getElementById('kkChart'), {
-                type: 'pie',
-                data: kkData,
+            new Chart(document.getElementById('genusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: genusLabels,
+                    datasets: [{
+                        data: genusData,
+                        backgroundColor: ['#0d6efd', '#d61f69'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
                 options: {
                     maintainAspectRatio: false,
+                    responsive: true,
                     plugins: {
                         legend: {
                             position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    return ctx.label + ': ' + ctx.parsed + ' orang';
+                                }
+                            }
                         }
                     }
                 }
@@ -182,20 +227,20 @@
             // ===============================
             // MAP WARGA
             // ===============================
-            var map = L.map('map', {
+            var mapDashboard = L.map('mapDashboard', {
                 scrollWheelZoom: false
             });
-            map.on('focus', () => {
-                map.scrollWheelZoom.enable();
+            mapDashboard.on('focus', () => {
+                mapDashboard.scrollWheelZoom.enable();
             });
-            map.on('blur', () => {
-                map.scrollWheelZoom.disable();
+            mapDashboard.on('blur', () => {
+                mapDashboard.scrollWheelZoom.disable();
             });
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap',
-            }).addTo(map);
+            }).addTo(mapDashboard);
 
             var defaultIcon = L.icon({
                 iconUrl: `{{ asset('adminlte/img/map-default-icon.png') }}`,
@@ -216,25 +261,6 @@
 
             console.log(wargaMarkers);
 
-
-            // wargaMarkers.forEach(function(warga) {
-            //     if (!warga.latitude || !warga.longitude) return;
-
-            //     var hasBansosTahunBerjalan = warga.has_bansos_tahun_berjalan === true;
-            //     var iconToUse = hasBansosTahunBerjalan ? bansosIcon : defaultIcon;
-
-            //     var marker = L.marker(
-            //         [parseFloat(warga.latitude), parseFloat(warga.longitude)], {
-            //             icon: iconToUse
-            //         }
-            //     );
-
-            //     marker.on('click', function() {
-            //         showWargaModal(warga);
-            //     });
-
-            //     markerGroup.addLayer(marker);
-            // });
             wargaMarkers.forEach(function(warga) {
                 if (!warga.latitude || !warga.longitude) return;
 
@@ -253,108 +279,154 @@
 
                 // Klik marker → modal
                 marker.on('click', function() {
-                    showWargaModal(warga);
+                    showKkModal(warga.id);
                 });
 
                 markerGroup.addLayer(marker);
             });
 
-            markerGroup.addTo(map);
+            markerGroup.addTo(mapDashboard);
 
             if (markerGroup.getLayers().length > 0) {
-                map.fitBounds(markerGroup.getBounds(), {
+                mapDashboard.fitBounds(markerGroup.getBounds(), {
                     padding: [30, 30]
                 });
             } else {
-                map.setView([0, 0], 5);
+                mapDashboard.setView([0, 0], 5);
             }
 
         });
 
-        function showWargaModal(warga) {
-            document.getElementById('md-no_kk').innerText = warga.no_kk;
-            document.getElementById('md-nik').innerText = warga.nik;
-            document.getElementById('md-nama').innerText = warga.nama;
-            document.getElementById('md-jenis_kelamin').innerText = warga.jenis_kelamin;
-            document.getElementById('md-tempat_lahir').innerText = warga.tempat_lahir;
-            document.getElementById('md-tanggal_lahir').innerText = warga.tanggal_lahir;
-            document.getElementById('md-agama').innerText = warga.agama;
-            document.getElementById('md-pendidikan').innerText = warga.pendidikan;
-            document.getElementById('md-pekerjaan').innerText = warga.pekerjaan;
-            document.getElementById('md-status_hubungan').innerText = warga.status_hubungan;
-            document.getElementById('md-status_perkawinan').innerText = warga.status_perkawinan;
-            document.getElementById('md-status_warga').innerText = warga.status_warga;
-            document.getElementById('md-alamat').innerText = warga.alamat;
-            document.getElementById('md-rt').innerText = warga.rt?.rt ?? '-';
+        function showKkModal(id) {
+            const url = "{{ route('kk.show', ':id') }}".replace(':id', id);
 
-            let bansosHtml = '';
+            // Pastikan modal tidak bisa ditutup oleh backdrop atau ESC
+            // $('#modalDetailKK').attr('data-backdrop', 'static').attr('data-keyboard', 'false');
+            $('#modalDetailKK').modal('show');
 
-            if (warga.bansos_all && warga.bansos_all.length > 0) {
-                warga.bansos_all.forEach(function(b) {
-                    bansosHtml += `
-                        <tr>
-                            <td>${b.nama}</td>
-                            <td class="text-center">${b.tahun}</td>
-                            <td>
-                                ${b.keterangan ?? '-'}
-                                <br>
-                                <small class="text-muted">
-                                    ${b.status} • ${b.tanggal}
-                                </small>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } else {
-                bansosHtml = `
+            $('#keluargaBody').html(`
                     <tr>
-                        <td colspan="3" class="text-center text-muted">
-                            - Tidak Menerima Bantuan Sosial -
+                        <td colspan="9" class="text-center text-muted">
+                            Memuat data...
                         </td>
                     </tr>
-                `;
-            }
+                `);
 
-            document.getElementById('md-bansos').innerHTML = bansosHtml;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    // Header KK
+                    $('#showNoKk').text(res.kartu_keluarga.no_kk ?? '-');
+                    $('#showNamaKepalaKeluarga').text(res.kartu_keluarga.nama_kepala_keluarga ?? '-');
+                    $('#showAlamat').text(res.kartu_keluarga.alamat ?? '-');
+                    $('#showRt').text(res.kartu_keluarga.rt ?? '-');
+                    $('#showRw').text(res.kartu_keluarga.rw ?? '-');
+                    $('#showDesaKelurahan').text(res.kartu_keluarga.desa ?? '-');
+                    $('#showKecamatan').text(res.kartu_keluarga.kecamatan ?? '-');
+                    $('#showKabupatenKota').text(res.kartu_keluarga.kabupaten ?? '-');
+                    $('#showKodePos').text(res.kartu_keluarga.kode_pos ?? '-');
+                    $('#showProvinsi').text(res.kartu_keluarga.provinsi ?? '-');
 
-            // ===============================
-            // MEDIA WARGA
-            // ===============================
-            let mediaHtml = '';
+                    if (!res.status || res.warga.length === 0) {
+                        $('#keluargaBody').html(`
+                                <tr>
+                                    <td colspan="9" class="text-center text-danger">
+                                        Data keluarga masih kosong
+                                    </td>
+                                </tr>
+                            `);
+                    } else {
+                        let html = '';
+                        let no = 1;
 
-            if (warga.medias && warga.medias.length > 0) {
-                mediaHtml += '<div class="row" uk-lightbox="slidenav: false; nav: thumbnav">';
+                        res.warga.forEach(item => {
+                            html += `
+                                <tr>
+                                    <td>${no++}</td>
+                                    <td>
+                                        ${item.nama} <a href="javascript:;" class="detailWarga" data-warga-id="${item.id}"><i class="far fa-eye"></i></a>
+                                        <div class="d-table-cell">
+                                            <span class="badge badge-dark text-muted text-white text-xs">${item.status_perkawinan}</span>
+                                            <span class="badge badge-info text-muted text-white text-xs">${item.status_hubungan}</span>
+                                        </div>
+                                    </td>
+                                    <td>${item.nik}</td>
+                                    <td>${item.jenis_kelamin}</td>
+                                    <td>${item.tempat_lahir}</td>
+                                    <td>${formatDateInKk(item.tanggal_lahir)}</td>
+                                    <td>${item.agama}</td>
+                                    <td>${item.pendidikan}</td>
+                                    <td>${item.pekerjaan?.nama ?? '-'}</td>
+                                </tr>
+                            `;
+                        });
 
-                warga.medias.forEach(function(media) {
-                    mediaHtml += `
-                        <div class="col-md-3 text-center mb-3">
-                            <a href="/storage/${media.file_path}"
-                            data-caption="${media.keterangan ?? ''}">
-                                <img src="/storage/${media.file_path}" width="200"
-                                    class="img-fixed img-thumbnail mb-1"
-                                    style="max-height: 200px;">
-                            </a>
-                            <div class="text-muted small">
-                                ${media.keterangan ?? '-'}
+                        $('#keluargaBody').html(html);
+                    }
+
+                    // Map Koordinat
+                    const lat = res.kartu_keluarga.latitude;
+                    const lng = res.kartu_keluarga.longitude;
+
+                    if (lat && lng) {
+                        $('#showLat').text(lat);
+                        $('#showLng').text(lng);
+
+                        setTimeout(() => {
+                            initMap(lat, lng);
+                        }, 300); // delay agar modal sudah tampil
+                    } else {
+                        $('#showLat').text('-');
+                        $('#showLng').text('-');
+
+                        $('#map').html(`
+                            <div class="text-center text-muted mt-5">
+                                Koordinat belum tersedia
                             </div>
-                        </div>
-                    `;
-                });
+                        `);
+                    }
 
-                mediaHtml += '</div>';
-            } else {
-                mediaHtml = `
-                    <div class="col-12 text-center text-muted">
-                        - Tidak ada media warga -
-                    </div>
-                `;
-            }
+                    // Media
+                    let mediaHtml = '';
 
-            document.getElementById('md-medias').innerHTML = mediaHtml;
+                    if (res.media && res.media.length > 0) {
+                        mediaHtml += ' <div class="row" uk-lightbox="slidenav: false; nav: thumbnav">';
 
-            new bootstrap.Modal(
-                document.getElementById('modalDetailWarga')
-            ).show();
+                        res.media.forEach(media => {
+                            mediaHtml += `
+                                <div class="col-3">
+                                    <a href="/storage/${media.file_path}" data-caption="${media.keterangan}">
+                                        <img src="/storage/${media.file_path}" class="img-fluid rounded border img-fixed" width="150" height="150">
+                                    </a>
+                                </div>
+                            `;
+                        });
+
+                        mediaHtml += '</ div>';
+                    } else {
+                        mediaHtml = `
+                            <div class="col-12 text-muted text-center">
+                                Tidak ada media rumah
+                            </div>
+                        `;
+                    }
+
+                    $('#mediaContainer').html(mediaHtml);
+                },
+                error: function(xhr) {
+                    // let response = xhr.responseJSON;
+                    // console.log(response.data);
+                    $('#keluargaBody').html(`
+                        <tr>
+                            <td colspan="9" class="text-center text-danger">
+                                Gagal memuat data kartu keluarga
+                            </td>
+                        </tr>
+                    `);
+                }
+            });
         }
 
         if (window.UIkit) {

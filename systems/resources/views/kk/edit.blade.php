@@ -211,7 +211,7 @@
                             <div class="mb-2">
                                 <label>
                                     Tandai Lokasi Rumah
-                                    <button type="button" class="btn btn-info btn-xs ml-2" onclick="getLocation()">
+                                    <button type="button" class="btn btn-info btn-xs ml-2" onclick="getKKLocation()">
                                         <i class="fas fa-location-arrow"></i> Gunakan Lokasi Saat Ini
                                     </button>
                                 </label>
@@ -226,62 +226,68 @@
 
     @push('js')
         <script>
-            // 1. Ambil nilai dari Laravel, beri fallback string kosong jika null
-            let latRaw = "{{ $kartuKeluarga->latitude }}";
-            let lngRaw = "{{ $kartuKeluarga->longitude }}";
+            // Isolasi scope menggunakan IIFE untuk menghindari conflict dengan variabel global
+            (function() {
+                // 1. Ambil nilai dari Laravel, beri fallback string kosong jika null
+                let latRaw = "{{ $kartuKeluarga->latitude }}";
+                let lngRaw = "{{ $kartuKeluarga->longitude }}";
 
-            let lat = parseFloat(latRaw);
-            let lng = parseFloat(lngRaw);
+                let lat = parseFloat(latRaw);
+                let lng = parseFloat(lngRaw);
 
-            // 2. Tentukan koordinat awal (Default: Jakarta atau tengah Indonesia) 
-            // agar map tidak error saat inisialisasi awal
-            let defaultLat = -6.200000;
-            let defaultLng = 106.816666;
+                // 2. Tentukan koordinat awal (Default: Jakarta atau tengah Indonesia) 
+                // agar map tidak error saat inisialisasi awal
+                let defaultLat = -6.200000;
+                let defaultLng = 106.816666;
 
-            // 3. Cek apakah koordinat valid (tidak NaN)
-            const hasCoords = !isNaN(lat) && !isNaN(lng);
+                // 3. Cek apakah koordinat valid (tidak NaN)
+                const hasCoords = !isNaN(lat) && !isNaN(lng);
 
-            // Inisialisasi map dengan koordinat yang ada atau default
-            const map = L.map('map').setView([hasCoords ? lat : defaultLat, hasCoords ? lng : defaultLng], 14);
+                // Inisialisasi map dengan koordinat yang ada atau default
+                const editMap = L.map('map').setView([hasCoords ? lat : defaultLat, hasCoords ? lng : defaultLng], 14);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(editMap);
 
-            // Inisialisasi marker
-            let marker = L.marker([hasCoords ? lat : defaultLat, hasCoords ? lng : defaultLng], {
-                draggable: true
-            }).addTo(map);
+                // Inisialisasi marker
+                let editMarker = L.marker([hasCoords ? lat : defaultLat, hasCoords ? lng : defaultLng], {
+                    draggable: true
+                }).addTo(editMap);
 
-            function updateLatLng(lat, lng) {
-                document.getElementById('latitude').value = lat.toFixed(8);
-                document.getElementById('longitude').value = lng.toFixed(8);
-                marker.setLatLng([lat, lng]);
-                map.setView([lat, lng], 16);
-            }
-
-            map.on('click', e => updateLatLng(e.latlng.lat, e.latlng.lng));
-            marker.on('dragend', e => updateLatLng(e.target.getLatLng().lat, e.target.getLatLng().lng));
-
-            function getLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        pos => updateLatLng(pos.coords.latitude, pos.coords.longitude),
-                        () => {
-                            alert('Gagal mengambil lokasi. Pastikan GPS aktif dan izin lokasi diberikan.');
-                        }
-                    );
-                } else {
-                    alert("Browser Anda tidak mendukung Geolocation.");
+                function updateLatLng(lat, lng) {
+                    document.getElementById('latitude').value = lat.toFixed(8);
+                    document.getElementById('longitude').value = lng.toFixed(8);
+                    editMarker.setLatLng([lat, lng]);
+                    editMap.setView([lat, lng], 16);
                 }
-            }
 
-            // 4. LOGIKA UTAMA: Jika lat/lng kosong, jalankan getLocation()
-            if (!hasCoords) {
-                getLocation();
-            } else {
-                updateLatLng(lat, lng);
-            }
+                editMap.on('click', e => updateLatLng(e.latlng.lat, e.latlng.lng));
+                editMarker.on('dragend', e => updateLatLng(e.target.getLatLng().lat, e.target.getLatLng().lng));
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            pos => updateLatLng(pos.coords.latitude, pos.coords.longitude),
+                            () => {
+                                alert('Gagal mengambil lokasi. Pastikan GPS aktif dan izin lokasi diberikan.');
+                            }
+                        );
+                    } else {
+                        alert("Browser Anda tidak mendukung Geolocation.");
+                    }
+                }
+
+                // 4. LOGIKA UTAMA: Jika lat/lng kosong, jalankan getLocation()
+                if (!hasCoords) {
+                    getLocation();
+                } else {
+                    updateLatLng(lat, lng);
+                }
+
+                // Expose function ke global scope jika diperlukan
+                window.getKKLocation = getLocation;
+            })();
         </script>
     @endpush
 @endsection
