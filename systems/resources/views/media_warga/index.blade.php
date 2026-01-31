@@ -23,9 +23,14 @@
             <table class="table table-bordered table-striped defaultDataTable" style="width: 100% !important;">
                 <thead>
                     <tr class="text-nowrap">
+<<<<<<< HEAD:systems/resources/views/media_warga/index.blade.php
                         <th>#</th>
                         <th>No. Kartu Keluarga</th>
                         <th>Kepala Keluarga</th>
+=======
+                        <th>No</th>
+                        <th>Nama Warga</th>
+>>>>>>> remotes/origin/public-warga:resources/views/media_warga/index.blade.php
                         <th class="text-center">Jumlah Dokumen</th>
                         <th style="width: 500px;">Foto</th>
                         <th>Aksi</th>
