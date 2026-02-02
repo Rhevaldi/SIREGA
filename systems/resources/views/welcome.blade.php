@@ -90,7 +90,7 @@
             <div class="container">
                 <h1>SIREGA</h1>
                 <p class="lead mb-0">Sistem Informasi RT & Warga Desa</p>
-                <small>Dashboard Publik Transparansi Data</small>
+                <small>Dashboard Publik Transparansi Data warga</small>
             </div>
         </section>
 
