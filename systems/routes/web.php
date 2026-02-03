@@ -28,17 +28,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-        Route::middleware(['auth', 'role:warga'])->group(function () {
-    Route::get('/warga-area', [PublicDashboardController::class, 'warga'])
-        ->name('warga.area');
+    Route::middleware(['auth', 'role:warga'])->group(function () {
+        Route::get('/warga-area', [PublicDashboardController::class, 'warga'])
+            ->name('warga.area');
     });
 
+    // 1. Route khusus untuk 'show' yang bisa diakses admin DAN warga
+    Route::middleware('role:admin|warga')->group(function () {
+        Route::get('kk/{kartuKeluarga}', [KartuKeluargaController::class, 'show'])->name('kk.show');
+    });
 
+    // 2. Route lainnya khusus untuk admin
     Route::middleware('role:admin')->group(function () {
         // route::resource('rt', RtController::class)->except(['show']);
-        Route::resource('kk', KartuKeluargaController::class)->parameters([
-            'kk' => 'kartuKeluarga'
-        ]);
+        Route::resource('kk', KartuKeluargaController::class)
+            ->parameters(['kk' => 'kartuKeluarga'])
+            ->except(['show']); // Kecualikan show karena sudah dibuat di atas;
 
         Route::get('/warga', [WargaController::class, 'index'])->name('warga.index');
         Route::get('/warga/create', [WargaController::class, 'create'])->name('warga.create');
