@@ -6,41 +6,53 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        $superadmin = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@example.com',
-        ]);
-        $admin = User::factory()->create([
-            'name' => 'Admin RT',
-            'email' => 'admin@example.com',
-        ]);
+      
+        $roleSuperAdmin = Role::firstOrCreate(['name' => 'superadmin']);
+        $roleAdmin      = Role::firstOrCreate(['name' => 'admin']);
+        $roleWarga      = Role::firstOrCreate(['name' => 'warga']);
 
-        $warga = User::factory()->create([
-            'name' => 'Warga',
-            'email' => 'warga@example.com',
-        ]);
+        // =====================
+        // SUPER ADMIN
+        // =====================
+        $superadmin = User::firstOrCreate(
+            ['email' => 'superadmin@example.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $superadmin->syncRoles([$roleSuperAdmin]);
 
-        $roleSuperAdmin = Role::create([
-            'name' => 'superadmin'
-        ]);
-        $roleAdmin = Role::create([
-            'name' => 'admin'
-        ]);
-        $roleWarga = Role::create([
-            'name' => 'warga'
-        ]);
+        // =====================
+        // ADMIN
+        // =====================
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin RT',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $admin->syncRoles([$roleAdmin]);
 
-        $superadmin->assignRole($roleSuperAdmin);
-        $admin->assignRole($roleAdmin);
-        $warga->assignRole($roleWarga);
+        // =====================
+        // WARGA
+        // =====================
+        $warga = User::firstOrCreate(
+            ['email' => 'warga@example.com'],
+            [
+                'name' => 'Warga',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $warga->syncRoles([$roleWarga]);
     }
 }
