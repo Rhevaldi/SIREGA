@@ -24,14 +24,23 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
+        $warga = User::factory()->create([
+            'name' => 'Warga',
+            'email' => 'warga@example.com',
+        ]);
+
         $roleSuperAdmin = Role::create([
             'name' => 'superadmin'
         ]);
         $roleAdmin = Role::create([
             'name' => 'admin'
         ]);
+        $roleWarga = Role::create([
+            'name' => 'warga'
+        ]);
 
         $superadmin->assignRole($roleSuperAdmin);
         $admin->assignRole($roleAdmin);
+        $warga->assignRole($roleWarga);
     }
 }

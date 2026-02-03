@@ -208,7 +208,7 @@
                                                 <td>{{ $data->tanggal_lahir->format('d-m-Y') }}</td>
                                                 <td>{{ $data->agama }}</td>
                                                 <td>{{ $data->pendidikan }}</td>
-                                                <td>{{ $data->pekerjaan }}</td>
+                                                 <td>{{ $data->pekerjaan?->nama }}</td>
                                                 <td>{{ $data->status_warga }}</td>
                                                 <td>{{ $data->status_hubungan }}</td>
                                             </tr>

@@ -142,10 +142,10 @@
             <td class="header-text">
                 <h2>PEMERINTAH KABUPATEN KUTAI KARTANEGARA</h2>
                 <h2>KECAMATAN LOA KULU</h2>
-                <h1>DESA LOA KULU KOTA RT. 013</h1>
+                <h1>DESA LOA KULU KOTA RT. 012</h1>
                 <p>Loa Kulu Kota, Kec. Loa Kulu, Kabupaten Kutai Kartanegara, Kalimantan Timur 75571</p>
                 <p class="contact-info">Website: <span style="color: blue;">https://loakulukota.desa.id/</span> |
-                    Email: <span style="color: blue;">loakulukota.rt013@gmail.com</span></p>
+                    Email: <span style="color: blue;">loakulukota.rt012@gmail.com</span></p>
             </td>
         </tr>
     </table>
@@ -186,7 +186,7 @@
                     </td>
                     <td class="text-center">{{ $warga->agama }}</td>
                     <td>{{ $warga->pendidikan }}</td>
-                    <td>{{ $warga->pekerjaan }}</td>
+                    <td>{{ $warga->pekerjaan?->nama }}</td>
                     <td class="text-center text-capitalize">{{ $warga->status_warga }}</td>
                     <td class="text-center text-capitalize">{{ $warga->status_hubungan }}</td>
                 </tr>

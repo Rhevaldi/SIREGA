@@ -13,14 +13,20 @@
 
     <style>
         .hero {
-            background: linear-gradient(120deg, #007bff, #00c6ff);
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
             color: white;
-            padding: 5px 0;
+            padding: 30px 0;
         }
 
         .hero h1 {
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
+
+        .hero p {
+            margin-bottom: 4px;
+        }
+
 
         .small-box {
             border-radius: 10px;
@@ -63,21 +69,52 @@
 
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white shadow-sm">
             <div class="container-fluid px-4">
-                <a href="/" class="navbar-brand font-weight-bold">
+                <a href="/" class="navbar-brand font-weight-bold text-primary">
                     <i class="fas fa-landmark mr-1"></i> SIREGA
                 </a>
 
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto align-items-center">
                     @auth
-                        <li class="nav-item">
-                            <a href="{{ route('dashboard') }}" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard Admin
-                            </a>
-                        </li>
+                        @role('admin')
+                            <li class="nav-item mr-2">
+                                <span class="badge badge-danger">ADMIN</span>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('dashboard') }}" class="nav-link">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span class="d-none d-md-inline">Dashboard</span>
+                                </a>
+                            </li>
+                        @endrole
+
+                         @role('superadmin')
+                            <li class="nav-item mr-2">
+                                <span class="badge badge-danger">SUPER ADMIN</span>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('dashboard') }}" class="nav-link">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span class="d-none d-md-inline">Dashboard</span>
+                                </a>
+                            </li>
+                        @endrole
+
+                        @role('warga')
+                            <li class="nav-item mr-2">
+                                <span class="badge badge-info">WARGA</span>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('warga.area') }}" class="nav-link">
+                                    <i class="fas fa-id-card"></i>
+                                    <span class="d-none d-md-inline">Dashboard Warga</span>
+                                </a>
+                            </li>
+                        @endrole
                     @else
                         <li class="nav-item">
                             <a href="{{ route('login') }}" class="nav-link">
-                                <i class="fas fa-sign-in-alt"></i> Login Admin
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span class="d-none d-md-inline">Login</span>
                             </a>
                         </li>
                     @endauth
@@ -86,13 +123,15 @@
         </nav>
 
 
+
         <section class="hero text-center">
             <div class="container">
                 <h1>SIREGA</h1>
-                <p class="lead mb-0">Sistem Informasi RT & Warga Desa</p>
-                <small>Dashboard Publik Transparansi Data</small>
+                <p class="lead mb-1">Sistem Informasi RT & Warga Desa</p>
+                <small class="opacity-75">Dashboard Publik Transparansi Data</small>
             </div>
         </section>
+
 
 
         <div class="content-wrapper">

@@ -28,6 +28,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
+        Route::middleware(['auth', 'role:warga'])->group(function () {
+    Route::get('/warga-area', [PublicDashboardController::class, 'warga'])
+        ->name('warga.area');
+    });
+
 
     Route::middleware('role:admin')->group(function () {
         // route::resource('rt', RtController::class)->except(['show']);
@@ -43,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/warga', [WargaController::class, 'store'])->name('warga.store');
         Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
+
+
 
 
         // route::get('desa', [DesaController::class, 'index'])->name('desa.index');

@@ -89,4 +89,15 @@ class PublicDashboardController extends Controller
             'tahunAktif'
         ));
     }
+
+    public function warga()
+{
+    $wargas = Warga::with(['rt', 'kategori', 'bansos', 'pekerjaan'])
+        ->get();
+
+    $bansosList = Bansos::orderBy('nama_program')->get();
+
+    return view('publik.index', compact('wargas', 'bansosList'));
+}
+
 }

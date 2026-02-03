@@ -22,6 +22,8 @@ class WargaController extends Controller
         return view('warga.index', compact('wargas', 'bansosList'));
     }
 
+    
+
     public function create()
     {
         $kartu_keluargas = KartuKeluarga::select(['no_kk'])->orderBy('no_kk', 'ASC')->get();

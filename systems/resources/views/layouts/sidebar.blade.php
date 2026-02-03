@@ -116,6 +116,19 @@
                         </a>
                     </li>
                 @endrole
+
+                @role('warga')
+                    
+                    <li class="nav-item">
+                        <a href="{{ route('warga.area') }}"
+                            class="nav-link {{ request()->is('warga-area') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-id-card"></i>
+                            <p>Data Warga</p>
+                        </a>
+                    </li>
+                @endrole
+
+
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}"
                         class="nav-link {{ request()->is('profile') ? 'active' : '' }}">
@@ -123,6 +136,9 @@
                         <p>Akun Saya</p>
                     </a>
                 </li>
+
+
+
 
                 <li class="nav-item mt-3">
                     <form method="POST" action="{{ route('logout') }}">
