@@ -26894,3 +26894,238 @@ Did you mean one of these?
 #3 /Applications/ServBay/www/sirega/systems/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #4 {main}
 "} 
+[2026-02-05 08:47:18] deployment.ERROR: Missing required parameter for [Route: kk.update] [URI: kk/{kk}] [Missing parameter: kk]. {"view":{"view":"/Applications/ServBay/www/sirega/systems/resources/views/kk/edit.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-929439470 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#1049</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-929439470\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","kartuKeluarga":"<pre class=sf-dump id=sf-dump-687908677 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Models\\KartuKeluarga</span> {<a class=sf-dump-ref>#1105</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>false</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">usesUniqueIds</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: <span class=sf-dump-note>array:13</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"5 characters\">no_kk</span>\"
+    <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"20 characters\">nama_kepala_keluarga</span>\"
+    <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"6 characters\">alamat</span>\"
+    <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"2 characters\">rt</span>\"
+    <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"2 characters\">rw</span>\"
+    <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"4 characters\">desa</span>\"
+    <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"9 characters\">kecamatan</span>\"
+    <span class=sf-dump-index>7</span> => \"<span class=sf-dump-str title=\"9 characters\">kabupaten</span>\"
+    <span class=sf-dump-index>8</span> => \"<span class=sf-dump-str title=\"8 characters\">provinsi</span>\"
+    <span class=sf-dump-index>9</span> => \"<span class=sf-dump-str title=\"8 characters\">kode_pos</span>\"
+    <span class=sf-dump-index>10</span> => \"<span class=sf-dump-str title=\"8 characters\">latitude</span>\"
+    <span class=sf-dump-index>11</span> => \"<span class=sf-dump-str title=\"9 characters\">longitude</span>\"
+    <span class=sf-dump-index>12</span> => \"<span class=sf-dump-str title=\"19 characters\">tanggal_dikeluarkan</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str>*</span>\"
+  </samp>]
+</samp>}
+</pre><script>Sfdump(\"sf-dump-687908677\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","provinces":"<pre class=sf-dump id=sf-dump-2110315905 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\Collection</span> {<a class=sf-dump-ref>#1127</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-key>22</span> => <span class=sf-dump-note>array:2</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>id</span>\" => \"<span class=sf-dump-str title=\"2 characters\">64</span>\"
+      \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">KALIMANTAN TIMUR</span>\"
+    </samp>]
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-2110315905\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","cities":"<pre class=sf-dump id=sf-dump-1931745292 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\Collection</span> {<a class=sf-dump-ref>#1129</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-key>2</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>id</span>\" => \"<span class=sf-dump-str title=\"4 characters\">6403</span>\"
+      \"<span class=sf-dump-key>province_id</span>\" => \"<span class=sf-dump-str title=\"2 characters\">64</span>\"
+      \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"27 characters\">KABUPATEN KUTAI KARTANEGARA</span>\"
+    </samp>]
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1931745292\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","districts":"<pre class=sf-dump id=sf-dump-971546593 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\Collection</span> {<a class=sf-dump-ref>#1126</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-key>4</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>id</span>\" => \"<span class=sf-dump-str title=\"7 characters\">6403050</span>\"
+      \"<span class=sf-dump-key>regency_id</span>\" => \"<span class=sf-dump-str title=\"4 characters\">6403</span>\"
+      \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">LOA KULU</span>\"
+    </samp>]
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-971546593\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","villages":"<pre class=sf-dump id=sf-dump-1493821533 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\Collection</span> {<a class=sf-dump-ref>#1131</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-key>5</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>id</span>\" => \"<span class=sf-dump-str title=\"10 characters\">6403050006</span>\"
+      \"<span class=sf-dump-key>district_id</span>\" => \"<span class=sf-dump-str title=\"7 characters\">6403050</span>\"
+      \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"13 characters\">LOA KULU KOTA</span>\"
+    </samp>]
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1493821533\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","default":"<pre class=sf-dump id=sf-dump-2008275360 data-indent-pad=\"  \"><span class=sf-dump-note>array:8</span> [<samp data-depth=1 class=sf-dump-expanded>
+  \"<span class=sf-dump-key>province_id</span>\" => \"<span class=sf-dump-str title=\"2 characters\">64</span>\"
+  \"<span class=sf-dump-key>province_name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">KALIMANTAN TIMUR</span>\"
+  \"<span class=sf-dump-key>city_id</span>\" => \"<span class=sf-dump-str title=\"4 characters\">6402</span>\"
+  \"<span class=sf-dump-key>city_name</span>\" => \"<span class=sf-dump-str title=\"27 characters\">KABUPATEN KUTAI KARTANEGARA</span>\"
+  \"<span class=sf-dump-key>district_id</span>\" => \"<span class=sf-dump-str title=\"7 characters\">6403050</span>\"
+  \"<span class=sf-dump-key>district_name</span>\" => \"<span class=sf-dump-str title=\"8 characters\">LOA KULU</span>\"
+  \"<span class=sf-dump-key>village_name</span>\" => \"<span class=sf-dump-str title=\"13 characters\">LOA KULU KOTA</span>\"
+  \"<span class=sf-dump-key>postal_code</span>\" => \"<span class=sf-dump-str title=\"5 characters\">75571</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-2008275360\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":2,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Missing required parameter for [Route: kk.update] [URI: kk/{kk}] [Missing parameter: kk]. at /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Exceptions/UrlGenerationException.php:35)
+[stacktrace]
+#0 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/RouteUrlGenerator.php(90): Illuminate\\Routing\\Exceptions\\UrlGenerationException::forMissingParameters(Object(Illuminate\\Routing\\Route), Array)
+#1 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php(500): Illuminate\\Routing\\RouteUrlGenerator->to(Object(Illuminate\\Routing\\Route), Array, true)
+#2 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php(469): Illuminate\\Routing\\UrlGenerator->toRoute(Object(Illuminate\\Routing\\Route), Array, true)
+#3 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route('kk.update', NULL, true)
+#4 /Applications/ServBay/www/sirega/systems/resources/views/kk/edit.blade.php(17): route('kk.update', NULL)
+#5 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('/Applications/S...')
+#6 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::{closure:Illuminate\\Filesystem\\Filesystem::getRequire():120}()
+#7 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('/Applications/S...', Array)
+#8 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('/Applications/S...', Array)
+#9 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/View.php(207): Illuminate\\View\\Engines\\CompilerEngine->get('/Applications/S...', Array)
+#10 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#11 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#12 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#13 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#14 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 200, Array)
+#15 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#16 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#17 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->{closure:Illuminate\\Routing\\Router::runRouteWithinStack():805}(Object(Illuminate\\Http\\Request))
+#18 /Applications/ServBay/www/sirega/systems/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():142}(Object(Illuminate\\Http\\Request))
+#19 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'admin')
+#20 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#21 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(57): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#23 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#25 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#27 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#29 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#30 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#32 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#34 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#36 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#37 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#38 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#39 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#40 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#41 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->{closure:Illuminate\\Foundation\\Http\\Kernel::dispatchToRouter():197}(Object(Illuminate\\Http\\Request))
+#42 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():142}(Object(Illuminate\\Http\\Request))
+#43 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#46 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#48 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#49 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#51 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#52 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#53 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#55 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#57 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#58 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#59 /Applications/ServBay/www/sirega/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#60 {main}
+
+[previous exception] [object] (Illuminate\\Routing\\Exceptions\\UrlGenerationException(code: 0): Missing required parameter for [Route: kk.update] [URI: kk/{kk}] [Missing parameter: kk]. at /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Exceptions/UrlGenerationException.php:35)
+[stacktrace]
+#0 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/RouteUrlGenerator.php(90): Illuminate\\Routing\\Exceptions\\UrlGenerationException::forMissingParameters(Object(Illuminate\\Routing\\Route), Array)
+#1 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php(500): Illuminate\\Routing\\RouteUrlGenerator->to(Object(Illuminate\\Routing\\Route), Array, true)
+#2 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php(469): Illuminate\\Routing\\UrlGenerator->toRoute(Object(Illuminate\\Routing\\Route), Array, true)
+#3 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route('kk.update', NULL, true)
+#4 /Applications/ServBay/www/sirega/systems/storage/framework/views/10c3fd3e29731867213215b021721e0d.php(15): route('kk.update', NULL)
+#5 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('/Applications/S...')
+#6 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::{closure:Illuminate\\Filesystem\\Filesystem::getRequire():120}()
+#7 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('/Applications/S...', Array)
+#8 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('/Applications/S...', Array)
+#9 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/View.php(207): Illuminate\\View\\Engines\\CompilerEngine->get('/Applications/S...', Array)
+#10 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#11 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#12 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#13 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#14 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 200, Array)
+#15 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#16 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#17 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->{closure:Illuminate\\Routing\\Router::runRouteWithinStack():805}(Object(Illuminate\\Http\\Request))
+#18 /Applications/ServBay/www/sirega/systems/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():142}(Object(Illuminate\\Http\\Request))
+#19 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'admin')
+#20 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#21 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(57): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#23 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#25 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#27 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#29 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#30 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#32 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#34 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#36 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#37 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#38 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#39 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#40 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#41 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->{closure:Illuminate\\Foundation\\Http\\Kernel::dispatchToRouter():197}(Object(Illuminate\\Http\\Request))
+#42 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():142}(Object(Illuminate\\Http\\Request))
+#43 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#46 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#48 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#49 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#51 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#52 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#53 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#55 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():158}:159}(Object(Illuminate\\Http\\Request))
+#57 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#58 /Applications/ServBay/www/sirega/systems/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#59 /Applications/ServBay/www/sirega/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#60 {main}
+"} 

@@ -33,12 +33,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('warga.area');
     });
 
-    // 1. Route khusus untuk 'show' yang bisa diakses admin DAN warga
-    Route::middleware('role:admin|warga')->group(function () {
-        Route::get('kk/{kartuKeluarga}', [KartuKeluargaController::class, 'show'])->name('kk.show');
-    });
-
-    // 2. Route lainnya khusus untuk admin
+    // 1. Route lainnya khusus untuk admin
     Route::middleware('role:admin')->group(function () {
         // route::resource('rt', RtController::class)->except(['show']);
         Route::resource('kk', KartuKeluargaController::class)
@@ -54,9 +49,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/warga/{warga}', [WargaController::class, 'update'])->name('warga.update');
         Route::delete('/warga/{warga}', [WargaController::class, 'destroy'])->name('warga.destroy');
 
-
-
-
         // route::get('desa', [DesaController::class, 'index'])->name('desa.index');
         // route::get('desa/create', [DesaController::class, 'create'])->name('desa.create');
         // route::post('desa', [DesaController::class, 'store'])->name('desa.store');
@@ -70,7 +62,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('kategori', KategoriController::class)->except('show');
 
-
         Route::resource('bansos', BansosController::class)->parameters([
             'bansos' => 'bansos' // Mengatur agar parameter resource 'bansos' tetap bernama 'bansos' bukan 'banso'
         ]);
@@ -79,6 +70,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('reports/warga', [ReportController::class, 'warga'])->name('reports.warga');
         Route::get('/reports/warga/cetak', [ReportController::class, 'cetakWarga'])->name('reports.warga.cetak');
+    });
+
+    // 2. Route khusus untuk 'show' yang bisa diakses admin DAN warga
+    Route::middleware('role:admin|warga')->group(function () {
+        Route::get('kk/{kartuKeluarga}', [KartuKeluargaController::class, 'show'])->name('kk.show');
     });
 
 
