@@ -113,6 +113,7 @@ class PekerjaanSeeder extends Seeder
             ['kode' => '97', 'nama' => 'Bidan'],
             ['kode' => '98', 'nama' => 'Biarawati'],
             ['kode' => '99', 'nama' => 'Buruh Migran'],
+            ['kode' => '100', 'nama' => 'Pensiunan'],
         ];
 
         foreach ($data as $item) {
