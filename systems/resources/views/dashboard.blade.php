@@ -1,122 +1,122 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Admin')
+@section('title', 'Dashboard')
 @section('page-title', 'Dashboard')
 
 @section('content')
 
-    <div class="row">
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>{{ $totalKK }}</h3>
-                    <p>Kepala Keluarga</p>
-                </div>
-                <div class="icon"><i class="fas fa-users"></i></div>
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ $totalKK }}</h3>
+                <p>Kepala Keluarga</p>
             </div>
+            <div class="icon"><i class="fas fa-users"></i></div>
         </div>
-
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>{{ $totalWarga }}</h3>
-                    <p>Total Warga</p>
-                </div>
-                <div class="icon"><i class="fas fa-user-check"></i></div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
-                <div class="inner text-white">
-                    <h3>{{ $totalLakiLaki }}</h3>
-                    <p>Jumlah Laki-Laki</p>
-                </div>
-                <div class="icon"><i class="fas fa-male"></i></div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>{{ $totalPerempuan }}</h3>
-                    <p>Jumlah Perempuan</p>
-                </div>
-                <div class="icon"><i class="fas fa-female"></i></div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="row mt-3">
-
-        <div class="col-md-6 mb-3">
-            <div class="card card-primary h-100">
-                <div class="card-header d-flex align-items-center">
-                    <h3 class="card-title mb-0">
-                        Statistik Penerima Bantuan ({{ $tahunAktif }})
-                    </h3>
-                    <form method="GET" class="ml-auto m-0 p-0" style="width: auto;">
-                        <select name="tahun" class="form-control form-control-sm" style="min-width: 100px;"
-                            onchange="this.form.submit()">
-                            @foreach ($listTahun as $t)
-                                <option value="{{ $t }}" {{ $tahunAktif == $t ? 'selected' : '' }}>
-                                    {{ $t }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
-                </div>
-
-                <div class="card-body" style="height: 300px;">
-                    <canvas id="bansosBarChart" style="height: 100%; width: 100%;"></canvas>
-                </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>{{ $totalWarga }}</h3>
+                <p>Total Warga</p>
             </div>
+            <div class="icon"><i class="fas fa-user-check"></i></div>
         </div>
+    </div>
 
-        <div class="col-md-6 mb-3">
-            <div class="card card-info h-100">
-                <div class="card-header">
-                    <h3 class="card-title">Statistik by Jenis Kelamin</h3>
-                </div>
-                <div class="card-body" style="height: 300px;">
-                    <canvas id="genusChart" style="height: 100%; width: 100%;"></canvas>
-                </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner text-white">
+                <h3>{{ $totalLakiLaki }}</h3>
+                <p>Jumlah Laki-Laki</p>
+            </div>
+            <div class="icon"><i class="fas fa-male"></i></div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{ $totalPerempuan }}</h3>
+                <p>Jumlah Perempuan</p>
+            </div>
+            <div class="icon"><i class="fas fa-female"></i></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mt-3">
+
+    <div class="col-md-6 mb-3">
+        <div class="card card-primary h-100">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="card-title mb-0">
+                    Statistik Penerima Bantuan ({{ $tahunAktif }})
+                </h3>
+                <form method="GET" class="ml-auto m-0 p-0" style="width: auto;">
+                    <select name="tahun" class="form-control form-control-sm" style="min-width: 100px;"
+                        onchange="this.form.submit()">
+                        @foreach ($listTahun as $t)
+                        <option value="{{ $t }}" {{ $tahunAktif==$t ? 'selected' : '' }}>
+                            {{ $t }}
+                        </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+
+            <div class="card-body" style="height: 300px;">
+                <canvas id="bansosBarChart" style="height: 100%; width: 100%;"></canvas>
             </div>
         </div>
     </div>
 
-
-
-    <div class="col-12 mt-3">
-        <div class="card card-primary">
+    <div class="col-md-6 mb-3">
+        <div class="card card-info h-100">
             <div class="card-header">
-                <h3 class="card-title">Lokasi Warga</h3>
+                <h3 class="card-title">Statistik by Jenis Kelamin</h3>
             </div>
-            <div class="card-body">
-                <div id="mapDashboard" style="height:500px"></div>
+            <div class="card-body" style="height: 300px;">
+                <canvas id="genusChart" style="height: 100%; width: 100%;"></canvas>
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <!-- Modals -->
-    @include('kk.show')
-    @include('warga.show')
+
+
+<div class="col-12 mt-3">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Lokasi Warga</h3>
+        </div>
+        <div class="card-body">
+            <div id="mapDashboard" style="height:500px"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modals -->
+@include('kk.show')
+@include('warga.show')
 
 
 @endsection
 
 @push('css')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 @endpush
 
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
 
             // ===============================
             // BAR CHART PENERIMA BANTUAN (Calon & Penerima)
@@ -432,5 +432,5 @@
         if (window.UIkit) {
             UIkit.lightbox('[uk-lightbox]');
         }
-    </script>
+</script>
 @endpush
