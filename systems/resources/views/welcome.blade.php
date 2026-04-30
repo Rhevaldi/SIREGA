@@ -6,7 +6,7 @@
     <title>SIREGA - Dashboard Publik</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
@@ -14,36 +14,79 @@
     <style>
         body {
             background: #f1f5f9;
+            font-family: 'Poppins', sans-serif;
         }
 
         .hero {
             background: linear-gradient(135deg, #2563eb, #06b6d4);
             color: white;
-            padding: 60px 0;
+            padding: 10px 0;
+
         }
 
         .hero h1 {
             font-weight: 800;
-            font-size: 40px;
+            font-size: 28px;
         }
+
+        .hero p {
+            font-weight: 300;
+        }
+
+        .hero small {
+            opacity: 0.9;
+        }
+
+        #map {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+
 
         .small-box {
             border-radius: 12px;
             transition: 0.2s;
+            position: relative;
+            overflow: hidden;
         }
 
         .small-box:hover {
             transform: translateY(-5px);
         }
 
+        .small-box::after {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: rgba(255, 255, 255, 0.1);
+            top: -50%;
+            left: -50%;
+            transform: rotate(25deg);
+        }
+
         .card {
-            border-radius: 12px;
+            border-radius: 16px;
+            transition: all 0.25s ease;
             border: none;
         }
 
         .card-header {
             background: white;
             border-bottom: 1px solid #eee;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .content-wrapper {
+            padding-bottom: 30px;
+        }
+
+        .navbar {
+            backdrop-filter: blur(10px);
         }
 
         .info-box {
@@ -69,7 +112,7 @@
     <div class="wrapper">
 
         <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
             <div class="container-fluid px-4">
                 <a href="/" class="navbar-brand font-weight-bold text-primary">
                     <i class="fas fa-landmark mr-1"></i> SIREGA
@@ -136,10 +179,6 @@
             <div class="content pt-5 pb-4">
                 <div class="container-fluid px-4">
 
-                    <div class="text-center mb-4">
-                        <h3 class="font-weight-bold">📊 Statistik Umum Warga</h3>
-                        <p class="text-muted">Ringkasan data kependudukan</p>
-                    </div>
 
                     <!-- STAT -->
                     <div class="row">
@@ -185,10 +224,10 @@
                     </div>
 
                     <!-- CARD -->
-                    <div class="row mt-4">
+                    <div class="row mt-4 align-items-stretch">
 
                         <div class="col-md-6 mb-3">
-                            <div class="card shadow-sm">
+                            <div class="card shadow-sm h-100">
                                 <div class="card-header">
                                     <strong><i class="fas fa-venus-mars mr-2 text-primary"></i>Jenis Kelamin</strong>
                                 </div>
@@ -215,11 +254,12 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <div class="card shadow-sm">
+                            <div class="card shadow-sm h-100">
                                 <div class="card-header">
-                                    <strong><i class="fas fa-chart-pie mr-2 text-success"></i>Statistik KK</strong>
+                                    <strong><i class="fas fa-chart-pie mr-2 text-success"></i>Statistik Kartu
+                                        Keluarga</strong>
                                 </div>
-                                <div class="card-body" style="height:300px;">
+                                <div class="card-body d-flex justify-content-center align-items-center" style="height:224px;">
                                     <canvas id="kkChart"></canvas>
                                 </div>
                             </div>
@@ -257,22 +297,39 @@
 
     <script>
         new Chart(document.getElementById('kkChart'), {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: ['KK', 'Warga'],
                 datasets: [{
                     data: [{{ $totalKK }}, {{ $totalWarga }}],
-                    backgroundColor: ['#20c997', '#6610f2']
+                    backgroundColor: ['#20c997', '#6610f2'],
+                    borderWidth: 0
                 }]
+            },
+            options: {
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
             }
         });
 
-        var map = L.map('map');
+
+
+        var map = L.map('map', {
+            zoomControl: false
+        });
+
+        L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
         var wargaMarkers = {!! json_encode($wargas) !!};
         var group = L.featureGroup();
-
         wargaMarkers.forEach(w => {
             if (!w.latitude || !w.longitude) return;
 
