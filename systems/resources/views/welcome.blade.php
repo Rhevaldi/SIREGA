@@ -12,62 +12,64 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 
     <style>
+        body {
+            background: #f1f5f9;
+        }
+
         .hero {
-            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
             color: white;
-            padding: 30px 0;
+            padding: 60px 0;
         }
 
         .hero h1 {
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-weight: 800;
+            font-size: 40px;
         }
-
-        .hero p {
-            margin-bottom: 4px;
-        }
-
 
         .small-box {
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+
+        .small-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .card-header {
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-box {
             border-radius: 10px;
         }
 
-        /* Hilangkan gap putih di atas footer */
-        .content-wrapper,
-        .content {
-            padding-bottom: 0 !important;
-            margin-bottom: 0 !important;
-        }
-
-        .content-wrapper .card:last-child {
-            margin-bottom: 0 !important;
-        }
-
         footer {
-            background: #f4f6f9;
-            padding: 10px 0;
-            margin-top: 0 !important;
-            /* hilangkan jarak atas footer */
+            background: #fff;
+            padding: 15px 0;
             text-align: center;
-            font-size: 14px;
-            color: #666;
-            border-top: 1px solid #dee2e6;
+            font-size: 13px;
+            border-top: 1px solid #ddd;
         }
 
-        /* Warna pink untuk gender */
         .bg-pink {
-            background-color: #e83e8c !important;
-            color: white !important;
+            background: #ec4899 !important;
         }
     </style>
 
 </head>
 
-<body class="hold-transition layout-top-nav">
+<body class="layout-top-nav">
     <div class="wrapper">
 
-
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white shadow-sm">
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container-fluid px-4">
                 <a href="/" class="navbar-brand font-weight-bold text-primary">
                     <i class="fas fa-landmark mr-1"></i> SIREGA
@@ -75,77 +77,71 @@
 
                 <ul class="navbar-nav ml-auto align-items-center">
                     @auth
-                        @role('admin')
-                            <li class="nav-item mr-2">
-                                <span class="badge badge-danger">ADMIN</span>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard') }}" class="nav-link">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    <span class="d-none d-md-inline">Dashboard</span>
-                                </a>
-                            </li>
-                        @endrole
+                    @role('admin')
+                    <li class="nav-item mr-2">
+                        <span class="badge badge-danger">ADMIN</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span class="d-none d-md-inline">Dashboard</span>
+                        </a>
+                    </li>
+                    @endrole
 
-                        @role('superadmin')
-                            <li class="nav-item mr-2">
-                                <span class="badge badge-danger">SUPER ADMIN</span>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard') }}" class="nav-link">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    <span class="d-none d-md-inline">Dashboard</span>
-                                </a>
-                            </li>
-                        @endrole
+                    @role('superadmin')
+                    <li class="nav-item mr-2">
+                        <span class="badge badge-danger">SUPER ADMIN</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span class="d-none d-md-inline">Dashboard</span>
+                        </a>
+                    </li>
+                    @endrole
 
-                        @role('warga')
-                            <li class="nav-item mr-2">
-                                <span class="badge badge-info">WARGA</span>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('warga.area') }}" class="nav-link">
-                                    <i class="fas fa-id-card"></i>
-                                    <span class="d-none d-md-inline">Dashboard Warga</span>
-                                </a>
-                            </li>
-                        @endrole
+                    @role('warga')
+                    <li class="nav-item mr-2">
+                        <span class="badge badge-info">WARGA</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('warga.area') }}" class="nav-link">
+                            <i class="fas fa-id-card"></i> Dashboard
+                        </a>
+                    </li>
+                    @endrole
                     @else
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">
-                                <i class="fas fa-sign-in-alt"></i>
-                                <span class="d-none d-md-inline">Login</span>
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="nav-link">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
                     @endauth
                 </ul>
             </div>
         </nav>
 
-
-
+        <!-- HERO -->
         <section class="hero text-center">
             <div class="container">
                 <h1>SIREGA</h1>
-                <p class="lead mb-1">Sistem Informasi RT & Warga Desa</p>
-                <small class="opacity-75">Dashboard Publik Transparansi Data</small>
+                <p class="lead">SIREGA - Sistem Informasi Registrasi & Geolokasi Warga</p>
+                <small>Dashboard Publik Transparansi Data</small>
             </div>
         </section>
 
-
-
+        <!-- CONTENT -->
         <div class="content-wrapper">
-            <div class="content pt-4">
+            <div class="content pt-5 pb-4">
                 <div class="container-fluid px-4">
-
-
 
                     <div class="text-center mb-4">
                         <h3 class="font-weight-bold">📊 Statistik Umum Warga</h3>
                         <p class="text-muted">Ringkasan data kependudukan</p>
                     </div>
 
-
+                    <!-- STAT -->
                     <div class="row">
                         <div class="col-lg-3 col-6">
                             <div class="small-box bg-info shadow">
@@ -188,40 +184,29 @@
                         </div>
                     </div>
 
-
+                    <!-- CARD -->
                     <div class="row mt-4">
 
-
                         <div class="col-md-6 mb-3">
-                            <div class="card shadow-sm h-100">
-                                <div class="card-header bg-pink text-white">
-                                    <h3 class="card-title mb-0">
-                                        <i class="fas fa-venus-mars mr-1"></i> Komposisi Jenis Kelamin
-                                    </h3>
+                            <div class="card shadow-sm">
+                                <div class="card-header">
+                                    <strong><i class="fas fa-venus-mars mr-2 text-primary"></i>Jenis Kelamin</strong>
                                 </div>
                                 <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="info-box shadow-sm">
-                                                <span class="info-box-icon bg-primary"><i
-                                                        class="fas fa-male"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text">Laki-laki</span>
-                                                    <span class="info-box-number">{{ $jenisKelamin['laki'] }}</span>
-                                                </div>
-                                            </div>
+                                    <div class="info-box mb-2">
+                                        <span class="info-box-icon bg-primary"><i class="fas fa-male"></i></span>
+                                        <div class="info-box-content">
+                                            <span>Laki-laki</span>
+                                            <strong>{{ $jenisKelamin['laki'] }}</strong>
                                         </div>
+                                    </div>
 
-                                        <div class="col-6">
-                                            <div class="info-box shadow-sm">
-                                                <span class="info-box-icon bg-pink"><i class="fas fa-female"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text">Perempuan</span>
-                                                    <span
-                                                        class="info-box-number">{{ $jenisKelamin['perempuan'] }}</span>
-                                                </div>
-                                            </div>
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-pink"><i class="fas fa-female"></i></span>
+                                        <div class="info-box-content">
+                                            <span>Perempuan</span>
+                                            <strong>{{ $jenisKelamin['perempuan'] }}</strong>
                                         </div>
                                     </div>
 
@@ -229,15 +214,12 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-6 mb-3">
-                            <div class="card shadow-sm h-100">
-                                <div class="card-header bg-info text-white">
-                                    <h3 class="card-title mb-0">
-                                        <i class="fas fa-chart-pie mr-1"></i> Statistik KK dan Warga
-                                    </h3>
+                            <div class="card shadow-sm">
+                                <div class="card-header">
+                                    <strong><i class="fas fa-chart-pie mr-2 text-success"></i>Statistik KK</strong>
                                 </div>
-                                <div class="card-body" style="height: 300px;">
+                                <div class="card-body" style="height:300px;">
                                     <canvas id="kkChart"></canvas>
                                 </div>
                             </div>
@@ -245,18 +227,13 @@
 
                     </div>
 
-
-
-                    <div class="col-12 mt-4 mb-4">
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-secondary text-white">
-                                <h3 class="card-title mb-0">
-                                    <i class="fas fa-map-marker-alt mr-1"></i> Peta Sebaran Warga
-                                </h3>
-                            </div>
-                            <div class="card-body">
-                                <div id="map" style="height:500px;border-radius:8px"></div>
-                            </div>
+                    <!-- MAP -->
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-header">
+                            <strong><i class="fas fa-map-marker-alt text-danger mr-2"></i>Peta Warga</strong>
+                        </div>
+                        <div class="card-body">
+                            <div id="map" style="height:500px;border-radius:10px;"></div>
                         </div>
                     </div>
 
@@ -264,18 +241,14 @@
             </div>
         </div>
 
-
+        <!-- FOOTER -->
         <footer>
-            <div class="container">
-                <strong>SIREGA</strong> &copy; {{ date('Y') }}
-                <br>
-                <small>Data bersifat publik dan non-sensitif</small>
-            </div>
+            <strong>SIREGA</strong> © {{ date('Y') }}
         </footer>
 
     </div>
 
-
+    <!-- SCRIPT -->
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
@@ -283,74 +256,39 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-
-            const labels = @json($statistik->pluck('nama_program'));
-            const dataWarga = @json($statistik->pluck('jumlah_warga'));
-
-            if (labels.length > 0) {
-                new Chart(document.getElementById('bansosChart'), {
-                    type: 'pie',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: dataWarga,
-                            backgroundColor: ['#007bff', '#28a745', '#17a2b8', '#ffc107', '#dc3545']
-                        }]
-                    },
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-
-
-            new Chart(document.getElementById('kkChart'), {
-                type: 'pie',
-                data: {
-                    labels: ['Total KK', 'Total Warga'],
-                    datasets: [{
-                        data: [{{ $totalKK }}, {{ $totalWarga }}],
-                        backgroundColor: ['#20c997', '#6610f2']
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false
-                }
-            });
-
-
-            var map = L.map('map');
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-            var wargaMarkers = {!! json_encode($wargas) !!};
-            var markerGroup = L.featureGroup();
-
-            wargaMarkers.forEach(function(warga) {
-                if (!warga.latitude || !warga.longitude) return;
-
-                var popupContent = `
-            <strong>${warga.nama}</strong><br>
-            ${warga.alamat}
-        `;
-
-                var marker = L.marker([parseFloat(warga.latitude), parseFloat(warga.longitude)])
-                    .bindPopup(popupContent);
-
-                markerGroup.addLayer(marker);
-            });
-
-            markerGroup.addTo(map);
-
-            if (markerGroup.getLayers().length > 0) {
-                map.fitBounds(markerGroup.getBounds(), {
-                    padding: [30, 30]
-                });
-            } else {
-                map.setView([0, 0], 5);
+        new Chart(document.getElementById('kkChart'), {
+            type: 'pie',
+            data: {
+                labels: ['KK', 'Warga'],
+                datasets: [{
+                    data: [{{ $totalKK }}, {{ $totalWarga }}],
+                    backgroundColor: ['#20c997', '#6610f2']
+                }]
             }
         });
+
+        var map = L.map('map');
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        var wargaMarkers = {!! json_encode($wargas) !!};
+        var group = L.featureGroup();
+
+        wargaMarkers.forEach(w => {
+            if (!w.latitude || !w.longitude) return;
+
+            let marker = L.marker([w.latitude, w.longitude])
+                .bindPopup(`<b>${w.nama}</b><br>${w.alamat}`);
+
+            group.addLayer(marker);
+        });
+
+        group.addTo(map);
+
+        if (group.getLayers().length > 0) {
+            map.fitBounds(group.getBounds());
+        } else {
+            map.setView([0, 0], 5);
+        }
     </script>
 
 </body>
