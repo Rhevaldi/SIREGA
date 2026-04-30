@@ -246,7 +246,7 @@
                                     <strong><i class="fas fa-chart-pie mr-2 text-success"></i>Statistik Kartu
                                         Keluarga</strong>
                                 </div>
-                                <div class="card-body" style="height:224px;">
+                                <div class="card-body d-flex justify-content-center align-items-center" style="height:224px;">
                                     <canvas id="kkChart"></canvas>
                                 </div>
                             </div>
@@ -317,7 +317,6 @@
 
         var wargaMarkers = {!! json_encode($wargas) !!};
         var group = L.featureGroup();
-        zoomControl: false
         wargaMarkers.forEach(w => {
             if (!w.latitude || !w.longitude) return;
 
