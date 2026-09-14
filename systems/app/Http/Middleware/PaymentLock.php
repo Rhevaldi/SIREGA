@@ -10,7 +10,11 @@ class PaymentLock
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! config('app.payment_lock.enabled') || $request->routeIs('payment.lock')) {
+        if (! config('app.payment_lock.enabled')) {
+            return $next($request);
+        }
+
+        if ($request->routeIs('payment.lock')) {
             return $next($request);
         }
 
