@@ -3,6 +3,7 @@
 /systems/build
 /systems/hot
 /systems/storage
+/systems/node_modules
 /storage
 /storage/*.key
 /vendor

@@ -20,6 +20,7 @@ use App\Http\Controllers\PublicDashboardController;
 |--------------------------------------------------------------------------
 */
 
+Route::view('/akses-terkunci', 'payment.lock')->name('payment.lock');
 
 Route::get('/', [PublicDashboardController::class, 'index'])->name('welcome');
 

@@ -57,6 +57,19 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Payment Lock
+    |--------------------------------------------------------------------------
+    |
+    | Set PAYMENT_LOCK_ENABLED=false after payment to restore normal access.
+    |
+    */
+
+    'payment_lock' => [
+        'enabled' => filter_var(env('PAYMENT_LOCK_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+    ],
+
     'asset_url' => env('ASSET_URL'),
 
     /*
